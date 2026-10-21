@@ -129,6 +129,64 @@ test.describe("docs layout", () => {
   });
 });
 
+test.describe("navigation extras", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+  });
+
+  for (const width of [1440, 360]) {
+    test(`a top bar with two lists splits to either end and keeps one line at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 800 });
+      await page.goto("/demo/docs.html");
+      const [nav, brand, links] = await Promise.all([
+        rect(page, "body > header > nav"),
+        rect(page, "body > header > nav > ul:first-child"),
+        rect(page, "body > header > nav > ul:last-child"),
+      ]);
+      expect(brand.left).toBeLessThanOrEqual(nav.left);
+      expect(links.right).toBeGreaterThanOrEqual(nav.right);
+      expect(brand.top).toBeCloseTo(links.top, 0);
+      expect(await stickyOffset(page)).toBeCloseTo(nav.height, 0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+    });
+  }
+
+  test("a nav with two lists outside the top bar splits to either end", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/demo/");
+    const selector = '#layout nav[aria-label="Account"]';
+    const [nav, brand, links] = await Promise.all([
+      rect(page, selector),
+      rect(page, `${selector} > ul:first-child`),
+      rect(page, `${selector} > ul:last-child`),
+    ]);
+    expect(brand.left).toBeCloseTo(nav.left, 0);
+    expect(links.right).toBeCloseTo(nav.right, 0);
+    expect(brand.top).toBeCloseTo(links.top, 0);
+  });
+
+  test("breadcrumb separators are drawn but not announced, and the last item is muted", async ({ page }) => {
+    await page.goto("/demo/docs.html");
+    const crumbs = page.locator('main nav[aria-label="Breadcrumb"]');
+    const separators = await crumbs
+      .locator("li")
+      .evaluateAll((items) => items.map((item) => getComputedStyle(item, "::before").content));
+    expect(separators[0]).toBe("none");
+    expect(separators.slice(1).every((content) => content.startsWith('"/"'))).toBe(true);
+    const snapshot = await crumbs.ariaSnapshot();
+    expect(snapshot).toContain('link "Layout"');
+    expect(snapshot.split("\n").filter((line) => line.includes("/") && !line.includes("/url:"))).toEqual([]);
+
+    const colors = await crumbs.evaluate((nav) => ({
+      first: getComputedStyle(nav.querySelector("li:first-child a")!).color,
+      last: getComputedStyle(nav.querySelector("li:last-child a")!).color,
+      muted: getComputedStyle(nav.querySelector("li:last-child")!, "::before").color,
+    }));
+    expect(colors.last).toBe(colors.muted);
+    expect(colors.last).not.toBe(colors.first);
+  });
+});
+
 test("the top bar hides while scrolling down and returns while scrolling up", async ({ page, browserName }) => {
   test.skip(browserName !== "chromium", "scroll-state(scrolled) queries are Chromium-only");
   await page.emulateMedia({ reducedMotion: "no-preference" });

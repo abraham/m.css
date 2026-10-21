@@ -86,6 +86,50 @@
   }
 }
 
+/* Two lists in a nav split to either end, for a brand on one side and links on the other. */
+:where(nav:not(body > nav):has(> :is(ul, ol, menu) + :is(ul, ol, menu))) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--_m-space-2) var(--_m-space-6);
+
+  &:where(:not(body > header > nav)) > :where(ul, ol, menu) {
+    margin-block: 0;
+  }
+
+  > :where(:last-child) {
+    min-inline-size: 0;
+  }
+
+  /* The top bar must stay one line tall, so its lists scroll instead of wrapping. */
+  &:where(body > header > nav) {
+    flex-wrap: nowrap;
+  }
+}
+
+/* A nav whose list is an ol is a breadcrumb trail; the separators have empty alt text so they aren't announced. */
+:where(nav:not(body > nav, body > header > nav):has(> ol)) {
+  margin-block-end: var(--_m-space-4);
+  font-size: var(--_m-text-sm);
+
+  > :where(ol) {
+    gap: var(--_m-space-2);
+
+    > :where(li + li)::before {
+      content: "/" / "";
+      margin-inline-end: var(--_m-space-2);
+      color: var(--_m-text-muted);
+    }
+
+    > :where(li:last-child),
+    > :where(li:last-child) :where(a) {
+      color: var(--_m-text-muted);
+      font-weight: inherit;
+    }
+  }
+}
+
 /* A nav or aside next to main turns body into columns: nav | main | aside. */
 @media (width >= 64rem) {
   :where(body:has(> nav, > aside)) {
