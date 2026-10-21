@@ -23,17 +23,17 @@
   margin: 0;
 }
 
-:where(nav a) {
+:where(nav a:not([role="button"])) {
   color: inherit;
   text-decoration-color: transparent;
-}
 
-:where(nav a:hover, nav a[aria-current="page"]) {
-  color: var(--_m-primary);
-}
+  &:where(:hover, [aria-current="page"]) {
+    color: var(--_m-primary);
+  }
 
-:where(nav a[aria-current="page"]) {
-  font-weight: 600;
+  &:where([aria-current="page"]) {
+    font-weight: 600;
+  }
 }
 
 :where(aside) {

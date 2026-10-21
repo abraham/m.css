@@ -1,4 +1,4 @@
-:where(button, input:is([type="submit"], [type="reset"], [type="button"])) {
+:where(button, input:is([type="submit"], [type="reset"], [type="button"]), a[role="button"]) {
   display: inline-block;
   padding: var(--_m-space-2) var(--_m-space-4);
   border: 1px solid var(--_m-primary);
@@ -8,21 +8,22 @@
   font-weight: 600;
   line-height: var(--_m-leading-tight);
   text-align: center;
+  text-decoration-line: none;
   cursor: pointer;
   transition-property: background-color, border-color, color, box-shadow, scale;
   transition-duration: var(--_m-duration);
   transition-timing-function: var(--_m-ease);
 
-  &:where(:hover:not(:disabled)) {
+  &:where(:hover:not(:disabled, [aria-disabled="true"])) {
     border-color: var(--_m-primary-hover);
     background-color: var(--_m-primary-hover);
   }
 
-  &:where(:active:not(:disabled)) {
+  &:where(:active:not(:disabled, [aria-disabled="true"])) {
     scale: 0.98;
   }
 
-  &:where(:disabled) {
+  &:where(:disabled, [aria-disabled="true"]) {
     opacity: 0.5;
     cursor: not-allowed;
   }
@@ -57,4 +58,55 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color var(--_m-duration) var(--_m-ease);
+}
+
+/* Joins its children into one control: overlapping 1px borders and rounded outer corners only. */
+:where([role="group"]) {
+  display: inline-flex;
+  vertical-align: middle;
+
+  &:where(:has(> input, > select, > textarea)) {
+    display: flex;
+  }
+
+  > :where(*) {
+    margin: 0;
+    border-radius: 0;
+  }
+
+  > :where(* + *) {
+    margin-inline-start: -1px;
+  }
+
+  /* A focused child rounds its inner corners so its focus ring isn't square. */
+  > :where(:focus-visible) {
+    border-radius: calc(var(--m-radius) / 2);
+  }
+
+  > :where(:first-child) {
+    border-start-start-radius: var(--m-radius);
+    border-end-start-radius: var(--m-radius);
+  }
+
+  > :where(:last-child) {
+    border-start-end-radius: var(--m-radius);
+    border-end-end-radius: var(--m-radius);
+  }
+
+  > :where(input, select, textarea) {
+    flex: 1;
+    min-inline-size: 0;
+    inline-size: auto;
+  }
+
+  /* Keeps a focus ring or hover border on top of the neighbor it overlaps. */
+  > :where(:focus-visible, :hover) {
+    position: relative;
+    z-index: 1;
+  }
+
+  > :where(button, input:is([type="submit"], [type="reset"], [type="button"]), a[role="button"])
+    + :where(button, input:is([type="submit"], [type="reset"], [type="button"]), a[role="button"]) {
+    border-inline-start-color: color-mix(in oklch, currentcolor, transparent 70%);
+  }
 }

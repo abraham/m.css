@@ -46,3 +46,66 @@ test("aria-invalid colors the field border and its helper text", async ({ page }
   expect(new Set([plain.border, invalid.border, valid.border]).size).toBe(3);
   expect(plain.helper).not.toBe(invalid.helper);
 });
+
+test.describe("buttons and groups", () => {
+  test("a link with role=button looks like a button", async ({ page }) => {
+    const [link, button] = await Promise.all(
+      ['a[role="button"]', "#buttons button"].map((selector) =>
+        page
+          .locator(selector)
+          .first()
+          .evaluate((element) => {
+            const style = getComputedStyle(element);
+            return {
+              height: element.getBoundingClientRect().height,
+              background: style.backgroundColor,
+              color: style.color,
+              underline: style.textDecorationLine,
+            };
+          }),
+      ),
+    );
+    expect(link).toEqual({ ...button, underline: "none" });
+    const disabled = await page
+      .locator('a[role="button"][aria-disabled="true"]')
+      .evaluate((link) => getComputedStyle(link).opacity);
+    expect(disabled).toBe("0.5");
+  });
+
+  test("a group joins its children edge to edge with rounded outer corners only", async ({ page }) => {
+    const buttons = await page.locator('[aria-label="Text alignment"] > button').evaluateAll((buttons) =>
+      buttons.map((button) => ({
+        left: button.getBoundingClientRect().left,
+        right: button.getBoundingClientRect().right,
+        startRadius: getComputedStyle(button).borderStartStartRadius,
+        endRadius: getComputedStyle(button).borderStartEndRadius,
+      })),
+    );
+    for (let index = 1; index < buttons.length; index++) {
+      expect(buttons[index].left).toBeCloseTo(buttons[index - 1].right - 1, 0);
+    }
+    expect(buttons.map(({ startRadius, endRadius }) => [startRadius, endRadius])).toEqual([
+      ["8px", "0px"],
+      ["0px", "0px"],
+      ["0px", "8px"],
+    ]);
+  });
+
+  test("an input and button group stretches to fill its container", async ({ page }) => {
+    const sizes = await page.locator('div[role="group"]').evaluate((group) => ({
+      group: group.getBoundingClientRect().width,
+      children: [...group.children].reduce((sum, child) => sum + child.getBoundingClientRect().width, 0) - 1,
+    }));
+    expect(sizes.children).toBeCloseTo(sizes.group, 0);
+  });
+
+  test("a focused child's ring stays on top of its neighbors", async ({ page }) => {
+    // WebKit doesn't Tab to buttons by default, so focus directly after a keypress to get :focus-visible.
+    await page.keyboard.press("Shift");
+    await page.locator('[aria-label="Text alignment"] > button').nth(1).focus();
+    const stacking = await page
+      .locator('[aria-label="Text alignment"] > button')
+      .evaluateAll((buttons) => buttons.map((button) => getComputedStyle(button).zIndex));
+    expect(stacking).toEqual(["auto", "1", "auto"]);
+  });
+});
