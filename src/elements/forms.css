@@ -17,7 +17,22 @@
   font-weight: 600;
 }
 
-:where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="submit"], [type="reset"], [type="button"], [type="image"], [type="hidden"]), select, textarea) {
+:where(
+  input:not(
+    [type="checkbox"],
+    [type="radio"],
+    [type="range"],
+    [type="color"],
+    [type="file"],
+    [type="submit"],
+    [type="reset"],
+    [type="button"],
+    [type="image"],
+    [type="hidden"]
+  ),
+  select,
+  textarea
+) {
   display: block;
   inline-size: 100%;
   padding: var(--_m-space-2) var(--_m-space-3);

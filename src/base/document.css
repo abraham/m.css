@@ -28,6 +28,26 @@
   margin-block-end: var(--_m-space-8);
 }
 
-:where(address, blockquote, details, dl, fieldset, figure, form, ol, p, pre, table, ul, article, aside, footer, header, main, nav, section):where(:last-child) {
+:where(
+  address,
+  blockquote,
+  details,
+  dl,
+  fieldset,
+  figure,
+  form,
+  ol,
+  p,
+  pre,
+  table,
+  ul,
+  article,
+  aside,
+  footer,
+  header,
+  main,
+  nav,
+  section
+):where(:last-child) {
   margin-block-end: 0;
 }

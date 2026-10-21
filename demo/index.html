@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>m.css kitchen sink</title>
-    <link rel="stylesheet" href="../dist/m.css">
+    <link rel="stylesheet" href="../dist/m.css" />
     <style>
       /* Demo-only helpers for visualizing tokens. */
       [data-token-panel] {
@@ -60,18 +60,18 @@
           </label>
           <label>
             Density
-            <input name="density" type="range" min="0.75" max="1.25" step="0.25" value="1">
+            <input name="density" type="range" min="0.75" max="1.25" step="0.25" value="1" />
           </label>
           <label>
             Primary
-            <input name="primary" type="color" value="#2f6fde">
+            <input name="primary" type="color" value="#2f6fde" />
           </label>
           <label>
-            <input name="motion" type="checkbox">
+            <input name="motion" type="checkbox" />
             Reduce motion
           </label>
           <label>
-            <input name="scrollProgress" type="checkbox">
+            <input name="scrollProgress" type="checkbox" />
             Scroll progress
           </label>
         </fieldset>
@@ -87,7 +87,10 @@
           <p>Dark subtree, green primary, density 1.25</p>
           <div data-token-panel></div>
         </div>
-        <div data-theme="light" style="--m-primary: oklch(55% 0.22 20); --m-on-primary: oklch(98% 0.01 20); --m-density: 0.75; padding: 1rem">
+        <div
+          data-theme="light"
+          style="--m-primary: oklch(55% 0.22 20); --m-on-primary: oklch(98% 0.01 20); --m-density: 0.75; padding: 1rem"
+        >
           <p>Light subtree, red primary, custom on-primary, density 0.75</p>
           <div data-token-panel></div>
         </div>
@@ -185,7 +188,9 @@
       <section id="tables">
         <h2>Tables</h2>
         <table>
-          <caption>Public custom properties</caption>
+          <caption>
+            Public custom properties
+          </caption>
           <thead>
             <tr>
               <th scope="col">Property</th>
@@ -229,21 +234,21 @@
         <form action="#forms">
           <label>
             Name
-            <input name="name" placeholder="Ada Lovelace" autocomplete="name">
+            <input name="name" placeholder="Ada Lovelace" autocomplete="name" />
           </label>
           <label>
             Email (required, invalid after you interact)
-            <input name="email" type="email" required placeholder="ada@example.com" autocomplete="email">
+            <input name="email" type="email" required placeholder="ada@example.com" autocomplete="email" />
           </label>
           <label for="demo-password">Password (label before the input)</label>
-          <input id="demo-password" name="password" type="password" autocomplete="new-password">
+          <input id="demo-password" name="password" type="password" autocomplete="new-password" />
           <label>
             Quantity
-            <input name="quantity" type="number" min="1" value="1">
+            <input name="quantity" type="number" min="1" value="1" />
           </label>
           <label>
             Date
-            <input name="date" type="date">
+            <input name="date" type="date" />
           </label>
           <label>
             Plan
@@ -259,32 +264,32 @@
           </label>
           <label>
             Disabled
-            <input name="disabled" value="Can't edit this" disabled>
+            <input name="disabled" value="Can't edit this" disabled />
           </label>
           <label>
             Volume
-            <input name="volume" type="range" value="60">
+            <input name="volume" type="range" value="60" />
           </label>
           <label>
             Color
-            <input name="color" type="color" value="#2f6fde">
+            <input name="color" type="color" value="#2f6fde" />
           </label>
           <label>
             Attachment
-            <input name="attachment" type="file">
+            <input name="attachment" type="file" />
           </label>
           <fieldset>
             <legend>Notifications</legend>
-            <label><input name="email-notify" type="checkbox" checked> Email</label>
-            <label><input name="sms-notify" type="checkbox"> SMS</label>
-            <label><input name="all-notify" type="checkbox" data-indeterminate> Some channels (indeterminate)</label>
-            <label><input name="push-notify" type="checkbox" disabled> Push (disabled)</label>
+            <label><input name="email-notify" type="checkbox" checked /> Email</label>
+            <label><input name="sms-notify" type="checkbox" /> SMS</label>
+            <label><input name="all-notify" type="checkbox" data-indeterminate /> Some channels (indeterminate)</label>
+            <label><input name="push-notify" type="checkbox" disabled /> Push (disabled)</label>
           </fieldset>
           <fieldset>
             <legend>Frequency</legend>
-            <label><input name="frequency" type="radio" value="daily" checked> Daily</label>
-            <label><input name="frequency" type="radio" value="weekly"> Weekly</label>
-            <label><input name="frequency" type="radio" value="never"> Never</label>
+            <label><input name="frequency" type="radio" value="daily" checked /> Daily</label>
+            <label><input name="frequency" type="radio" value="weekly" /> Weekly</label>
+            <label><input name="frequency" type="radio" value="never" /> Never</label>
           </fieldset>
           <button>Submit</button>
           <button type="reset">Reset</button>
@@ -297,7 +302,7 @@
           <button type="submit" form="none" formnovalidate>Secondary</button>
           <button type="button" disabled>Disabled</button>
           <button type="button" aria-busy="true">Saving</button>
-          <input type="button" value="Input button">
+          <input type="button" value="Input button" />
         </p>
       </section>
       <section id="details">
@@ -308,7 +313,9 @@
         </details>
         <details open>
           <summary>Does it support dark mode?</summary>
-          <p>Yes. It follows the system setting, and <code>data-theme</code> overrides it for the page or any section.</p>
+          <p>
+            Yes. It follows the system setting, and <code>data-theme</code> overrides it for the page or any section.
+          </p>
         </details>
       </section>
       <section id="dialog">
@@ -331,7 +338,7 @@
       <section id="media">
         <h2>Media</h2>
         <figure>
-          <img src="landscape.svg" alt="Illustrated mountains under a pale blue sky" width="1200" height="600">
+          <img src="landscape.svg" alt="Illustrated mountains under a pale blue sky" width="1200" height="600" />
           <figcaption>An image scales down to the column and keeps its aspect ratio.</figcaption>
         </figure>
       </section>
@@ -340,9 +347,9 @@
         <aside>
           <p>An <code>aside</code> renders as a callout on a raised surface.</p>
         </aside>
-        <hr>
+        <hr />
         <address>
-          m.css<br>
+          m.css<br />
           <a href="mailto:hello@example.com">hello@example.com</a>
         </address>
       </section>
@@ -370,8 +377,7 @@
       const controls = document.getElementById("controls");
       const motion = document.getElementById("motion");
 
-      const setOrRemove = (name, value) =>
-        value ? root.setAttribute(name, value) : root.removeAttribute(name);
+      const setOrRemove = (name, value) => (value ? root.setAttribute(name, value) : root.removeAttribute(name));
 
       const showMotion = () => {
         const style = getComputedStyle(root);
@@ -410,9 +416,34 @@
       showMotion();
 
       const tokenGroups = {
-        Colors: ["surface", "surface-raised", "surface-overlay", "border", "control-border", "text", "text-muted", "tint", "danger", "primary", "primary-hover", "primary-subtle", "on-primary"],
+        Colors: [
+          "surface",
+          "surface-raised",
+          "surface-overlay",
+          "border",
+          "control-border",
+          "text",
+          "text-muted",
+          "tint",
+          "danger",
+          "primary",
+          "primary-hover",
+          "primary-subtle",
+          "on-primary",
+        ],
         Spacing: ["space-1", "space-2", "space-3", "space-4", "space-6", "space-8", "space-12"],
-        Type: ["text-sm", "text-base", "text-lg", "text-xl", "text-2xl", "text-3xl", "text-4xl", "text-h1", "text-h2", "text-h3"],
+        Type: [
+          "text-sm",
+          "text-base",
+          "text-lg",
+          "text-xl",
+          "text-2xl",
+          "text-3xl",
+          "text-4xl",
+          "text-h1",
+          "text-h2",
+          "text-h3",
+        ],
       };
 
       const sample = (group, token) => {
