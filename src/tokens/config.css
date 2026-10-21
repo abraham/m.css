@@ -5,7 +5,7 @@
   --m-font-sans: system-ui, sans-serif;
   --m-font-mono: ui-monospace, SFMono-Regular, monospace;
   --m-font-size: 1rem;
-  --m-measure: 70ch;
+  --m-measure: 100ch;
 
   /* --m-on-primary is intentionally unset; color.css falls back to contrast-color(). */
 }
