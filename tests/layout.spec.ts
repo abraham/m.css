@@ -208,6 +208,33 @@ test.describe("navigation extras", () => {
   });
 });
 
+test.describe("typography", () => {
+  test("a quote footer gets an em dash that isn't announced", async ({ page }) => {
+    await page.goto("/demo/");
+    const footer = page.locator("#quotes blockquote > footer");
+    expect(await footer.evaluate((element) => getComputedStyle(element, "::before").content)).toMatch(/^"— "/);
+    expect(await page.locator("#quotes > blockquote").ariaSnapshot()).toContain("- text: A footer inside the quote");
+  });
+
+  test("heading links keep the heading color, and ins and del use the status colors", async ({ page }) => {
+    await page.goto("/demo/");
+    const colors = await page.evaluate(() => {
+      const color = (selector: string) => getComputedStyle(document.querySelector(selector)!).color;
+      return {
+        heading: color("#typography h3:has(a)"),
+        headingLink: color("#typography h3 a"),
+        link: color("#links a"),
+        ins: color("#typography ins"),
+        del: color("#typography del"),
+        text: color("#typography p"),
+      };
+    });
+    expect(colors.headingLink).toBe(colors.heading);
+    expect(colors.headingLink).not.toBe(colors.link);
+    expect(new Set([colors.ins, colors.del, colors.text]).size).toBe(3);
+  });
+});
+
 test("the top bar hides while scrolling down and returns while scrolling up", async ({ page, browserName }) => {
   test.skip(browserName !== "chromium", "scroll-state(scrolled) queries are Chromium-only");
   await page.emulateMedia({ reducedMotion: "no-preference" });
