@@ -11,7 +11,9 @@ for (const path of pages) {
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();
-      expect(violations.map(({ id, nodes }) => ({ id, targets: nodes.map((node) => node.target.join(" ")) }))).toEqual([]);
+      expect(violations.map(({ id, nodes }) => ({ id, targets: nodes.map((node) => node.target.join(" ")) }))).toEqual(
+        [],
+      );
     });
   }
 }
@@ -20,7 +22,9 @@ for (const path of pages) {
 test("fluid headings reach 2x their size with browser zoom", async ({ page }) => {
   const readSizes = () =>
     page.evaluate(() =>
-      ["h1", "h2", "h3"].map((tag) => parseFloat(getComputedStyle(document.querySelector(`#typography ${tag}`)).fontSize)),
+      ["h1", "h2", "h3"].map((tag) =>
+        parseFloat(getComputedStyle(document.querySelector(`#typography ${tag}`)).fontSize),
+      ),
     );
 
   await page.goto("/demo/");
