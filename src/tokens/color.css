@@ -1,19 +1,20 @@
 :where(:root) {
   color-scheme: light dark;
 
-  --_m-surface: light-dark(oklch(100% 0 0), oklch(18% 0.006 260));
-  --_m-surface-raised: light-dark(oklch(97% 0.004 260), oklch(23% 0.008 260));
-  --_m-surface-overlay: light-dark(oklch(100% 0 0), oklch(24% 0.008 260));
-  --_m-border: light-dark(oklch(89% 0.006 260), oklch(34% 0.01 260));
+  --_m-surface: light-dark(oklch(100% 0 0deg), oklch(18% 0.006 260deg));
+  --_m-surface-raised: light-dark(oklch(97% 0.004 260deg), oklch(23% 0.008 260deg));
+  --_m-surface-overlay: light-dark(oklch(100% 0 0deg), oklch(24% 0.008 260deg));
+  --_m-border: light-dark(oklch(89% 0.006 260deg), oklch(34% 0.01 260deg));
+
   /* At least 3:1 against the surface, as WCAG 1.4.11 requires for control boundaries. */
-  --_m-control-border: light-dark(oklch(62% 0.01 260), oklch(56% 0.01 260));
-  --_m-text: light-dark(oklch(22% 0.012 260), oklch(93% 0.006 260));
-  --_m-text-muted: light-dark(oklch(48% 0.012 260), oklch(72% 0.01 260));
+  --_m-control-border: light-dark(oklch(62% 0.01 260deg), oklch(56% 0.01 260deg));
+  --_m-text: light-dark(oklch(22% 0.012 260deg), oklch(93% 0.006 260deg));
+  --_m-text-muted: light-dark(oklch(48% 0.012 260deg), oklch(72% 0.01 260deg));
   --_m-tint: color-mix(in oklch, var(--_m-text), transparent 92%);
-  --_m-danger: light-dark(oklch(53% 0.2 27), oklch(70% 0.17 27));
+  --_m-danger: light-dark(oklch(53% 0.2 27deg), oklch(70% 0.17 27deg));
   --_m-shadow-overlay:
-    0 2px 6px -2px oklch(0% 0 0 / 0.15),
-    0 12px 32px -8px oklch(0% 0 0 / 0.3);
+    0 2px 6px -2px oklch(0% 0 0deg / 15%),
+    0 12px 32px -8px oklch(0% 0 0deg / 30%);
 }
 
 :where([data-theme="light"]) {

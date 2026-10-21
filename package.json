@@ -26,10 +26,18 @@
   "scripts": {
     "build": "node scripts/build.js",
     "start": "node scripts/dev.js",
+    "lint": "stylelint \"src/**/*.css\"",
+    "size": "node scripts/size.js",
+    "test": "playwright test --project=chromium --project=webkit --grep-invert @visual",
+    "test:visual": "docker run --rm --ipc=host -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.64.1-noble sh -c 'npm ci --no-audit --no-fund && npx playwright test --grep @visual \"$@\"' --",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "1.64.1",
     "browserslist": "^4.29.4",
-    "lightningcss": "^1.33.0"
+    "lightningcss": "^1.33.0",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard": "^40.0.0"
   }
 }

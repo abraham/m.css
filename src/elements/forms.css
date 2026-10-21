@@ -76,8 +76,8 @@
 :where(select:not([multiple], [size])) {
   padding-inline-end: var(--_m-space-8);
   background-image:
-    linear-gradient(45deg, transparent 50%, currentColor 50%),
-    linear-gradient(135deg, currentColor 50%, transparent 50%);
+    linear-gradient(45deg, transparent 50%, currentcolor 50%),
+    linear-gradient(135deg, currentcolor 50%, transparent 50%);
   background-position:
     calc(100% - var(--_m-space-3) - 0.6em) 50%,
     calc(100% - var(--_m-space-3) - 0.3em) 50%;

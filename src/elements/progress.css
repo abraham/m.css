@@ -49,7 +49,7 @@
   block-size: 1em;
   margin-inline-end: 0.5em;
   vertical-align: -0.15em;
-  border: 0.15em solid currentColor;
+  border: 0.15em solid currentcolor;
   border-inline-end-color: transparent;
   border-radius: 50%;
   animation: var(--_m-spin);

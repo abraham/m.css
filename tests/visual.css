@@ -1,0 +1,4 @@
+/* Dev-only token panels and the live motion readout aren't framework output. */
+#tokens {
+  display: none;
+}

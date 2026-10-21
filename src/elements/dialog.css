@@ -42,7 +42,7 @@
 }
 
 :where(dialog)::backdrop {
-  background-color: oklch(0% 0 0 / 0.4);
+  background-color: oklch(0% 0 0deg / 40%);
   backdrop-filter: blur(4px);
   opacity: 0;
   transition:
