@@ -1,5 +1,5 @@
 :where(:root) {
-  --m-primary: oklch(55% 0.2 260deg);
+  --m-primary: oklch(55% 0.19 40deg);
   --m-density: 1;
   --m-radius: 0.5rem;
   --m-font-sans: system-ui, sans-serif;

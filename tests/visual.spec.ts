@@ -1,6 +1,6 @@
 import { expect, test, type PageAssertionsToHaveScreenshotOptions } from "@playwright/test";
 
-const primaries = { blue: null, green: "oklch(60% 0.18 150)" };
+const primaries = { orange: null, green: "oklch(60% 0.18 150)" };
 const screenshot: PageAssertionsToHaveScreenshotOptions = {
   fullPage: true,
   animations: "disabled",
