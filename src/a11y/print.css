@@ -31,8 +31,13 @@
     border: 1px solid var(--_m-border);
   }
 
-  :where(thead th) {
+  :where(thead th, body > header > nav, body > nav, body > aside) {
     position: static;
+  }
+
+  :where(body > header > nav, body > nav) :where(ul, ol, menu) {
+    flex-wrap: wrap;
+    overflow: visible;
   }
 
   /* Print collapsed details expanded. */

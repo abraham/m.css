@@ -24,3 +24,12 @@
   --_m-leading: calc(1.4 + 0.2 * var(--m-density));
   --_m-leading-tight: calc(1.05 + 0.15 * var(--m-density));
 }
+
+/* Height of the sticky top nav (one unwrapped line), which other sticky and scrolled-to content must clear. */
+:where(:root) {
+  --_m-sticky-offset: 0px;
+}
+
+:where(:root:has(> body > header > nav)) {
+  --_m-sticky-offset: calc(2 * var(--_m-space-3) + var(--_m-text-base) * var(--_m-leading));
+}
