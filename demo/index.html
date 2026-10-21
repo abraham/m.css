@@ -44,6 +44,7 @@
           <li><a href="#tables">Tables</a></li>
           <li><a href="#media">Media</a></li>
           <li><a href="#layout">Layout</a></li>
+          <li><a href="#cards">Cards</a></li>
           <li><a href="article.html">Article page</a></li>
           <li><a href="docs.html">Docs layout</a></li>
         </ul>
@@ -108,7 +109,7 @@
           A second paragraph follows to show the vertical rhythm between blocks. Its last line should avoid ending on a
           single orphaned word thanks to pretty text wrapping.
         </p>
-        <article>
+        <div>
           <h1>Heading level one</h1>
           <p>Body text after a top-level heading.</p>
           <h2>Heading level two</h2>
@@ -123,6 +124,40 @@
           <p>Body text after a sixth-level heading.</p>
           <h2>A much longer heading that wraps onto a second line to show balanced wrapping</h2>
           <p>Balanced headings split their lines evenly instead of leaving one word behind.</p>
+        </div>
+        <hgroup>
+          <p>Eyebrow</p>
+          <h3>A heading group</h3>
+          <p>A muted subtitle that sits right under its heading.</p>
+        </hgroup>
+        <p>Body text continues after the heading group.</p>
+      </section>
+      <section id="cards">
+        <h2>Cards</h2>
+        <p>Every <code>article</code> is a card, and a container holding only articles lays them out as a grid.</p>
+        <div>
+          <article>
+            <header><strong>Starter</strong></header>
+            <p>For personal pages and small projects.</p>
+            <footer><button type="button">Choose Starter</button></footer>
+          </article>
+          <article>
+            <header><strong>Team</strong></header>
+            <p>For groups that need shared settings, more storage, and a longer description than the others.</p>
+            <footer><button type="button">Choose Team</button></footer>
+          </article>
+          <article>
+            <header><strong>Enterprise</strong></header>
+            <p>For organizations with custom needs.</p>
+            <footer><button type="button">Contact us</button></footer>
+          </article>
+        </div>
+        <article>
+          <hgroup>
+            <p>Changelog</p>
+            <h3>A card without bands</h3>
+          </hgroup>
+          <p>An article with no header or footer is a plain padded card.</p>
         </article>
       </section>
       <section id="links">

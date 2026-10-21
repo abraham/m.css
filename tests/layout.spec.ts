@@ -16,6 +16,43 @@ const stickyOffset = (page: Page) =>
     return height;
   });
 
+test.describe("cards", () => {
+  test("a container of only articles lays out equal-height cards with footers at the bottom", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/demo/");
+    const cards = await page.locator("#cards > div > article").evaluateAll((articles) =>
+      articles.map((article) => ({
+        top: article.getBoundingClientRect().top,
+        bottom: article.getBoundingClientRect().bottom,
+        footerBottom: article.querySelector("footer")!.getBoundingClientRect().bottom,
+      })),
+    );
+    expect(cards).toHaveLength(3);
+    for (const card of cards) {
+      expect(card.top).toBeCloseTo(cards[0].top, 0);
+      expect(card.bottom).toBeCloseTo(cards[0].bottom, 0);
+      expect(card.footerBottom).toBeCloseTo(card.bottom - 1, 0);
+    }
+  });
+
+  test("a container with other content keeps articles in normal flow", async ({ page }) => {
+    await page.goto("/demo/");
+    expect(await page.locator("#cards").evaluate((section) => getComputedStyle(section).display)).toBe("block");
+    expect(await page.locator("#cards > article").evaluate((card) => getComputedStyle(card).borderTopWidth)).toBe(
+      "1px",
+    );
+  });
+
+  test("a page's lone article is plain text, not a card", async ({ page }) => {
+    await page.goto("/demo/article.html");
+    const style = await page.locator("main > article").evaluate((article) => ({
+      border: getComputedStyle(article).borderTopWidth,
+      padding: getComputedStyle(article).paddingTop,
+    }));
+    expect(style).toEqual({ border: "0px", padding: "0px" });
+  });
+});
+
 test.describe("docs layout", () => {
   test.beforeEach(async ({ page }) => {
     // Reduced motion keeps the Chromium-only hide-on-scroll from moving the bar.
