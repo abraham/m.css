@@ -47,8 +47,11 @@
   display: inline-block;
   inline-size: 1em;
   block-size: 1em;
+
+  /* Negative block margins keep the spinner from growing the line box, e.g. a button's height. */
+  margin-block: -1em;
   margin-inline-end: 0.5em;
-  vertical-align: -0.15em;
+  vertical-align: middle;
   border: 0.15em solid currentcolor;
   border-inline-end-color: transparent;
   border-radius: 50%;

@@ -20,6 +20,19 @@
   animation: m-focus-in var(--_m-duration) var(--_m-ease);
 }
 
+/* Outlines follow border-radius; these have no visible box, so rounding only shapes their focus ring. */
+:where(a) {
+  border-radius: calc(var(--m-radius) / 2);
+}
+
+:where(summary:focus-visible) {
+  outline-offset: 0;
+}
+
+:where(input:is([type="range"], [type="file"])) {
+  border-radius: var(--m-radius);
+}
+
 @keyframes m-focus-in {
   from {
     outline-offset: 0;
