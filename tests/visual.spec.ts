@@ -1,14 +1,14 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type PageAssertionsToHaveScreenshotOptions } from "@playwright/test";
 
 const primaries = { blue: null, green: "oklch(60% 0.18 150)" };
-const screenshot = {
+const screenshot: PageAssertionsToHaveScreenshotOptions = {
   fullPage: true,
   animations: "disabled",
   stylePath: new URL("visual.css", import.meta.url).pathname,
 };
 
 test.describe("visual", { tag: "@visual" }, () => {
-  for (const colorScheme of ["light", "dark"]) {
+  for (const colorScheme of ["light", "dark"] as const) {
     for (const density of ["0.75", "1", "1.25"]) {
       for (const [name, primary] of Object.entries(primaries)) {
         test(`kitchen sink, ${colorScheme}, density ${density}, ${name}`, async ({ page }) => {

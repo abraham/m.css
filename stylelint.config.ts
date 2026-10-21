@@ -1,3 +1,5 @@
+import type { Config } from "stylelint";
+
 export default {
   extends: ["stylelint-config-standard"],
   rules: {
@@ -19,4 +21,4 @@ export default {
     "custom-property-empty-line-before": null,
     "value-keyword-case": ["lower", { ignoreKeywords: ["SFMono-Regular"] }],
   },
-};
+} satisfies Config;

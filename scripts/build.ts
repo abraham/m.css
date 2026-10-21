@@ -12,7 +12,7 @@ await mkdir(join(root, "dist"), { recursive: true });
 for (const [file, minify] of [
   ["m.css", false],
   ["m.min.css", true],
-]) {
+] as const) {
   const { code } = bundle({ filename: join(root, "src/index.css"), minify, targets });
   await writeFile(join(root, "dist", file), code);
 }

@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 const pages = ["/demo/", "/demo/article.html"];
 
 for (const path of pages) {
-  for (const colorScheme of ["light", "dark"]) {
+  for (const colorScheme of ["light", "dark"] as const) {
     test(`${path} has no WCAG A/AA violations in ${colorScheme} mode`, async ({ page }) => {
       await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
       await page.goto(path);
@@ -23,7 +23,7 @@ test("fluid headings reach 2x their size with browser zoom", async ({ page }) =>
   const readSizes = () =>
     page.evaluate(() =>
       ["h1", "h2", "h3"].map((tag) =>
-        parseFloat(getComputedStyle(document.querySelector(`#typography ${tag}`)).fontSize),
+        parseFloat(getComputedStyle(document.querySelector(`#typography ${tag}`)!).fontSize),
       ),
     );
 

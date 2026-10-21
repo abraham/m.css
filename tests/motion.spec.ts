@@ -24,8 +24,8 @@ function findMotion() {
 
 function loopAnimations() {
   return {
-    spinner: getComputedStyle(document.querySelector("[aria-busy='true']"), "::before").animationName,
-    progress: getComputedStyle(document.querySelector("progress:indeterminate")).animationName,
+    spinner: getComputedStyle(document.querySelector("[aria-busy='true']")!, "::before").animationName,
+    progress: getComputedStyle(document.querySelector("progress:indeterminate")!).animationName,
   };
 }
 
