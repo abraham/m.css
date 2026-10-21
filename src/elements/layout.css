@@ -73,6 +73,12 @@
   border-image: linear-gradient(to top, var(--_m-border) 1px, var(--_m-surface) 1px) fill 0 / 0 / 0 100vmax;
 }
 
+/* A nav right after the top bar is a subnav that sticks below it. */
+:where(body > header > nav + nav) {
+  inset-block-start: var(--_m-bar-size);
+  view-transition-name: m-sub-nav;
+}
+
 /* One scrolling row keeps the top bar's height equal to --_m-sticky-offset; the 4px inset keeps focus rings unclipped. */
 :where(body > header > nav, body > nav) :where(ul, ol, menu) {
   flex-wrap: nowrap;
@@ -203,17 +209,17 @@
     }
 
     @container scroll-state(scrolled: bottom) {
-      /* Keyboard focus inside the bar keeps it visible (WCAG 2.4.11). */
-      :where(body > header > nav:not(:focus-within)) {
+      /* Keyboard focus inside a bar keeps the bars visible (WCAG 2.4.11); a subnav slides up into the top bar's place. */
+      :where(:root:not(:has(> body > header > nav:focus-within)) body > header > nav) {
         translate: 0 -100%;
       }
 
       :where(:root:not(:has(> body > header > nav:focus-within)) thead th) {
-        inset-block-start: 0;
+        inset-block-start: calc(var(--_m-sticky-offset) - var(--_m-bar-size));
       }
 
       :where(:root:not(:has(> body > header > nav:focus-within)) body > :is(nav, aside)) {
-        inset-block-start: var(--_m-space-4);
+        inset-block-start: calc(var(--_m-sticky-offset) - var(--_m-bar-size) + var(--_m-space-4));
       }
     }
   }

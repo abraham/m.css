@@ -57,7 +57,7 @@ test.describe("buttons and groups", () => {
           .evaluate((element) => {
             const style = getComputedStyle(element);
             return {
-              height: element.getBoundingClientRect().height,
+              height: Math.round(element.getBoundingClientRect().height * 100) / 100,
               background: style.backgroundColor,
               color: style.color,
               underline: style.textDecorationLine,

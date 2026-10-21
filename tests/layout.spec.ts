@@ -16,6 +16,13 @@ const stickyOffset = (page: Page) =>
     return height;
   });
 
+const lastBar = "body > header > nav:last-of-type";
+
+const barsHeight = (page: Page) =>
+  page
+    .locator("body > header > nav")
+    .evaluateAll((navs) => navs.reduce((sum, nav) => sum + nav.getBoundingClientRect().height, 0));
+
 test.describe("cards", () => {
   test("a container of only articles lays out equal-height cards with footers at the bottom", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
@@ -61,12 +68,25 @@ test.describe("docs layout", () => {
   });
 
   test("the top nav sticks and the sticky offset matches its height", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 320 });
+    await page.goto("/demo/article.html");
+    expect(await page.locator("body > header > nav").count()).toBe(1);
+    expect(await stickyOffset(page)).toBeCloseTo((await rect(page, "body > header > nav")).height, 0);
+
+    await page.evaluate(() => scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
+    expect((await rect(page, "body > header > nav")).top).toBeCloseTo(0, 0);
+  });
+
+  test("a subnav sticks below the top bar and the sticky offset covers both", async ({ page }) => {
     await page.goto("/demo/docs.html");
-    const nav = await rect(page, "body > header > nav");
-    expect(await stickyOffset(page)).toBeCloseTo(nav.height, 0);
+    const top = await rect(page, "body > header > nav");
+    const sub = await rect(page, lastBar);
+    expect(sub.height).toBeCloseTo(top.height, 0);
+    expect(await stickyOffset(page)).toBeCloseTo(await barsHeight(page), 0);
 
     await page.evaluate(() => scrollTo({ top: 1200, behavior: "instant" }));
     expect((await rect(page, "body > header > nav")).top).toBeCloseTo(0, 0);
+    expect((await rect(page, lastBar)).top).toBeCloseTo(top.height, 0);
   });
 
   test("the side nav and rail sit beside main and stick below the top bar", async ({ page }) => {
@@ -80,7 +100,7 @@ test.describe("docs layout", () => {
     expect(aside.left).toBeGreaterThanOrEqual(main.right);
 
     await page.evaluate(() => scrollTo({ top: 1200, behavior: "instant" }));
-    const bar = await rect(page, "body > header > nav");
+    const bar = await rect(page, lastBar);
     expect((await rect(page, "body > nav")).top).toBeGreaterThan(bar.bottom);
     expect((await rect(page, "body > aside")).top).toBeGreaterThan(bar.bottom);
   });
@@ -111,7 +131,7 @@ test.describe("docs layout", () => {
 
   test("anchor targets and sticky table headers clear the top bar", async ({ page }) => {
     await page.goto("/demo/docs.html#density");
-    const bar = await rect(page, "body > header > nav");
+    const bar = await rect(page, lastBar);
     expect((await rect(page, "#density h2")).top).toBeGreaterThanOrEqual(bar.bottom);
 
     const table = await rect(page, "#density table");
@@ -124,7 +144,7 @@ test.describe("docs layout", () => {
     await page.goto("/demo/docs.html");
     await page.evaluate(() => scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
     await page.locator("#install pre").focus();
-    const bar = await rect(page, "body > header > nav");
+    const bar = await rect(page, lastBar);
     expect((await rect(page, "#install pre")).top).toBeGreaterThanOrEqual(bar.bottom);
   });
 });
@@ -146,7 +166,8 @@ test.describe("navigation extras", () => {
       expect(brand.left).toBeLessThanOrEqual(nav.left);
       expect(links.right).toBeGreaterThanOrEqual(nav.right);
       expect(brand.top).toBeCloseTo(links.top, 0);
-      expect(await stickyOffset(page)).toBeCloseTo(nav.height, 0);
+      expect(await stickyOffset(page)).toBeCloseTo(await barsHeight(page), 0);
+      expect(await stickyOffset(page)).toBeCloseTo(2 * nav.height, 0);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     });
   }
@@ -196,7 +217,14 @@ test("the top bar hides while scrolling down and returns while scrolling up", as
 
   await page.mouse.wheel(0, 600);
   await expect.poll(async () => (await rect(page, "body > header > nav")).bottom).toBeLessThanOrEqual(0);
+  await expect.poll(async () => (await rect(page, lastBar)).top).toBeCloseTo(0, 0);
+  await expect
+    .poll(async () => (await rect(page, "body > nav")).top)
+    .toBeGreaterThan((await rect(page, lastBar)).bottom);
 
   await page.mouse.wheel(0, -200);
   await expect.poll(async () => (await rect(page, "body > header > nav")).top).toBeCloseTo(0, 0);
+  await expect
+    .poll(async () => (await rect(page, lastBar)).top)
+    .toBeCloseTo((await rect(page, "body > header > nav")).bottom, 0);
 });
