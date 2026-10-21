@@ -1,0 +1,26 @@
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+/* dialog and popovers keep their UA margin: auto, which centers them. */
+:where(*:not(dialog, [popover])) {
+  margin: 0;
+}
+
+:where(html) {
+  text-size-adjust: 100%;
+}
+
+:where(img, picture, video, canvas, svg, iframe) {
+  vertical-align: middle;
+}
+
+:where(input, button, select, textarea) {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+:where(p, h1, h2, h3, h4, h5, h6, li, dd, blockquote, figcaption) {
+  overflow-wrap: break-word;
+}

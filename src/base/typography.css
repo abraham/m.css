@@ -1,0 +1,81 @@
+:where(h1, h2, h3, h4, h5, h6) {
+  margin-block: var(--_m-space-8) var(--_m-space-3);
+  font-weight: 650;
+  line-height: var(--_m-leading-tight);
+  text-wrap: balance;
+}
+
+:where(h1, h2, h3, h4, h5, h6):where(:first-child) {
+  margin-block-start: 0;
+}
+
+:where(h1, h2, h3, h4, h5, h6):where(:last-child) {
+  margin-block-end: 0;
+}
+
+:where(h1) {
+  font-size: var(--_m-text-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+:where(h2) {
+  font-size: var(--_m-text-h2);
+  letter-spacing: -0.015em;
+}
+
+:where(h3) {
+  font-size: var(--_m-text-h3);
+  letter-spacing: -0.01em;
+}
+
+:where(h4) {
+  font-size: var(--_m-text-lg);
+}
+
+:where(h5) {
+  font-size: var(--_m-text-base);
+}
+
+:where(h6) {
+  font-size: var(--_m-text-sm);
+  color: var(--_m-text-muted);
+}
+
+:where(p) {
+  text-wrap: pretty;
+}
+
+:where(small) {
+  font-size: 0.875em;
+}
+
+:where(mark) {
+  padding-inline: 0.15em;
+  border-radius: 0.2em;
+  background-color: color-mix(in oklch, var(--_m-primary), transparent 70%);
+  color: inherit;
+  box-decoration-break: clone;
+}
+
+:where(abbr[title]) {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  cursor: help;
+}
+
+/* Keep sub and sup from stretching the line box. */
+:where(sub, sup) {
+  position: relative;
+  font-size: 0.75em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+:where(sup) {
+  inset-block-start: -0.5em;
+}
+
+:where(sub) {
+  inset-block-end: -0.25em;
+}
