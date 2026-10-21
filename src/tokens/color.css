@@ -1,9 +1,9 @@
 :where(:root) {
   color-scheme: light dark;
 
-  --_m-surface: light-dark(oklch(100% 0 0deg), oklch(18% 0.006 260deg));
+  --_m-surface: light-dark(oklch(99% 0.006 80deg), oklch(18% 0.008 60deg));
   --_m-surface-raised: light-dark(oklch(97% 0.004 260deg), oklch(23% 0.008 260deg));
-  --_m-surface-overlay: light-dark(oklch(100% 0 0deg), oklch(24% 0.008 260deg));
+  --_m-surface-overlay: light-dark(oklch(100% 0 0deg), oklch(24% 0.008 60deg));
   --_m-border: light-dark(oklch(89% 0.006 260deg), oklch(34% 0.01 260deg));
 
   /* At least 3:1 against the surface, as WCAG 1.4.11 requires for control boundaries. */
