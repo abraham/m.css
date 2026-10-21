@@ -18,7 +18,7 @@ export default defineConfig({
     { name: "webkit", use: { ...devices["Desktop Safari"] } },
   ],
   webServer: {
-    command: "node scripts/dev.js",
+    command: "node scripts/dev.ts",
     url: `http://localhost:${port}/demo/`,
     reuseExistingServer: !process.env.CI,
     env: { PORT: String(port) },

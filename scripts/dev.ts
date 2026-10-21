@@ -7,7 +7,7 @@ import { extname, join, resolve, sep } from "node:path";
 const root = resolve(import.meta.dirname, "..");
 const servable = [join(root, "demo"), join(root, "dist")];
 const port = Number(process.env.PORT ?? 8080);
-const types = {
+const types: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
@@ -18,12 +18,12 @@ const types = {
 };
 
 function build() {
-  spawnSync(process.execPath, [join(root, "scripts/build.js")], { stdio: "inherit" });
+  spawnSync(process.execPath, [join(root, "scripts/build.ts")], { stdio: "inherit" });
 }
 
 build();
 
-let pending;
+let pending: NodeJS.Timeout | undefined;
 watch(join(root, "src"), { recursive: true }, () => {
   clearTimeout(pending);
   pending = setTimeout(build, 50);
@@ -31,7 +31,7 @@ watch(join(root, "src"), { recursive: true }, () => {
 
 createServer(async (req, res) => {
   try {
-    const { pathname } = new URL(req.url, "http://localhost");
+    const { pathname } = new URL(req.url ?? "/", "http://localhost");
     if (pathname === "/") {
       res.writeHead(302, { location: "/demo/" }).end();
       return;
