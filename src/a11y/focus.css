@@ -1,0 +1,23 @@
+/* Text-like inputs, select, textarea, checkboxes, radios, and options draw their own focus ring. */
+:where(:focus-visible):where(:not(select, textarea, option, input:not([type="range"], [type="color"], [type="file"], [type="submit"], [type="reset"], [type="button"], [type="image"]))) {
+  outline: 2px solid var(--_m-primary);
+  outline-offset: 2px;
+  animation: m-focus-in var(--_m-duration) var(--_m-ease);
+}
+
+@keyframes m-focus-in {
+  from {
+    outline-offset: 0;
+  }
+}
+
+:where(:target) {
+  scroll-margin-block-start: var(--_m-space-8);
+  animation: m-target-in calc(var(--_m-duration) * 10) var(--_m-ease);
+}
+
+@keyframes m-target-in {
+  from {
+    background-color: var(--_m-primary-subtle);
+  }
+}

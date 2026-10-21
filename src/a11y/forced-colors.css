@@ -1,0 +1,71 @@
+/* Forced colors drop backgrounds, box-shadows, and gradients, so anything drawn with them is redrawn in system colors. */
+@media (forced-colors: active) {
+  :where(input:is([type="checkbox"], [type="radio"])) {
+    border-color: CanvasText;
+    background-color: Canvas;
+    forced-color-adjust: none;
+
+    &::before {
+      background-color: HighlightText;
+    }
+
+    &:where(:checked) {
+      border-color: Highlight;
+      background-color: Highlight;
+    }
+
+    &:where(:disabled) {
+      border-color: GrayText;
+    }
+  }
+
+  :where(input[type="checkbox"]:indeterminate) {
+    border-color: Highlight;
+    background-color: Highlight;
+  }
+
+  :where(progress) {
+    border: 1px solid CanvasText;
+    background-color: Canvas;
+    forced-color-adjust: none;
+  }
+
+  :where(progress)::-webkit-progress-value {
+    background-color: Highlight;
+  }
+
+  :where(progress)::-moz-progress-bar {
+    background-color: Highlight;
+  }
+
+  :where(progress:indeterminate) {
+    background-image: linear-gradient(Highlight, Highlight);
+  }
+
+  :where(progress:indeterminate)::-moz-progress-bar {
+    background-color: transparent;
+  }
+
+  :where([data-scroll-progress]:root)::before {
+    background-color: Highlight;
+    forced-color-adjust: none;
+  }
+
+  :where(mark) {
+    background-color: Mark;
+    color: MarkText;
+    forced-color-adjust: none;
+  }
+
+  :where(aside, pre) {
+    border: 1px solid CanvasText;
+  }
+
+  @supports not (appearance: base-select) {
+    :where(select:not([multiple], [size])) {
+      padding-inline-end: var(--_m-space-3);
+      background-image: none;
+      appearance: auto;
+    }
+  }
+}

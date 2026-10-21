@@ -1,0 +1,55 @@
+@media print {
+  :where(:root) {
+    color-scheme: light;
+  }
+
+  :where(*, *::before, *::after) {
+    background: transparent;
+    box-shadow: none;
+    text-shadow: none;
+  }
+
+  :where(body) {
+    max-inline-size: none;
+    padding: 0;
+  }
+
+  :where(a[href]:not([href^="#"], [href^="javascript:"]))::after {
+    content: " (" attr(href) ")";
+    font-size: 0.875em;
+    color: var(--_m-text-muted);
+    overflow-wrap: anywhere;
+  }
+
+  :where(nav a)::after {
+    content: none;
+  }
+
+  :where(pre) {
+    overflow: visible;
+    white-space: pre-wrap;
+    border: 1px solid var(--_m-border);
+  }
+
+  :where(thead th) {
+    position: static;
+  }
+
+  /* Print collapsed details expanded. */
+  :where(details)::details-content {
+    content-visibility: visible;
+    block-size: auto;
+  }
+
+  :where(pre, blockquote, figure, img, video, table, tr, details) {
+    break-inside: avoid;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6) {
+    break-after: avoid;
+  }
+
+  :where([data-scroll-progress]:root)::before {
+    display: none;
+  }
+}
