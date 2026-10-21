@@ -59,15 +59,17 @@ Hover, subtle, and dark-mode variants of the primary color are derived automatic
 
 ## Attributes
 
-| Attribute                          | Where                 | Effect                                                |
-| ---------------------------------- | --------------------- | ----------------------------------------------------- |
-| `data-theme="light"` or `"dark"`   | `html` or any element | Forces a color scheme instead of following the system |
-| `data-motion="reduce"`             | `html` or any element | Turns animations off, like `prefers-reduced-motion`   |
-| `data-scroll-progress`             | `html`                | Shows a reading progress bar at the top of the window |
-| `aria-busy="true"`                 | Any element           | Shows an inline loading spinner                       |
-| `aria-current="page"`              | A link in a `nav`     | Marks the current page                                |
-| `role="switch"`                    | A checkbox            | Renders it as a toggle switch                         |
-| `aria-invalid="true"` or `"false"` | A form field          | Red (invalid) or green (valid) border and helper text |
+| Attribute                          | Where                 | Effect                                                   |
+| ---------------------------------- | --------------------- | -------------------------------------------------------- |
+| `data-theme="light"` or `"dark"`   | `html` or any element | Forces a color scheme instead of following the system    |
+| `data-motion="reduce"`             | `html` or any element | Turns animations off, like `prefers-reduced-motion`      |
+| `data-scroll-progress`             | `html`                | Shows a reading progress bar at the top of the window    |
+| `aria-busy="true"`                 | Any element           | Shows an inline loading spinner                          |
+| `aria-current="page"`              | A link in a `nav`     | Marks the current page                                   |
+| `role="switch"`                    | A checkbox            | Renders it as a toggle switch                            |
+| `role="button"`                    | A link                | Styles it as a button; `aria-disabled="true"` dims it    |
+| `role="group"`                     | A wrapper             | Joins buttons, or a field and a button, into one control |
+| `aria-invalid="true"` or `"false"` | A form field          | Red (invalid) or green (valid) border and helper text    |
 
 A `small` right after a form field is styled as helper text. Connect it with `aria-describedby` so screen readers announce it:
 

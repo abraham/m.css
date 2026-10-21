@@ -21,7 +21,7 @@
 }
 
 /* Outlines follow border-radius; these have no visible box, so rounding only shapes their focus ring. */
-:where(a) {
+:where(a:not([role="button"])) {
   border-radius: calc(var(--m-radius) / 2);
 }
 
