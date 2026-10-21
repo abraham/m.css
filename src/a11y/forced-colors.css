@@ -61,6 +61,51 @@
     background-color: transparent;
   }
 
+  :where(input[type="range"]) {
+    --_m-range-fill: Highlight;
+
+    forced-color-adjust: none;
+
+    &:where(:disabled) {
+      --_m-range-fill: GrayText;
+
+      opacity: 1;
+    }
+
+    &:where(:focus-visible) {
+      outline-color: Highlight;
+    }
+
+    &::-webkit-slider-runnable-track {
+      background-color: Canvas;
+      box-shadow: inset 0 0 0 1px CanvasText;
+    }
+
+    &::-moz-range-track {
+      background-color: Canvas;
+      box-shadow: inset 0 0 0 1px CanvasText;
+    }
+
+    &::-moz-range-progress {
+      background-color: var(--_m-range-fill);
+    }
+
+    &::-webkit-slider-thumb {
+      background-color: var(--_m-range-fill);
+      box-shadow: inset 0 0 0 2px Canvas;
+      border-image-source: linear-gradient(90deg, var(--_m-range-fill) 50%, transparent 0);
+    }
+
+    &:where(:dir(rtl))::-webkit-slider-thumb {
+      border-image-source: linear-gradient(-90deg, var(--_m-range-fill) 50%, transparent 0);
+    }
+
+    &::-moz-range-thumb {
+      border-color: Canvas;
+      background-color: var(--_m-range-fill);
+    }
+  }
+
   :where([data-scroll-progress]:root)::before {
     background-color: Highlight;
     forced-color-adjust: none;

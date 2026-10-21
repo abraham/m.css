@@ -36,16 +36,16 @@ m.css is meant to be the page's only stylesheet, and it owns the document layout
 
 Set any of these on `:root`, or on any element to scope them to that part of the page.
 
-| Property         | Default                                   | Purpose                                                           |
-| ---------------- | ----------------------------------------- | ----------------------------------------------------------------- |
-| `--m-primary`    | `oklch(55% 0.19 40)` (orange)             | Accent for links, buttons, focus rings, checkboxes, and progress  |
-| `--m-on-primary` | `contrast-color()` of the primary         | Text color on primary backgrounds; unset by default               |
-| `--m-density`    | `1`                                       | Spacing multiplier, such as `0.75` for compact or `1.25` for airy |
-| `--m-radius`     | `0.5rem`                                  | Corner radius for controls and cards                              |
-| `--m-font-sans`  | `system-ui, sans-serif`                   | Body and UI font                                                  |
-| `--m-font-mono`  | `ui-monospace, SFMono-Regular, monospace` | Code font                                                         |
-| `--m-font-size`  | `1rem`                                    | Base text size; the type scale derives from it                    |
-| `--m-measure`    | `100ch`                                   | Width of the content column                                       |
+| Property         | Default                                   | Purpose                                                                   |
+| ---------------- | ----------------------------------------- | ------------------------------------------------------------------------- |
+| `--m-primary`    | `oklch(55% 0.19 40)` (orange)             | Accent for links, buttons, focus rings, checkboxes, sliders, and progress |
+| `--m-on-primary` | `contrast-color()` of the primary         | Text color on primary backgrounds; unset by default                       |
+| `--m-density`    | `1`                                       | Spacing multiplier, such as `0.75` for compact or `1.25` for airy         |
+| `--m-radius`     | `0.5rem`                                  | Corner radius for controls and cards                                      |
+| `--m-font-sans`  | `system-ui, sans-serif`                   | Body and UI font                                                          |
+| `--m-font-mono`  | `ui-monospace, SFMono-Regular, monospace` | Code font                                                                 |
+| `--m-font-size`  | `1rem`                                    | Base text size; the type scale derives from it                            |
+| `--m-measure`    | `100ch`                                   | Width of the content column                                               |
 
 ```css
 :root {
