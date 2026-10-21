@@ -11,6 +11,9 @@
   --_m-text-muted: light-dark(oklch(48% 0.012 260), oklch(72% 0.01 260));
   --_m-tint: color-mix(in oklch, var(--_m-text), transparent 92%);
   --_m-danger: light-dark(oklch(53% 0.2 27), oklch(70% 0.17 27));
+  --_m-shadow-overlay:
+    0 2px 6px -2px oklch(0% 0 0 / 0.15),
+    0 12px 32px -8px oklch(0% 0 0 / 0.3);
 }
 
 :where([data-theme="light"]) {

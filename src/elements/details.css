@@ -37,3 +37,26 @@
 :where(details[open]) > :where(summary)::before {
   rotate: 45deg;
 }
+
+/* Elsewhere, details open and close instantly. */
+@supports (interpolate-size: allow-keywords) {
+  :where(:root) {
+    interpolate-size: allow-keywords;
+  }
+
+  :where(details) {
+    transition: padding-block-end var(--_m-duration-slow) var(--_m-ease);
+  }
+
+  :where(details)::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size var(--_m-duration-slow) var(--_m-ease),
+      content-visibility var(--_m-duration-slow) allow-discrete;
+  }
+
+  :where(details[open])::details-content {
+    block-size: auto;
+  }
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>m.css article page</title>
+    <link rel="stylesheet" href="../dist/m.css">
+  </head>
+  <body>
+    <header>
+      <h1>m.css</h1>
+      <nav aria-label="Pages">
+        <ul>
+          <li><a href="./">Kitchen sink</a></li>
+          <li><a href="article.html" aria-current="page">Article page</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <article>
+        <h2>Navigating between pages</h2>
+        <p>
+          This second page exists to exercise cross-document view transitions. In browsers that support
+          <code>@view-transition</code>, following a link between the two demo pages cross-fades instead of flashing.
+          Other browsers navigate normally.
+        </p>
+        <p>
+          The transition uses the slow duration token, so it turns off with reduced motion, either from the system
+          setting or from <code>data-motion="reduce"</code>.
+        </p>
+        <p><a href="./">Back to the kitchen sink</a></p>
+      </article>
+    </main>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

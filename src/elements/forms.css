@@ -85,6 +85,77 @@
   background-repeat: no-repeat;
 }
 
+/* Customizable select; elsewhere the native picker keeps the gradient arrow above. */
+@supports (appearance: base-select) {
+  :where(select:not([multiple], [size])) {
+    display: flex;
+    align-items: center;
+    padding-inline-end: var(--_m-space-3);
+    background-image: none;
+
+    &,
+    &::picker(select) {
+      appearance: base-select;
+    }
+
+    &::picker-icon {
+      margin-inline-start: auto;
+      color: var(--_m-text-muted);
+      transition: rotate var(--_m-duration) var(--_m-ease);
+    }
+
+    &:where(:open)::picker-icon {
+      rotate: 180deg;
+    }
+
+    &::picker(select) {
+      margin-block: var(--_m-space-1);
+      padding: var(--_m-space-1);
+      border: 1px solid var(--_m-border);
+      border-radius: var(--m-radius);
+      background-color: var(--_m-surface-overlay);
+      box-shadow: var(--_m-shadow-overlay);
+      opacity: 0;
+      translate: 0 calc(-1 * var(--_m-space-1));
+      transition:
+        opacity var(--_m-duration) var(--_m-ease),
+        translate var(--_m-duration) var(--_m-ease),
+        display var(--_m-duration) allow-discrete,
+        overlay var(--_m-duration) allow-discrete;
+    }
+
+    &:where(:open)::picker(select) {
+      opacity: 1;
+      translate: 0;
+    }
+
+    @starting-style {
+      &:where(:open)::picker(select) {
+        opacity: 0;
+        translate: 0 calc(-1 * var(--_m-space-1));
+      }
+    }
+  }
+
+  :where(select:not([multiple], [size]) option) {
+    padding: var(--_m-space-2) var(--_m-space-3);
+    border-radius: calc(var(--m-radius) - 2px);
+
+    &:where(:hover, :focus-visible) {
+      outline: 2px solid transparent;
+      background-color: var(--_m-tint);
+    }
+
+    &:where(:checked) {
+      font-weight: 600;
+    }
+
+    &::checkmark {
+      color: var(--_m-primary);
+    }
+  }
+}
+
 :where(input:is([type="checkbox"], [type="radio"])) {
   display: inline-grid;
   place-content: center;

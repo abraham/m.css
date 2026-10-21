@@ -1,0 +1,41 @@
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/* The view-transition tree inherits from :root, so data-motion="reduce" zeroes this too. */
+:where(:root)::view-transition-group(*) {
+  animation-duration: var(--_m-duration-slow);
+  animation-timing-function: var(--_m-ease);
+}
+
+/* Opt-in with <html data-scroll-progress>; it tracks scrolling 1:1, so it stays on under reduced motion. */
+@supports (animation-timeline: scroll()) {
+  :where([data-scroll-progress]:root)::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 1;
+    block-size: 3px;
+    background-color: var(--_m-primary);
+    transform-origin: left;
+    scale: 0 1;
+    animation: m-grow linear both;
+    animation-timeline: scroll(root);
+  }
+
+  :where([data-scroll-progress]:root:dir(rtl))::before {
+    transform-origin: right;
+  }
+}
+
+@keyframes m-grow {
+  to {
+    scale: 1 1;
+  }
+}
