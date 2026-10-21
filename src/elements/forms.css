@@ -1,0 +1,197 @@
+:where(label) {
+  display: block;
+}
+
+:where(:not(legend) + label) {
+  margin-block-start: var(--_m-space-3);
+}
+
+:where(fieldset) {
+  padding: var(--_m-space-3) var(--_m-space-4) var(--_m-space-4);
+  border: 1px solid var(--_m-border);
+  border-radius: var(--m-radius);
+}
+
+:where(legend) {
+  padding-inline: var(--_m-space-1);
+  font-weight: 600;
+}
+
+:where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="submit"], [type="reset"], [type="button"], [type="image"], [type="hidden"]), select, textarea) {
+  display: block;
+  inline-size: 100%;
+  padding: var(--_m-space-2) var(--_m-space-3);
+  border: 1px solid var(--_m-control-border);
+  border-radius: var(--m-radius);
+  background-color: var(--_m-surface);
+  color: var(--_m-text);
+  line-height: var(--_m-leading-tight);
+  appearance: none;
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--_m-duration);
+  transition-timing-function: var(--_m-ease);
+
+  :where(label) > &,
+  :where(label) + & {
+    margin-block-start: var(--_m-space-1);
+  }
+
+  &:where(:focus-visible) {
+    /* Transparent outlines become visible in forced-colors mode, where box-shadow is dropped. */
+    outline: 2px solid transparent;
+    border-color: var(--_m-primary);
+    box-shadow:
+      0 0 0 1px var(--_m-primary),
+      0 0 0 4px var(--_m-primary-subtle);
+  }
+
+  &:where(:user-invalid) {
+    border-color: var(--_m-danger);
+  }
+
+  &:where(:user-invalid:focus-visible) {
+    box-shadow:
+      0 0 0 1px var(--_m-danger),
+      0 0 0 4px color-mix(in oklch, var(--_m-danger), transparent 80%);
+  }
+
+  &::placeholder {
+    color: var(--_m-text-muted);
+    opacity: 1;
+  }
+
+  &:where(:disabled) {
+    background-color: var(--_m-surface-raised);
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+:where(textarea) {
+  line-height: var(--_m-leading);
+  resize: vertical;
+}
+
+/* Two right triangles drawn in currentColor form a down-pointing arrow that follows the theme. */
+:where(select:not([multiple], [size])) {
+  padding-inline-end: var(--_m-space-8);
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - var(--_m-space-3) - 0.6em) 50%,
+    calc(100% - var(--_m-space-3) - 0.3em) 50%;
+  background-size: 0.3em 0.3em;
+  background-repeat: no-repeat;
+}
+
+:where(input:is([type="checkbox"], [type="radio"])) {
+  display: inline-grid;
+  place-content: center;
+  inline-size: 1.125em;
+  block-size: 1.125em;
+  margin-inline-end: var(--_m-space-2);
+  vertical-align: -0.2em;
+  border: 1px solid var(--_m-control-border);
+  border-radius: 0.25em;
+  background-color: var(--_m-surface);
+  appearance: none;
+  cursor: pointer;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: var(--_m-duration);
+  transition-timing-function: var(--_m-ease);
+
+  &::before {
+    content: "";
+    inline-size: 0.625em;
+    block-size: 0.625em;
+    background-color: var(--_m-on-primary);
+    scale: 0;
+    transition: scale var(--_m-duration) var(--_m-ease);
+  }
+
+  &:where(:checked) {
+    border-color: var(--_m-primary);
+    background-color: var(--_m-primary);
+  }
+
+  &:where(:checked)::before {
+    scale: 1;
+  }
+
+  &:where(:focus-visible) {
+    outline: 2px solid transparent;
+    box-shadow:
+      0 0 0 2px var(--_m-surface),
+      0 0 0 4px var(--_m-primary);
+  }
+
+  &:where(:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+:where(input[type="checkbox"])::before {
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+/* Only checkboxes: a radio is also :indeterminate whenever no radio in its group is checked. */
+:where(input[type="checkbox"]:indeterminate) {
+  border-color: var(--_m-primary);
+  background-color: var(--_m-primary);
+
+  &::before {
+    block-size: 0.125em;
+    clip-path: none;
+    scale: 1;
+  }
+}
+
+:where(input[type="radio"]) {
+  border-radius: 50%;
+
+  &::before {
+    inline-size: 0.5em;
+    block-size: 0.5em;
+    border-radius: 50%;
+  }
+}
+
+:where(input[type="range"]) {
+  inline-size: 100%;
+  accent-color: var(--_m-primary);
+}
+
+:where(input[type="color"]) {
+  inline-size: 3rem;
+  block-size: 2.25rem;
+  padding: 2px;
+  border: 1px solid var(--_m-control-border);
+  border-radius: var(--m-radius);
+  background-color: var(--_m-surface);
+  cursor: pointer;
+}
+
+:where(input[type="color"])::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+:where(input[type="color"])::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--m-radius) - 2px);
+}
+
+:where(input[type="color"])::-moz-color-swatch {
+  border: 0;
+  border-radius: calc(var(--m-radius) - 2px);
+}
+
+:where(input[type="file"]) {
+  inline-size: 100%;
+}
+
+:where(label) > :where(input:is([type="range"], [type="color"], [type="file"])) {
+  display: block;
+  margin-block-start: var(--_m-space-1);
+}

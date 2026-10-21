@@ -1,0 +1,60 @@
+:where(button, input:is([type="submit"], [type="reset"], [type="button"])) {
+  display: inline-block;
+  padding: var(--_m-space-2) var(--_m-space-4);
+  border: 1px solid var(--_m-primary);
+  border-radius: var(--m-radius);
+  background-color: var(--_m-primary);
+  color: var(--_m-on-primary);
+  font-weight: 600;
+  line-height: var(--_m-leading-tight);
+  text-align: center;
+  cursor: pointer;
+  transition-property: background-color, border-color, color, box-shadow, scale;
+  transition-duration: var(--_m-duration);
+  transition-timing-function: var(--_m-ease);
+
+  &:where(:hover:not(:disabled)) {
+    border-color: var(--_m-primary-hover);
+    background-color: var(--_m-primary-hover);
+  }
+
+  &:where(:active:not(:disabled)) {
+    scale: 0.98;
+  }
+
+  &:where(:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  & + & {
+    margin-inline-start: var(--_m-space-2);
+  }
+
+  :where(label, input, select, textarea, fieldset) + & {
+    margin-block-start: var(--_m-space-4);
+  }
+}
+
+:where(button, input):where([type="reset"], [formnovalidate]),
+:where(input[type="file"])::file-selector-button {
+  border-color: var(--_m-control-border);
+  background-color: transparent;
+  color: var(--_m-text);
+}
+
+:where(button, input):where([type="reset"], [formnovalidate]):where(:hover:not(:disabled)),
+:where(input[type="file"]:hover)::file-selector-button {
+  border-color: var(--_m-control-border);
+  background-color: var(--_m-tint);
+}
+
+:where(input[type="file"])::file-selector-button {
+  margin-inline-end: var(--_m-space-3);
+  padding: var(--_m-space-2) var(--_m-space-4);
+  border: 1px solid var(--_m-control-border);
+  border-radius: var(--m-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--_m-duration) var(--_m-ease);
+}

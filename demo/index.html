@@ -225,15 +225,107 @@
       </section>
       <section id="forms">
         <h2>Forms</h2>
+        <form action="#forms">
+          <label>
+            Name
+            <input name="name" placeholder="Ada Lovelace" autocomplete="name">
+          </label>
+          <label>
+            Email (required, invalid after you interact)
+            <input name="email" type="email" required placeholder="ada@example.com" autocomplete="email">
+          </label>
+          <label for="demo-password">Password (label before the input)</label>
+          <input id="demo-password" name="password" type="password" autocomplete="new-password">
+          <label>
+            Quantity
+            <input name="quantity" type="number" min="1" value="1">
+          </label>
+          <label>
+            Date
+            <input name="date" type="date">
+          </label>
+          <label>
+            Plan
+            <select name="plan">
+              <option>Free</option>
+              <option>Pro</option>
+              <option>Team</option>
+            </select>
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="3" placeholder="Write something…"></textarea>
+          </label>
+          <label>
+            Disabled
+            <input name="disabled" value="Can't edit this" disabled>
+          </label>
+          <label>
+            Volume
+            <input name="volume" type="range" value="60">
+          </label>
+          <label>
+            Color
+            <input name="color" type="color" value="#2f6fde">
+          </label>
+          <label>
+            Attachment
+            <input name="attachment" type="file">
+          </label>
+          <fieldset>
+            <legend>Notifications</legend>
+            <label><input name="email-notify" type="checkbox" checked> Email</label>
+            <label><input name="sms-notify" type="checkbox"> SMS</label>
+            <label><input name="all-notify" type="checkbox" data-indeterminate> Some channels (indeterminate)</label>
+            <label><input name="push-notify" type="checkbox" disabled> Push (disabled)</label>
+          </fieldset>
+          <fieldset>
+            <legend>Frequency</legend>
+            <label><input name="frequency" type="radio" value="daily" checked> Daily</label>
+            <label><input name="frequency" type="radio" value="weekly"> Weekly</label>
+            <label><input name="frequency" type="radio" value="never"> Never</label>
+          </fieldset>
+          <button>Submit</button>
+          <button type="reset">Reset</button>
+        </form>
       </section>
       <section id="buttons">
         <h2>Buttons</h2>
+        <p>
+          <button type="button">Primary</button>
+          <button type="submit" form="none" formnovalidate>Secondary</button>
+          <button type="button" disabled>Disabled</button>
+          <button type="button" aria-busy="true">Saving</button>
+          <input type="button" value="Input button">
+        </p>
       </section>
       <section id="details">
         <h2>Details</h2>
+        <details>
+          <summary>What is a classless framework?</summary>
+          <p>It styles plain HTML elements directly, so you write semantic markup without adding classes.</p>
+        </details>
+        <details open>
+          <summary>Does it support dark mode?</summary>
+          <p>Yes. It follows the system setting, and <code>data-theme</code> overrides it for the page or any section.</p>
+        </details>
       </section>
       <section id="dialog">
         <h2>Dialog and popover</h2>
+        <p>
+          <button type="button" id="open-dialog">Open dialog</button>
+          <button type="button" popovertarget="demo-popover">Toggle popover</button>
+        </p>
+        <dialog id="demo-dialog" aria-labelledby="demo-dialog-title">
+          <h3 id="demo-dialog-title">Dialog title</h3>
+          <p>A modal dialog on the overlay surface with a blurred backdrop.</p>
+          <form method="dialog">
+            <button>Close</button>
+          </form>
+        </dialog>
+        <div id="demo-popover" popover>
+          <p>A popover opened with <code>popovertarget</code>, no JavaScript needed.</p>
+        </div>
       </section>
       <section id="media">
         <h2>Media</h2>
@@ -255,6 +347,16 @@
       </section>
       <section id="progress">
         <h2>Progress and meter</h2>
+        <label>
+          Upload progress
+          <progress value="40" max="100">40%</progress>
+        </label>
+        <label>
+          Loading (indeterminate)
+          <progress>Loading…</progress>
+        </label>
+        <p>Disk usage <meter value="0.7" low="0.5" high="0.8" optimum="0.2">70%</meter></p>
+        <p aria-busy="true">Fetching the latest results</p>
       </section>
     </main>
 
@@ -298,10 +400,16 @@
         showMotion();
       });
       matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", showMotion);
+
+      for (const checkbox of document.querySelectorAll("[data-indeterminate]")) {
+        checkbox.indeterminate = true;
+      }
+      const dialog = document.getElementById("demo-dialog");
+      document.getElementById("open-dialog").addEventListener("click", () => dialog.showModal());
       showMotion();
 
       const tokenGroups = {
-        Colors: ["surface", "surface-raised", "border", "text", "text-muted", "danger", "primary", "primary-hover", "primary-subtle", "on-primary"],
+        Colors: ["surface", "surface-raised", "surface-overlay", "border", "control-border", "text", "text-muted", "tint", "danger", "primary", "primary-hover", "primary-subtle", "on-primary"],
         Spacing: ["space-1", "space-2", "space-3", "space-4", "space-6", "space-8", "space-12"],
         Type: ["text-sm", "text-base", "text-lg", "text-xl", "text-2xl", "text-3xl", "text-4xl", "text-h1", "text-h2", "text-h3"],
       };

@@ -1,0 +1,56 @@
+:where(progress) {
+  display: block;
+  inline-size: 100%;
+  block-size: 0.5rem;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background-color: var(--_m-tint);
+  appearance: none;
+}
+
+:where(progress)::-webkit-progress-bar {
+  background-color: transparent;
+}
+
+:where(progress)::-webkit-progress-value {
+  border-radius: inherit;
+  background-color: var(--_m-primary);
+}
+
+:where(progress)::-moz-progress-bar {
+  border-radius: inherit;
+  background-color: var(--_m-primary);
+}
+
+:where(progress:indeterminate) {
+  background-image: linear-gradient(var(--_m-primary), var(--_m-primary));
+  background-size: 30% 100%;
+  background-repeat: no-repeat;
+  animation: var(--_m-slide);
+}
+
+:where(progress:indeterminate)::-moz-progress-bar {
+  background-color: transparent;
+}
+
+:where(meter) {
+  vertical-align: middle;
+}
+
+:where([aria-busy="true"]) {
+  cursor: progress;
+}
+
+:where([aria-busy="true"])::before {
+  content: "";
+  display: inline-block;
+  inline-size: 1em;
+  block-size: 1em;
+  margin-inline-end: 0.5em;
+  vertical-align: -0.15em;
+  border: 0.15em solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: var(--_m-spin);
+}

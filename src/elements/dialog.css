@@ -1,0 +1,64 @@
+:where(dialog, [popover]) {
+  max-inline-size: min(var(--m-measure), calc(100vw - 2 * var(--_m-space-4)));
+  padding: var(--_m-space-6);
+  border: 1px solid var(--_m-border);
+  border-radius: calc(var(--m-radius) * 1.5);
+  background-color: var(--_m-surface-overlay);
+  color: var(--_m-text);
+  box-shadow:
+    0 2px 6px -2px oklch(0% 0 0 / 0.15),
+    0 12px 32px -8px oklch(0% 0 0 / 0.3);
+  opacity: 0;
+  transition:
+    opacity var(--_m-duration-slow) var(--_m-ease),
+    scale var(--_m-duration-slow) var(--_m-ease),
+    translate var(--_m-duration-slow) var(--_m-ease),
+    display var(--_m-duration-slow) allow-discrete,
+    overlay var(--_m-duration-slow) allow-discrete;
+}
+
+:where(dialog) {
+  scale: 0.96;
+}
+
+:where([popover]) {
+  translate: 0 var(--_m-space-2);
+}
+
+:where(dialog[open], [popover]:popover-open) {
+  opacity: 1;
+  scale: 1;
+  translate: 0;
+}
+
+@starting-style {
+  :where(dialog[open]) {
+    opacity: 0;
+    scale: 0.96;
+  }
+
+  :where([popover]:popover-open) {
+    opacity: 0;
+    translate: 0 var(--_m-space-2);
+  }
+}
+
+:where(dialog)::backdrop {
+  background-color: oklch(0% 0 0 / 0.4);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition:
+    opacity var(--_m-duration-slow) var(--_m-ease),
+    display var(--_m-duration-slow) allow-discrete,
+    overlay var(--_m-duration-slow) allow-discrete;
+}
+
+:where(dialog[open])::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  :where(dialog[open])::backdrop {
+    opacity: 0;
+  }
+}

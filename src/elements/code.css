@@ -7,7 +7,7 @@
 :where(code, kbd, samp) {
   padding: 0.1em 0.3em;
   border-radius: calc(var(--m-radius) / 2);
-  background-color: color-mix(in oklch, var(--_m-text), transparent 92%);
+  background-color: var(--_m-tint);
 }
 
 :where(kbd) {

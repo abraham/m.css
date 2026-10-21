@@ -1,0 +1,39 @@
+:where(details) {
+  padding-inline: var(--_m-space-4);
+  border: 1px solid var(--_m-border);
+  border-radius: var(--m-radius);
+}
+
+:where(details[open]) {
+  padding-block-end: var(--_m-space-4);
+}
+
+:where(summary) {
+  padding-block: var(--_m-space-3);
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  /* A bordered square rotated into a chevron; ::marker can't be transformed. */
+  &::before {
+    content: "";
+    display: inline-block;
+    inline-size: 0.45em;
+    block-size: 0.45em;
+    margin-inline: 0.1em 0.6em;
+    vertical-align: 0.15em;
+    border-style: solid;
+    border-color: var(--_m-text-muted);
+    border-width: 0 2px 2px 0;
+    rotate: -45deg;
+    transition: rotate var(--_m-duration) var(--_m-ease);
+  }
+}
+
+:where(details[open]) > :where(summary)::before {
+  rotate: 45deg;
+}

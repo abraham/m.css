@@ -3,13 +3,18 @@
   --_m-duration-slow: 250ms;
   --_m-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --_m-scroll-behavior: smooth;
+  --_m-spin: m-spin 0.8s linear infinite;
+  --_m-slide: m-slide 1.2s ease-in-out infinite;
 }
 
+/* Loops still signal "in progress" under reduced motion, so they pulse instead of stopping. */
 @media (prefers-reduced-motion: reduce) {
   :where(:root) {
     --_m-duration: 0s;
     --_m-duration-slow: 0s;
     --_m-scroll-behavior: auto;
+    --_m-spin: m-pulse 2s ease-in-out infinite;
+    --_m-slide: m-pulse 2s ease-in-out infinite;
   }
 }
 
@@ -17,4 +22,29 @@
   --_m-duration: 0s;
   --_m-duration-slow: 0s;
   --_m-scroll-behavior: auto;
+  --_m-spin: m-pulse 2s ease-in-out infinite;
+  --_m-slide: m-pulse 2s ease-in-out infinite;
+}
+
+@keyframes m-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+/* Sweeps a 30%-wide background segment from fully off the start edge to fully off the end edge. */
+@keyframes m-slide {
+  from {
+    background-position: -43% 0;
+  }
+
+  to {
+    background-position: 143% 0;
+  }
+}
+
+@keyframes m-pulse {
+  50% {
+    opacity: 0.4;
+  }
 }

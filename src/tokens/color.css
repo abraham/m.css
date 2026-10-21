@@ -3,9 +3,13 @@
 
   --_m-surface: light-dark(oklch(100% 0 0), oklch(18% 0.006 260));
   --_m-surface-raised: light-dark(oklch(97% 0.004 260), oklch(23% 0.008 260));
+  --_m-surface-overlay: light-dark(oklch(100% 0 0), oklch(24% 0.008 260));
   --_m-border: light-dark(oklch(89% 0.006 260), oklch(34% 0.01 260));
+  /* At least 3:1 against the surface, as WCAG 1.4.11 requires for control boundaries. */
+  --_m-control-border: light-dark(oklch(62% 0.01 260), oklch(56% 0.01 260));
   --_m-text: light-dark(oklch(22% 0.012 260), oklch(93% 0.006 260));
   --_m-text-muted: light-dark(oklch(48% 0.012 260), oklch(72% 0.01 260));
+  --_m-tint: color-mix(in oklch, var(--_m-text), transparent 92%);
   --_m-danger: light-dark(oklch(53% 0.2 27), oklch(70% 0.17 27));
 }
 
