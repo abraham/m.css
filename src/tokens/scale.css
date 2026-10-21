@@ -25,11 +25,16 @@
   --_m-leading-tight: calc(1.05 + 0.15 * var(--m-density));
 }
 
-/* Height of the sticky top nav (one unwrapped line), which other sticky and scrolled-to content must clear. */
+/* Height of one sticky header bar (one unwrapped line); the offset is what other sticky and scrolled-to content must clear. */
 :where(:root) {
+  --_m-bar-size: calc(2 * var(--_m-space-3) + var(--_m-text-base) * var(--_m-leading));
   --_m-sticky-offset: 0px;
 }
 
 :where(:root:has(> body > header > nav)) {
-  --_m-sticky-offset: calc(2 * var(--_m-space-3) + var(--_m-text-base) * var(--_m-leading));
+  --_m-sticky-offset: var(--_m-bar-size);
+}
+
+:where(:root:has(> body > header > nav + nav)) {
+  --_m-sticky-offset: calc(2 * var(--_m-bar-size));
 }
