@@ -23,6 +23,7 @@
 @import "./elements/media.css" layer(m.elements);
 @import "./elements/progress.css" layer(m.elements);
 @import "./elements/layout.css" layer(m.elements);
+@import "./elements/article.css" layer(m.elements);
 
 @import "./a11y/focus.css" layer(m.a11y);
 @import "./a11y/forced-colors.css" layer(m.a11y);

@@ -1,0 +1,46 @@
+/* A long-form page's lone article stays plain text; every other article is a card. */
+:where(article):where(:not(main > article:only-child)) {
+  overflow: clip;
+  padding: var(--_m-space-6);
+  border: 1px solid var(--_m-border);
+  border-radius: calc(var(--m-radius) * 1.5);
+  background-color: var(--_m-surface-overlay);
+
+  > :where(header, footer) {
+    margin-inline: calc(-1 * var(--_m-space-6));
+    padding: var(--_m-space-4) var(--_m-space-6);
+    background-color: color-mix(in oklch, var(--_m-text), transparent 96%);
+  }
+
+  > :where(header:first-child) {
+    margin-block: calc(-1 * var(--_m-space-6)) var(--_m-space-6);
+    border-block-end: 1px solid var(--_m-border);
+  }
+
+  > :where(footer:last-child) {
+    margin-block: var(--_m-space-6) calc(-1 * var(--_m-space-6));
+    border-block-start: 1px solid var(--_m-border);
+  }
+}
+
+/* A container holding only articles becomes an auto-fitting grid of equal-height cards. */
+:where(div, section):where(:has(> article + article):not(:has(> :not(article)))) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: var(--_m-space-4);
+  margin-block-end: var(--_m-space-8);
+
+  &:where(:last-child) {
+    margin-block-end: 0;
+  }
+
+  > :where(article) {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+
+    > :where(footer:last-child) {
+      margin-block-start: auto;
+    }
+  }
+}
