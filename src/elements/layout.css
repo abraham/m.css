@@ -1,0 +1,53 @@
+:where(body > header) {
+  padding-block-end: var(--_m-space-6);
+  border-block-end: 1px solid var(--_m-border);
+}
+
+:where(body > footer) {
+  margin-block-start: var(--_m-space-12);
+  padding-block-start: var(--_m-space-6);
+  border-block-start: 1px solid var(--_m-border);
+  font-size: var(--_m-text-sm);
+  color: var(--_m-text-muted);
+}
+
+:where(nav) :where(ul, ol, menu) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--_m-space-2) var(--_m-space-4);
+  padding: 0;
+  list-style: none;
+}
+
+:where(nav li) {
+  margin: 0;
+}
+
+:where(nav a) {
+  color: inherit;
+  text-decoration-color: transparent;
+}
+
+:where(nav a:hover, nav a[aria-current="page"]) {
+  color: var(--_m-primary);
+}
+
+:where(nav a[aria-current="page"]) {
+  font-weight: 600;
+}
+
+:where(aside) {
+  padding: var(--_m-space-4);
+  border-radius: var(--m-radius);
+  background-color: var(--_m-surface-raised);
+}
+
+:where(address) {
+  font-style: normal;
+}
+
+:where(hr) {
+  margin-block: var(--_m-space-8);
+  border: 0;
+  border-block-start: 1px solid var(--_m-border);
+}

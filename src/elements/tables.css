@@ -1,0 +1,54 @@
+/* separate, not collapse: borders on sticky cells scroll away under border-collapse. */
+:where(table) {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(caption) {
+  padding-block-end: var(--_m-space-2);
+  font-size: var(--_m-text-sm);
+  color: var(--_m-text-muted);
+  text-align: start;
+}
+
+:where(th, td) {
+  padding: var(--_m-space-2) var(--_m-space-3);
+  border-block-end: 1px solid var(--_m-border);
+  text-align: start;
+  vertical-align: top;
+}
+
+:where(th) {
+  font-weight: 600;
+}
+
+:where(thead th) {
+  position: sticky;
+  inset-block-start: 0;
+  border-block-end-width: 2px;
+  background-color: var(--_m-surface);
+}
+
+:where(tbody tr) {
+  transition: background-color var(--_m-duration) var(--_m-ease);
+}
+
+:where(tbody tr:nth-child(even)) {
+  background-color: color-mix(in oklch, var(--_m-surface-raised), transparent 40%);
+}
+
+:where(tbody tr:hover) {
+  background-color: var(--_m-primary-subtle);
+}
+
+:where(tfoot) :where(th, td) {
+  border-block-end: 0;
+  font-weight: 600;
+}
+
+/* Wrap a wide table in a figure to scroll it sideways; the header then no longer sticks to the page. */
+:where(figure:has(> table)) {
+  overflow-x: auto;
+}

@@ -1,0 +1,43 @@
+:where(ul, ol) {
+  padding-inline-start: var(--_m-space-6);
+}
+
+:where(ol) {
+  font-variant-numeric: tabular-nums;
+}
+
+:where(li)::marker {
+  color: var(--_m-text-muted);
+}
+
+:where(li + li) {
+  margin-block-start: var(--_m-space-1);
+}
+
+:where(li) > :where(ul, ol) {
+  margin-block: var(--_m-space-1) 0;
+}
+
+:where(menu) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--_m-space-2);
+  padding: 0;
+  list-style: none;
+}
+
+:where(menu > li) {
+  margin: 0;
+}
+
+:where(dt) {
+  font-weight: 600;
+}
+
+:where(dd) {
+  margin-inline-start: var(--_m-space-4);
+}
+
+:where(dd + dt) {
+  margin-block-start: var(--_m-space-3);
+}

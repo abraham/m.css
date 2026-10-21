@@ -34,6 +34,18 @@
     <header>
       <h1>m.css</h1>
       <p>Every element <code>m.css</code> styles, with no classes.</p>
+      <nav aria-label="Sections">
+        <ul>
+          <li><a href="#top" aria-current="page">Kitchen sink</a></li>
+          <li><a href="#tokens">Tokens</a></li>
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#lists">Lists</a></li>
+          <li><a href="#code">Code</a></li>
+          <li><a href="#tables">Tables</a></li>
+          <li><a href="#media">Media</a></li>
+          <li><a href="#layout">Layout</a></li>
+        </ul>
+      </nav>
       <form id="controls">
         <fieldset>
           <legend>Demo settings</legend>
@@ -110,18 +122,106 @@
       </section>
       <section id="links">
         <h2>Links</h2>
+        <p>
+          Links use the primary color with a soft underline that thickens on hover, like
+          <a href="#links">this link to the current section</a>. A link can also wrap across lines when it sits inside a
+          long sentence, <a href="#lists">such as this longer link that points to the lists section further down</a>.
+        </p>
       </section>
       <section id="lists">
         <h2>Lists</h2>
+        <ul>
+          <li>Unordered list item</li>
+          <li>
+            Item with a nested list
+            <ul>
+              <li>Nested item one</li>
+              <li>Nested item two</li>
+            </ul>
+          </li>
+          <li>Last unordered item</li>
+        </ul>
+        <ol>
+          <li>First step</li>
+          <li>Second step</li>
+          <li>Third step</li>
+        </ol>
+        <dl>
+          <dt>Density</dt>
+          <dd>Scales every spacing token.</dd>
+          <dt>Primary</dt>
+          <dd>The single accent color every interactive state derives from.</dd>
+        </dl>
+        <menu>
+          <li><a href="#lists">Menu item</a></li>
+          <li><a href="#lists">Another item</a></li>
+          <li><a href="#lists">Third item</a></li>
+        </menu>
       </section>
       <section id="quotes">
         <h2>Quotes and figures</h2>
+        <figure>
+          <blockquote>
+            <p>Simplicity is prerequisite for reliability.</p>
+          </blockquote>
+          <figcaption>— <cite>Edsger W. Dijkstra</cite></figcaption>
+        </figure>
+        <p>An inline quote reads like <q>this short quoted phrase</q> within a sentence.</p>
       </section>
       <section id="code">
         <h2>Code</h2>
+        <p>
+          Inline <code>code</code>, keyboard input like <kbd>Ctrl</kbd> + <kbd>C</kbd>, sample output
+          <samp>Build succeeded</samp>, and a variable <var>x</var>.
+        </p>
+        <pre><code>:root {
+  --m-primary: oklch(55% 0.2 260);
+  --m-density: 1;
+}
+
+/* A long line to show horizontal scrolling inside the pre block without wrapping the text at all. */</code></pre>
       </section>
       <section id="tables">
         <h2>Tables</h2>
+        <table>
+          <caption>Public custom properties</caption>
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Default</th>
+              <th scope="col">Unit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--m-density</code></td>
+              <td>1</td>
+              <td>number</td>
+            </tr>
+            <tr>
+              <td><code>--m-radius</code></td>
+              <td>0.5</td>
+              <td>rem</td>
+            </tr>
+            <tr>
+              <td><code>--m-font-size</code></td>
+              <td>1</td>
+              <td>rem</td>
+            </tr>
+            <tr>
+              <td><code>--m-measure</code></td>
+              <td>70</td>
+              <td>ch</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Total</th>
+              <td>4</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
       </section>
       <section id="forms">
         <h2>Forms</h2>
@@ -137,6 +237,21 @@
       </section>
       <section id="media">
         <h2>Media</h2>
+        <figure>
+          <img src="landscape.svg" alt="Illustrated mountains under a pale blue sky" width="1200" height="600">
+          <figcaption>An image scales down to the column and keeps its aspect ratio.</figcaption>
+        </figure>
+      </section>
+      <section id="layout">
+        <h2>Layout</h2>
+        <aside>
+          <p>An <code>aside</code> renders as a callout on a raised surface.</p>
+        </aside>
+        <hr>
+        <address>
+          m.css<br>
+          <a href="mailto:hello@example.com">hello@example.com</a>
+        </address>
       </section>
       <section id="progress">
         <h2>Progress and meter</h2>

@@ -1,0 +1,32 @@
+:where(code, kbd, samp, pre) {
+  font-family: var(--m-font-mono);
+  font-size: 0.875em;
+}
+
+/* A translucent tint stays visible on every surface, including pre, aside, and zebra rows. */
+:where(code, kbd, samp) {
+  padding: 0.1em 0.3em;
+  border-radius: calc(var(--m-radius) / 2);
+  background-color: color-mix(in oklch, var(--_m-text), transparent 92%);
+}
+
+:where(kbd) {
+  border: 1px solid var(--_m-border);
+  border-block-end-width: 2px;
+}
+
+:where(pre) {
+  padding: var(--_m-space-4);
+  overflow-x: auto;
+  border-radius: var(--m-radius);
+  background-color: var(--_m-surface-raised);
+  line-height: 1.5;
+  tab-size: 2;
+}
+
+:where(pre) :where(code, samp) {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: inherit;
+}

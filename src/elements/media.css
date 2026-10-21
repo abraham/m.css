@@ -1,0 +1,24 @@
+:where(img, video, canvas, iframe, svg) {
+  max-inline-size: 100%;
+}
+
+:where(img, video, canvas) {
+  block-size: auto;
+}
+
+:where(img, video) {
+  border-radius: var(--m-radius);
+}
+
+:where(iframe) {
+  border: 1px solid var(--_m-border);
+  border-radius: var(--m-radius);
+}
+
+:where(audio) {
+  inline-size: 100%;
+}
+
+:where(figure > img, figure > video, figure > iframe, figure > canvas, figure > svg, figure > picture > img) {
+  display: block;
+}

@@ -1,0 +1,16 @@
+:where(a) {
+  color: var(--_m-primary);
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in oklch, currentColor, transparent 60%);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition-property: color, text-decoration-color, text-decoration-thickness;
+  transition-duration: var(--_m-duration);
+  transition-timing-function: var(--_m-ease);
+}
+
+:where(a:hover) {
+  color: var(--_m-primary-hover);
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
