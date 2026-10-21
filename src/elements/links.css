@@ -2,7 +2,7 @@
   color: var(--_m-primary);
   text-decoration-line: underline;
   text-decoration-color: color-mix(in oklch, currentcolor, transparent 60%);
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: from-font;
   text-underline-offset: 0.2em;
   transition-property: color, text-decoration-color, text-decoration-thickness;
   transition-duration: var(--_m-duration);
@@ -13,4 +13,8 @@
   color: var(--_m-primary-hover);
   text-decoration-color: currentcolor;
   text-decoration-thickness: 2px;
+}
+
+:where(h1, h2, h3, h4, h5, h6) :where(a:not([role="button"])) {
+  color: inherit;
 }

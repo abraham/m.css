@@ -97,6 +97,18 @@
   cursor: help;
 }
 
+:where(ins) {
+  color: var(--_m-success);
+}
+
+:where(del) {
+  color: var(--_m-danger);
+}
+
+:where(time, data, output) {
+  font-variant-numeric: tabular-nums;
+}
+
 /* Keep sub and sup from stretching the line box. */
 :where(sub, sup) {
   position: relative;
