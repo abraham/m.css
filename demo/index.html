@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>m.css kitchen sink</title>
+    <link rel="stylesheet" href="../dist/m.css">
+  </head>
+  <body>
+    <header>
+      <h1>m.css</h1>
+      <p>Every element <code>m.css</code> styles, with no classes.</p>
+      <form id="controls">
+        <fieldset>
+          <legend>Demo settings</legend>
+          <label>
+            Theme
+            <select name="theme">
+              <option value="">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+          <label>
+            Density
+            <input name="density" type="range" min="0.75" max="1.25" step="0.25" value="1">
+          </label>
+          <label>
+            Primary
+            <input name="primary" type="color" value="#2f6fde">
+          </label>
+          <label>
+            <input name="motion" type="checkbox">
+            Reduce motion
+          </label>
+          <label>
+            <input name="scrollProgress" type="checkbox">
+            Scroll progress
+          </label>
+        </fieldset>
+      </form>
+    </header>
+
+    <main>
+      <section id="typography">
+        <h2>Typography</h2>
+      </section>
+      <section id="links">
+        <h2>Links</h2>
+      </section>
+      <section id="lists">
+        <h2>Lists</h2>
+      </section>
+      <section id="quotes">
+        <h2>Quotes and figures</h2>
+      </section>
+      <section id="code">
+        <h2>Code</h2>
+      </section>
+      <section id="tables">
+        <h2>Tables</h2>
+      </section>
+      <section id="forms">
+        <h2>Forms</h2>
+      </section>
+      <section id="buttons">
+        <h2>Buttons</h2>
+      </section>
+      <section id="details">
+        <h2>Details</h2>
+      </section>
+      <section id="dialog">
+        <h2>Dialog and popover</h2>
+      </section>
+      <section id="media">
+        <h2>Media</h2>
+      </section>
+      <section id="progress">
+        <h2>Progress and meter</h2>
+      </section>
+    </main>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+
+    <script type="module">
+      const root = document.documentElement;
+      const controls = document.getElementById("controls");
+
+      const setOrRemove = (name, value) =>
+        value ? root.setAttribute(name, value) : root.removeAttribute(name);
+
+      controls.addEventListener("input", () => {
+        const data = new FormData(controls);
+        setOrRemove("data-theme", data.get("theme"));
+        setOrRemove("data-motion", data.has("motion") && "reduce");
+        root.toggleAttribute("data-scroll-progress", data.has("scrollProgress"));
+        root.style.setProperty("--m-density", data.get("density"));
+        root.style.setProperty("--m-primary", data.get("primary"));
+      });
+    </script>
+  </body>
+</html>

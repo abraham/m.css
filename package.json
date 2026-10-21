@@ -1,0 +1,35 @@
+{
+  "name": "@abraham/m.css",
+  "version": "0.0.0",
+  "description": "A clean, modern classless CSS framework.",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "style": "dist/m.css",
+  "exports": {
+    ".": "./dist/m.css",
+    "./min": "./dist/m.min.css"
+  },
+  "jsdelivr": "dist/m.min.css",
+  "unpkg": "dist/m.min.css",
+  "publishConfig": {
+    "access": "public"
+  },
+  "browserslist": [
+    "last 2 Chrome major versions",
+    "last 2 Edge major versions",
+    "last 2 Firefox major versions",
+    "last 2 Safari major versions",
+    "last 2 iOS major versions"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "node scripts/dev.js",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "browserslist": "^4.29.4",
+    "lightningcss": "^1.33.0"
+  }
+}
