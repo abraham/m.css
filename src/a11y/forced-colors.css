@@ -61,6 +61,10 @@
     border: 1px solid CanvasText;
   }
 
+  :where(body > header > nav) {
+    border-block-end: 1px solid CanvasText;
+  }
+
   @supports not (appearance: base-select) {
     :where(select:not([multiple], [size])) {
       padding-inline-end: var(--_m-space-3);

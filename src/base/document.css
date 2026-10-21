@@ -2,6 +2,7 @@
   background-color: var(--_m-surface);
   color: var(--_m-text);
   scroll-behavior: var(--_m-scroll-behavior);
+  scroll-padding-block-start: var(--_m-sticky-offset);
 }
 
 /* font-size goes on body, not html, so rem stays the user's browser default. */

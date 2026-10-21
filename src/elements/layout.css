@@ -51,3 +51,126 @@
   border: 0;
   border-block-start: 1px solid var(--_m-border);
 }
+
+/* Removing the header's box makes body the nav's containing block, so the nav sticks for the whole page. */
+:where(body > header:has(> nav)) {
+  display: contents;
+
+  > :where(:last-child) {
+    margin-block-end: var(--_m-space-8);
+  }
+}
+
+:where(body > header > nav) {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  padding-block: var(--_m-space-3);
+  background-color: var(--_m-surface);
+  view-transition-name: m-top-nav;
+
+  /* body is a narrow column, so an outset border-image paints the full-bleed bar and its bottom rule. */
+  border-image: linear-gradient(to top, var(--_m-border) 1px, var(--_m-surface) 1px) fill 0 / 0 / 0 100vmax;
+}
+
+/* One scrolling row keeps the top bar's height equal to --_m-sticky-offset; the 4px inset keeps focus rings unclipped. */
+:where(body > header > nav, body > nav) :where(ul, ol, menu) {
+  flex-wrap: nowrap;
+  margin: -4px;
+  padding: 4px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+
+  > :where(li) {
+    flex: none;
+  }
+}
+
+/* A nav or aside next to main turns body into columns: nav | main | aside. */
+@media (width >= 64rem) {
+  :where(body:has(> nav, > aside)) {
+    display: grid;
+    grid-template-columns:
+      [full-start nav-start] fit-content(16rem)
+      [nav-end main-start] minmax(0, var(--m-measure))
+      [main-end aside-start] fit-content(16rem)
+      [aside-end full-end];
+    grid-auto-flow: row dense;
+    justify-content: center;
+    align-items: start;
+    max-inline-size: none;
+
+    > :where(*),
+    > :where(header:has(> nav)) > :where(*) {
+      grid-column: full;
+    }
+
+    > :where(main) {
+      grid-column: main;
+    }
+  }
+
+  :where(body > nav, body > aside) {
+    position: sticky;
+    inset-block-start: calc(var(--_m-sticky-offset) + var(--_m-space-4));
+    max-block-size: calc(100dvh - var(--_m-sticky-offset) - 2 * var(--_m-space-4));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  :where(body > nav) {
+    grid-column: nav;
+    margin-inline-end: var(--_m-space-8);
+    padding: 4px;
+
+    :where(ul, ol, menu) {
+      flex-direction: column;
+      gap: var(--_m-space-2);
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
+    :where(li) > :where(ul, ol, menu) {
+      margin-block-start: var(--_m-space-2);
+      padding-inline-start: var(--_m-space-3);
+    }
+  }
+
+  :where(body > aside) {
+    grid-column: aside;
+    margin-inline-start: var(--_m-space-8);
+    padding: 4px;
+    border-radius: 0;
+    background-color: transparent;
+    font-size: var(--_m-text-sm);
+  }
+}
+
+/* Chromium only: slide the top bar away while scrolling down and back while scrolling up. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (container-type: scroll-state) {
+    :where(:root:not([data-motion="reduce"]):has(> body > header > nav)) {
+      container-type: scroll-state;
+    }
+
+    :where(body > header > nav) {
+      transition: translate var(--_m-duration-slow) var(--_m-ease);
+    }
+
+    @container scroll-state(scrolled: bottom) {
+      /* Keyboard focus inside the bar keeps it visible (WCAG 2.4.11). */
+      :where(body > header > nav:not(:focus-within)) {
+        translate: 0 -100%;
+      }
+
+      :where(:root:not(:has(> body > header > nav:focus-within)) thead th) {
+        inset-block-start: 0;
+      }
+
+      :where(:root:not(:has(> body > header > nav:focus-within)) body > :is(nav, aside)) {
+        inset-block-start: var(--_m-space-4);
+      }
+    }
+  }
+}

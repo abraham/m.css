@@ -32,5 +32,14 @@ test.describe("visual", { tag: "@visual" }, () => {
       await page.goto("/demo/article.html");
       await expect(page).toHaveScreenshot(`article-${colorScheme}.png`, screenshot);
     });
+
+    for (const width of [1280, 600]) {
+      test(`docs layout, ${colorScheme}, ${width}px`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 720 });
+        await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
+        await page.goto("/demo/docs.html");
+        await expect(page).toHaveScreenshot(`docs-${colorScheme}-${width}.png`, screenshot);
+      });
+    }
   }
 });

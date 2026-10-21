@@ -26,7 +26,7 @@
 
 :where(thead th) {
   position: sticky;
-  inset-block-start: 0;
+  inset-block-start: var(--_m-sticky-offset);
   border-block-end-width: 2px;
   background-color: var(--_m-surface);
 }

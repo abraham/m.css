@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>m.css docs layout</title>
+    <link rel="stylesheet" href="../dist/m.css" />
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Pages">
+        <ul>
+          <li><a href="./">Kitchen sink</a></li>
+          <li><a href="article.html">Article page</a></li>
+          <li><a href="docs.html" aria-current="page">Docs layout</a></li>
+        </ul>
+      </nav>
+      <h1>Docs layout</h1>
+      <p>A sticky top bar, a sticky side nav, and an on-this-page rail, from plain semantic markup.</p>
+    </header>
+
+    <nav aria-label="Docs">
+      <ul>
+        <li>
+          Basics
+          <ul>
+            <li><a href="#getting-started">Getting started</a></li>
+            <li><a href="#install">Install</a></li>
+            <li><a href="#customize">Customize</a></li>
+            <li><a href="#layout">Layout</a></li>
+          </ul>
+        </li>
+        <li>
+          Theming
+          <ul>
+            <li><a href="#color">Color</a></li>
+            <li><a href="#density">Density</a></li>
+            <li><a href="#motion">Motion</a></li>
+          </ul>
+        </li>
+        <li>
+          Reference
+          <ul>
+            <li><a href="#properties">Properties</a></li>
+            <li><a href="#attributes">Attributes</a></li>
+            <li><a href="#browser-support">Browser support</a></li>
+            <li><a href="#accessibility">Accessibility</a></li>
+            <li><a href="#print">Print</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="getting-started">
+        <h2>Getting started</h2>
+        <p>
+          Link one stylesheet and write semantic HTML. Every element gets a clean, modern look without classes, and the
+          page follows the reader's light or dark preference.
+        </p>
+        <p>
+          This page shows the layout conventions: a <code>nav</code> inside the top-level <code>header</code> becomes a
+          sticky bar, a <code>nav</code> directly in <code>body</code> becomes a side nav, and an
+          <code>aside</code> directly in <code>body</code> becomes a rail on the other side.
+        </p>
+      </section>
+      <section id="install">
+        <h2>Install</h2>
+        <p>Use the CDN or install the package from npm and import it through your bundler.</p>
+        <pre tabindex="0"><code>npm install @abraham/m.css</code></pre>
+      </section>
+      <section id="customize">
+        <h2>Customize</h2>
+        <p>
+          Set the public custom properties on the root or on any element. Spacing, type, and colors all derive from
+          them, so a handful of values restyles the whole page.
+        </p>
+        <p>
+          Overrides never need <code>!important</code>, because every rule lives in a cascade layer with zero
+          specificity.
+        </p>
+      </section>
+      <section id="layout">
+        <h2>Layout</h2>
+        <p>
+          On wide screens the side nav and the rail sit next to the content and stick while it scrolls. A side nav
+          taller than the window scrolls on its own. On narrow screens everything stacks into one column, and the navs
+          become rows that scroll sideways.
+        </p>
+        <p>
+          The top bar always stays one line tall, so headings you jump to, focused links, and sticky table headers all
+          stop just below it.
+        </p>
+      </section>
+      <section id="color">
+        <h2>Color</h2>
+        <p>
+          One primary color drives links, buttons, focus rings, and form controls. Hover and subtle variants are mixed
+          from it, and dark mode lightens it automatically.
+        </p>
+        <p>Text on primary backgrounds picks black or white for contrast unless you set it yourself.</p>
+      </section>
+      <section id="density">
+        <h2>Density</h2>
+        <p>
+          Density multiplies every spacing step. Lower values suit dashboards and data-heavy pages; higher values suit
+          long-form reading.
+        </p>
+        <table>
+          <caption>
+            Density presets
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Value</th>
+              <th scope="col">Base spacing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Compact</td>
+              <td>0.75</td>
+              <td>12px</td>
+            </tr>
+            <tr>
+              <td>Default</td>
+              <td>1</td>
+              <td>16px</td>
+            </tr>
+            <tr>
+              <td>Comfortable</td>
+              <td>1.25</td>
+              <td>20px</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section id="motion">
+        <h2>Motion</h2>
+        <p>
+          Transitions are short and only use opacity, transforms, and color, except when the reader toggles something
+          like a disclosure. Reduced motion turns them all off.
+        </p>
+      </section>
+      <section id="properties">
+        <h2>Properties</h2>
+        <p>
+          Primary color, text color on primary, density, radius, sans and mono fonts, base font size, and measure are
+          the only public custom properties.
+        </p>
+      </section>
+      <section id="attributes">
+        <h2>Attributes</h2>
+        <p>
+          A few data attributes override preferences: a theme, reduced motion, and an opt-in scroll progress bar. ARIA
+          attributes such as busy and current page also get styles.
+        </p>
+      </section>
+      <section id="browser-support">
+        <h2>Browser support</h2>
+        <p>
+          The two latest major versions of each major browser. Newer features, such as hiding the top bar while
+          scrolling down, are enhancements that other browsers simply skip.
+        </p>
+      </section>
+      <section id="accessibility">
+        <h2>Accessibility</h2>
+        <p>
+          Colors meet WCAG AA in both schemes, focus rings are always visible, and forced-colors mode redraws custom
+          controls in system colors.
+        </p>
+      </section>
+      <section id="print">
+        <h2>Print</h2>
+        <p>Printing switches to light colors, drops backgrounds, unsticks bars, and prints link URLs.</p>
+      </section>
+      <section id="faq">
+        <h2>FAQ</h2>
+        <details>
+          <summary>Do I need a wrapper element for the sidebar layout?</summary>
+          <p>No. A <code>nav</code> or <code>aside</code> as a direct child of <code>body</code> is enough.</p>
+        </details>
+        <details>
+          <summary>Can I keep the header from sticking?</summary>
+          <p>Put the nav inside another element in the header, and only the header's own direct nav sticks.</p>
+        </details>
+      </section>
+    </main>
+
+    <aside aria-label="On this page">
+      <p><strong>On this page</strong></p>
+      <ul>
+        <li><a href="#getting-started">Getting started</a></li>
+        <li><a href="#layout">Layout</a></li>
+        <li><a href="#density">Density</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>
