@@ -47,6 +47,48 @@ test("aria-invalid colors the field border and its helper text", async ({ page }
   expect(plain.helper).not.toBe(invalid.helper);
 });
 
+test.describe("range", () => {
+  // Fill and thumb are vendor pseudo-elements that getComputedStyle can't read, so sample a screenshot's middle row.
+  const samples = async (page: Page) => {
+    const png = (await page.locator('input[name="volume"]').screenshot()).toString("base64");
+    return page.evaluate(async (data) => {
+      const image = await createImageBitmap(await (await fetch(`data:image/png;base64,${data}`)).blob());
+      const canvas = new OffscreenCanvas(image.width, image.height);
+      const context = canvas.getContext("2d")!;
+      context.drawImage(image, 0, 0);
+      const input = document.querySelector<HTMLInputElement>('input[name="volume"]')!;
+      const fraction = Number(input.value) / 100;
+      const ltr = getComputedStyle(input).direction === "ltr";
+      const thumbX = image.height / 2 + (image.width - image.height) * (ltr ? fraction : 1 - fraction);
+      const at = (x: number) => context.getImageData(Math.round(x), Math.round(image.height / 2), 1, 1).data;
+      const thumb = at(thumbX);
+      // Largest channel difference from the thumb; engines may round the fill and thumb colors differently.
+      const distance = (x: number) => Math.max(...at(x).map((channel, index) => Math.abs(channel - thumb[index])));
+      return { start: distance(image.width * 0.1), end: distance(image.width * 0.95) };
+    }, png);
+  };
+
+  test("the track fills from the start up to the thumb", async ({ page }) => {
+    const { start, end } = await samples(page);
+    expect(start).toBeLessThanOrEqual(4);
+    expect(end).toBeGreaterThan(32);
+  });
+
+  test("the fill starts from the right in right-to-left text", async ({ page }) => {
+    await page.locator('input[name="volume"]').evaluate((input) => input.setAttribute("dir", "rtl"));
+    const { start, end } = await samples(page);
+    expect(end).toBeLessThanOrEqual(4);
+    expect(start).toBeGreaterThan(32);
+  });
+
+  test("the fill and track stay distinct in forced-colors mode", async ({ page }) => {
+    await page.emulateMedia({ forcedColors: "active" });
+    const { start, end } = await samples(page);
+    expect(start).toBeLessThanOrEqual(4);
+    expect(end).toBeGreaterThan(32);
+  });
+});
+
 test.describe("buttons and groups", () => {
   test("a link with role=button looks like a button", async ({ page }) => {
     const [link, button] = await Promise.all(

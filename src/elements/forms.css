@@ -320,8 +320,75 @@
 }
 
 :where(input[type="range"]) {
+  --_m-range-thumb: 1.25rem;
+  --_m-range-track: 0.5rem;
+
   inline-size: 100%;
+  block-size: var(--_m-range-thumb);
+  overflow: hidden;
+  background-color: transparent;
   accent-color: var(--_m-primary);
+  appearance: none;
+  cursor: pointer;
+
+  &:where(:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &::-webkit-slider-runnable-track {
+    block-size: var(--_m-range-track);
+    border-radius: 999px;
+    background-color: var(--_m-tint);
+  }
+
+  &::-moz-range-track {
+    block-size: var(--_m-range-track);
+    border-radius: 999px;
+    background-color: var(--_m-tint);
+  }
+
+  &::-moz-range-progress {
+    block-size: var(--_m-range-track);
+    border-radius: 999px;
+    background-color: var(--_m-primary);
+  }
+
+  /* WebKit and Blink have no fill part, so the thumb paints one with a border-image outset that the input clips. */
+  &::-webkit-slider-thumb {
+    inline-size: var(--_m-range-thumb);
+    block-size: var(--_m-range-thumb);
+    margin-block-start: calc((var(--_m-range-track) - var(--_m-range-thumb)) / 2);
+    border-radius: 50%;
+    background-color: var(--_m-primary);
+    box-shadow: inset 0 0 0 2px var(--_m-surface);
+    appearance: none;
+    border-image: linear-gradient(90deg, var(--_m-primary) 50%, transparent 0) 0 1 /
+      calc(50% - var(--_m-range-track) / 2) 100vw / 0 100vw;
+    transition: background-color var(--_m-duration) var(--_m-ease);
+  }
+
+  &::-moz-range-thumb {
+    box-sizing: border-box;
+    inline-size: var(--_m-range-thumb);
+    block-size: var(--_m-range-thumb);
+    border: 2px solid var(--_m-surface);
+    border-radius: 50%;
+    background-color: var(--_m-primary);
+    transition: background-color var(--_m-duration) var(--_m-ease);
+  }
+
+  &:where(:dir(rtl))::-webkit-slider-thumb {
+    border-image-source: linear-gradient(-90deg, var(--_m-primary) 50%, transparent 0);
+  }
+
+  &:where(:hover:not(:disabled))::-webkit-slider-thumb {
+    background-color: var(--_m-primary-hover);
+  }
+
+  &:where(:hover:not(:disabled))::-moz-range-thumb {
+    background-color: var(--_m-primary-hover);
+  }
 }
 
 :where(input[type="color"]) {
