@@ -24,6 +24,21 @@
     background-color: Highlight;
   }
 
+  :where(input[type="checkbox"][role="switch"]) {
+    &::before {
+      background-color: CanvasText;
+    }
+
+    &:where(:checked)::before {
+      background-color: HighlightText;
+    }
+
+    &:where(:indeterminate:not(:checked)) {
+      border-color: CanvasText;
+      background-color: Canvas;
+    }
+  }
+
   :where(progress) {
     border: 1px solid CanvasText;
     background-color: Canvas;

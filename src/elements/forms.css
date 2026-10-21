@@ -60,14 +60,24 @@
       0 0 0 4px var(--_m-primary-subtle);
   }
 
-  &:where(:user-invalid) {
+  &:where(:user-invalid, [aria-invalid="true"]) {
     border-color: var(--_m-danger);
   }
 
-  &:where(:user-invalid:focus-visible) {
+  &:where(:user-invalid, [aria-invalid="true"]):where(:focus-visible) {
     box-shadow:
       0 0 0 1px var(--_m-danger),
       0 0 0 4px color-mix(in oklch, var(--_m-danger), transparent 80%);
+  }
+
+  &:where([aria-invalid="false"]) {
+    border-color: var(--_m-success);
+  }
+
+  &:where([aria-invalid="false"]:focus-visible) {
+    box-shadow:
+      0 0 0 1px var(--_m-success),
+      0 0 0 4px color-mix(in oklch, var(--_m-success), transparent 80%);
   }
 
   &::placeholder {
@@ -85,6 +95,21 @@
 :where(textarea) {
   line-height: var(--_m-leading);
   resize: vertical;
+}
+
+/* Helper text right after a field; pair it with aria-describedby so it is announced. */
+:where(input, select, textarea) + :where(small) {
+  display: block;
+  margin-block-start: var(--_m-space-1);
+  color: var(--_m-text-muted);
+}
+
+:where(:user-invalid, [aria-invalid="true"]) + :where(small) {
+  color: var(--_m-danger);
+}
+
+:where([aria-invalid="false"]) + :where(small) {
+  color: var(--_m-success);
 }
 
 /* Two right triangles drawn in currentColor form a down-pointing arrow that follows the theme. */
@@ -176,8 +201,11 @@
   place-content: center;
   inline-size: 1.125em;
   block-size: 1.125em;
+
+  /* Centered on the first line of text: top-aligned, then pushed down by half the leftover line height. */
+  margin-block-start: calc((1lh - 1.125em) / 2);
   margin-inline-end: var(--_m-space-2);
-  vertical-align: -0.2em;
+  vertical-align: top;
   border: 1px solid var(--_m-control-border);
   border-radius: 0.25em;
   background-color: var(--_m-surface);
@@ -216,6 +244,10 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  &:where([aria-invalid="true"]) {
+    border-color: var(--_m-danger);
+  }
 }
 
 :where(input[type="checkbox"])::before {
@@ -241,6 +273,49 @@
     inline-size: 0.5em;
     block-size: 0.5em;
     border-radius: 50%;
+  }
+}
+
+/* The thumb travels the track's content width minus its own width. */
+:where(input[type="checkbox"][role="switch"]) {
+  --_m-switch-travel: calc(2em - 2px - 0.25em - 0.75em);
+
+  inline-size: 2em;
+  padding-inline: 0.125em;
+  place-content: center start;
+  border-radius: 999px;
+  background-color: var(--_m-control-border);
+
+  &::before {
+    inline-size: 0.75em;
+    block-size: 0.75em;
+    border-radius: 50%;
+    clip-path: none;
+    background-color: var(--_m-surface);
+    scale: 1;
+    transition-property: translate, background-color;
+  }
+
+  &:where(:checked) {
+    background-color: var(--_m-primary);
+  }
+
+  &:where(:checked)::before {
+    background-color: var(--_m-on-primary);
+    translate: var(--_m-switch-travel) 0;
+  }
+
+  &:where(:checked:dir(rtl))::before {
+    translate: calc(-1 * var(--_m-switch-travel)) 0;
+  }
+
+  &:where(:indeterminate:not(:checked)) {
+    border-color: var(--_m-control-border);
+    background-color: var(--_m-control-border);
+
+    &::before {
+      block-size: 0.75em;
+    }
   }
 }
 

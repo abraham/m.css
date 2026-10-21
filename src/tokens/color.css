@@ -12,6 +12,7 @@
   --_m-text-muted: light-dark(oklch(48% 0.012 260deg), oklch(72% 0.01 260deg));
   --_m-tint: color-mix(in oklch, var(--_m-text), transparent 92%);
   --_m-danger: light-dark(oklch(53% 0.2 27deg), oklch(70% 0.17 27deg));
+  --_m-success: light-dark(oklch(50% 0.13 150deg), oklch(72% 0.15 150deg));
   --_m-shadow-overlay: 0 2px 6px -2px oklch(0% 0 0deg / 15%), 0 12px 32px -8px oklch(0% 0 0deg / 30%);
 }
 

@@ -270,7 +270,18 @@
         <form action="#forms">
           <label>
             Name
-            <input name="name" placeholder="Ada Lovelace" autocomplete="name" />
+            <input name="name" placeholder="Ada Lovelace" autocomplete="name" aria-describedby="name-help" />
+            <small id="name-help">As it should appear on your profile.</small>
+          </label>
+          <label>
+            Username (server says taken)
+            <input name="username" value="ada" aria-invalid="true" aria-describedby="username-help" />
+            <small id="username-help">That username is already taken.</small>
+          </label>
+          <label>
+            Handle (server says available)
+            <input name="handle" value="ada.lovelace" aria-invalid="false" aria-describedby="handle-help" />
+            <small id="handle-help">This handle is available.</small>
           </label>
           <label>
             Email (required, invalid after you interact)
@@ -326,6 +337,12 @@
             <label><input name="frequency" type="radio" value="daily" checked /> Daily</label>
             <label><input name="frequency" type="radio" value="weekly" /> Weekly</label>
             <label><input name="frequency" type="radio" value="never" /> Never</label>
+          </fieldset>
+          <fieldset>
+            <legend>Preferences</legend>
+            <label><input name="digest" type="checkbox" role="switch" checked /> Weekly digest</label>
+            <label><input name="beta" type="checkbox" role="switch" /> Beta features</label>
+            <label><input name="locked" type="checkbox" role="switch" disabled /> Locked (disabled)</label>
           </fieldset>
           <button>Submit</button>
           <button type="reset">Reset</button>
