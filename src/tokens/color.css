@@ -1,0 +1,32 @@
+:where(:root) {
+  color-scheme: light dark;
+
+  --_m-surface: light-dark(oklch(100% 0 0), oklch(18% 0.006 260));
+  --_m-surface-raised: light-dark(oklch(97% 0.004 260), oklch(23% 0.008 260));
+  --_m-border: light-dark(oklch(89% 0.006 260), oklch(34% 0.01 260));
+  --_m-text: light-dark(oklch(22% 0.012 260), oklch(93% 0.006 260));
+  --_m-text-muted: light-dark(oklch(48% 0.012 260), oklch(72% 0.01 260));
+  --_m-danger: light-dark(oklch(53% 0.2 27), oklch(70% 0.17 27));
+}
+
+:where([data-theme="light"]) {
+  color-scheme: light;
+}
+
+:where([data-theme="dark"]) {
+  color-scheme: dark;
+}
+
+/* Inherited colors are already resolved, so a themed subtree must re-resolve them against its own scheme. */
+:where([data-theme]) {
+  background-color: var(--_m-surface);
+  color: var(--_m-text);
+}
+
+/* Declared on every element so --m-primary and --m-on-primary can be overridden on any subtree. */
+:where(*) {
+  --_m-primary: light-dark(var(--m-primary), oklch(from var(--m-primary) calc(l + 0.1) c h));
+  --_m-primary-hover: color-mix(in oklch, var(--_m-primary), light-dark(black, white) 15%);
+  --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 85%);
+  --_m-on-primary: var(--m-on-primary, contrast-color(var(--_m-primary)));
+}

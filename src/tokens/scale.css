@@ -1,0 +1,26 @@
+/* Declared on every element so --m-density and --m-font-size can be overridden on any subtree. */
+:where(*) {
+  --_m-space-1: calc(var(--m-density) * 0.25rem);
+  --_m-space-2: calc(var(--m-density) * 0.5rem);
+  --_m-space-3: calc(var(--m-density) * 0.75rem);
+  --_m-space-4: calc(var(--m-density) * 1rem);
+  --_m-space-6: calc(var(--m-density) * 1.5rem);
+  --_m-space-8: calc(var(--m-density) * 2rem);
+  --_m-space-12: calc(var(--m-density) * 3rem);
+
+  --_m-text-sm: calc(var(--m-font-size) / 1.2);
+  --_m-text-base: var(--m-font-size);
+  --_m-text-lg: calc(var(--m-font-size) * 1.2);
+  --_m-text-xl: calc(var(--m-font-size) * pow(1.2, 2));
+  --_m-text-2xl: calc(var(--m-font-size) * pow(1.2, 3));
+  --_m-text-3xl: calc(var(--m-font-size) * pow(1.2, 4));
+  --_m-text-4xl: calc(var(--m-font-size) * pow(1.2, 5));
+
+  /* Fluid from one step down at a 20rem viewport to one step up at 80rem; max < 2.5x min keeps WCAG 1.4.4. */
+  --_m-text-h1: clamp(var(--_m-text-2xl), calc(var(--_m-text-2xl) + (100vw - 20rem) * 0.76 / 60), var(--_m-text-4xl));
+  --_m-text-h2: clamp(var(--_m-text-xl), calc(var(--_m-text-xl) + (100vw - 20rem) * 0.634 / 60), var(--_m-text-3xl));
+  --_m-text-h3: clamp(var(--_m-text-lg), calc(var(--_m-text-lg) + (100vw - 20rem) * 0.528 / 60), var(--_m-text-2xl));
+
+  --_m-leading: calc(1.4 + 0.2 * var(--m-density));
+  --_m-leading-tight: calc(1.05 + 0.15 * var(--m-density));
+}

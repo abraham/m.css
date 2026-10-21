@@ -1,0 +1,20 @@
+:where(:root) {
+  --_m-duration: 150ms;
+  --_m-duration-slow: 250ms;
+  --_m-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --_m-scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(:root) {
+    --_m-duration: 0s;
+    --_m-duration-slow: 0s;
+    --_m-scroll-behavior: auto;
+  }
+}
+
+:where([data-motion="reduce"]) {
+  --_m-duration: 0s;
+  --_m-duration-slow: 0s;
+  --_m-scroll-behavior: auto;
+}

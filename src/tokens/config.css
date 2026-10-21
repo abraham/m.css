@@ -1,0 +1,10 @@
+:where(:root) {
+  --m-primary: oklch(55% 0.2 260);
+  --m-density: 1;
+  --m-radius: 0.5rem;
+  --m-font-sans: system-ui, sans-serif;
+  --m-font-mono: ui-monospace, SFMono-Regular, monospace;
+  --m-font-size: 1rem;
+  --m-measure: 70ch;
+  /* --m-on-primary is intentionally unset; color.css falls back to contrast-color(). */
+}

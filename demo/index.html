@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>m.css kitchen sink</title>
     <link rel="stylesheet" href="../dist/m.css">
+    <style>
+      /* Demo-only helpers for visualizing tokens. */
+      [data-token-panel] {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+        gap: 1rem;
+      }
+      [data-swatch] {
+        display: inline-block;
+        min-inline-size: 3rem;
+        block-size: 1.5rem;
+        vertical-align: middle;
+        text-align: center;
+        background: var(--swatch);
+        border: 1px solid var(--_m-border);
+        border-radius: var(--m-radius);
+      }
+      [data-bar] {
+        display: inline-block;
+        inline-size: var(--bar);
+        block-size: 0.75rem;
+        background: var(--_m-primary);
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -42,6 +66,19 @@
     </header>
 
     <main>
+      <section id="tokens">
+        <h2>Tokens</h2>
+        <p>Motion: <output id="motion"></output></p>
+        <div data-token-panel></div>
+        <div data-theme="dark" style="--m-primary: oklch(65% 0.2 150); --m-density: 1.25; padding: 1rem">
+          <p>Dark subtree, green primary, density 1.25</p>
+          <div data-token-panel></div>
+        </div>
+        <div data-theme="light" style="--m-primary: oklch(55% 0.22 20); --m-on-primary: oklch(98% 0.01 20); --m-density: 0.75; padding: 1rem">
+          <p>Light subtree, red primary, custom on-primary, density 0.75</p>
+          <div data-token-panel></div>
+        </div>
+      </section>
       <section id="typography">
         <h2>Typography</h2>
       </section>
@@ -87,18 +124,87 @@
     <script type="module">
       const root = document.documentElement;
       const controls = document.getElementById("controls");
+      const motion = document.getElementById("motion");
 
       const setOrRemove = (name, value) =>
         value ? root.setAttribute(name, value) : root.removeAttribute(name);
 
-      controls.addEventListener("input", () => {
-        const data = new FormData(controls);
-        setOrRemove("data-theme", data.get("theme"));
-        setOrRemove("data-motion", data.has("motion") && "reduce");
-        root.toggleAttribute("data-scroll-progress", data.has("scrollProgress"));
-        root.style.setProperty("--m-density", data.get("density"));
-        root.style.setProperty("--m-primary", data.get("primary"));
+      const showMotion = () => {
+        const style = getComputedStyle(root);
+        motion.value = ["--_m-duration", "--_m-duration-slow", "--_m-scroll-behavior"]
+          .map((name) => `${name}: ${style.getPropertyValue(name)}`)
+          .join(", ");
+      };
+
+      controls.addEventListener("input", ({ target }) => {
+        switch (target.name) {
+          case "theme":
+            setOrRemove("data-theme", target.value);
+            break;
+          case "motion":
+            setOrRemove("data-motion", target.checked && "reduce");
+            break;
+          case "scrollProgress":
+            root.toggleAttribute("data-scroll-progress", target.checked);
+            break;
+          case "density":
+            root.style.setProperty("--m-density", target.value);
+            break;
+          case "primary":
+            root.style.setProperty("--m-primary", target.value);
+            break;
+        }
+        showMotion();
       });
+      matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", showMotion);
+      showMotion();
+
+      const tokenGroups = {
+        Colors: ["surface", "surface-raised", "border", "text", "text-muted", "danger", "primary", "primary-hover", "primary-subtle", "on-primary"],
+        Spacing: ["space-1", "space-2", "space-3", "space-4", "space-6", "space-8", "space-12"],
+        Type: ["text-sm", "text-base", "text-lg", "text-xl", "text-2xl", "text-3xl", "text-4xl", "text-h1", "text-h2", "text-h3"],
+      };
+
+      const sample = (group, token) => {
+        const el = document.createElement("span");
+        if (group === "Colors") {
+          el.dataset.swatch = "";
+          el.style.setProperty("--swatch", `var(--_m-${token})`);
+          if (token === "on-primary") {
+            el.style.setProperty("--swatch", "var(--_m-primary)");
+            el.style.color = "var(--_m-on-primary)";
+            el.textContent = "Aa";
+          }
+        } else if (group === "Spacing") {
+          el.dataset.bar = "";
+          el.style.setProperty("--bar", `var(--_m-${token})`);
+        } else {
+          el.style.fontSize = `var(--_m-${token})`;
+          el.style.lineHeight = "var(--_m-leading-tight)";
+          el.textContent = "Aa";
+        }
+        return el;
+      };
+
+      for (const panel of document.querySelectorAll("[data-token-panel]")) {
+        for (const [group, tokens] of Object.entries(tokenGroups)) {
+          const block = document.createElement("div");
+          const title = document.createElement("h3");
+          title.textContent = group;
+          const list = document.createElement("dl");
+          for (const token of tokens) {
+            const term = document.createElement("dt");
+            const code = document.createElement("code");
+            code.textContent = `--_m-${token}`;
+            term.append(code);
+            const detail = document.createElement("dd");
+            detail.append(sample(group, token));
+            list.append(term, detail);
+          }
+          block.append(title, list);
+          panel.append(block);
+        }
+      }
     </script>
   </body>
 </html>
