@@ -103,6 +103,8 @@ A `small` right after a form field is styled as helper text. Connect it with `ar
 </label>
 ```
 
+A `small` right after a `fieldset` is helper text for the whole group, and turns red when a control in the group is invalid. `readonly` fields look fixed, labels of disabled controls are muted, and the page behind a modal `dialog` doesn't scroll.
+
 ## Layout
 
 The markup picks the layout:

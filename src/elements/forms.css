@@ -109,6 +109,11 @@
     opacity: 1;
   }
 
+  &:where([readonly]) {
+    border-color: var(--_m-border);
+    background-color: var(--_m-surface-raised);
+  }
+
   &:where(:disabled) {
     background-color: var(--_m-surface-raised);
     opacity: 0.6;
@@ -148,18 +153,33 @@
 }
 
 /* Helper text right after a field; pair it with aria-describedby so it is announced. */
-:where(input, select, textarea) + :where(small) {
+:where(input, select, textarea, fieldset) + :where(small) {
   display: block;
   margin-block-start: var(--_m-space-1);
   color: var(--_m-text-muted);
 }
 
-:where(:user-invalid, [aria-invalid="true"]) + :where(small) {
+/* A group's helper takes over the fieldset's rhythm gap. */
+:where(fieldset:has(+ small)) {
+  margin-block-end: 0;
+}
+
+:where(fieldset) + :where(small) {
+  margin-block-end: var(--_m-space-4);
+}
+
+:where(:user-invalid, [aria-invalid="true"], fieldset:has(:user-invalid, [aria-invalid="true"])) + :where(small) {
   color: var(--_m-danger);
 }
 
 :where([aria-invalid="false"]) + :where(small) {
   color: var(--_m-success);
+}
+
+/* A label for a disabled control, or inside a disabled fieldset; color, not opacity, so the control isn't dimmed twice. */
+:where(label:has(> :disabled, + :disabled), fieldset:disabled label) {
+  color: var(--_m-text-muted);
+  cursor: not-allowed;
 }
 
 /* Two right triangles drawn in currentColor form a down-pointing arrow that follows the theme. */
