@@ -118,6 +118,26 @@ test.describe("docs layout", () => {
     expect(sizes.bottom).toBeLessThanOrEqual(320);
   });
 
+  test("a long top bar doesn't widen the empty rail column or squeeze main", async ({ page }) => {
+    await page.goto("/demo/");
+    const columns = () =>
+      page.evaluate(() =>
+        getComputedStyle(document.body)
+          .gridTemplateColumns.replace(/\[[^\]]*\]\s*/g, "")
+          .trim(),
+      );
+    const before = await columns();
+    await page
+      .locator("body > header > nav ul")
+      .last()
+      .evaluate((list) =>
+        list.insertAdjacentHTML("beforeend", '<li><a href="#top">A much longer extra link</a></li>'.repeat(6)),
+      );
+    const after = await columns();
+    expect(after).toBe(before);
+    expect(after.split(" ").at(-1)).toBe("0px");
+  });
+
   test("narrow screens stack into one column with sideways-scrolling nav rows", async ({ page }) => {
     await page.setViewportSize({ width: 600, height: 800 });
     await page.goto("/demo/docs.html");

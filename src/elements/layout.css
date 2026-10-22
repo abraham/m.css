@@ -155,6 +155,12 @@
       grid-column: full;
     }
 
+    /* Full-width rows take the grid's width instead of sizing it, so a long top bar can't widen the empty aside track and squeeze main. */
+    > :where(:not(nav, aside, main)),
+    > :where(header:has(> nav)) > :where(*) {
+      contain: inline-size;
+    }
+
     > :where(main) {
       grid-column: main;
     }

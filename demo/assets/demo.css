@@ -58,4 +58,20 @@
       font-variant-numeric: tabular-nums;
     }
   }
+
+  /* A live example sits in a frame, with its state toggles above and its markup below. */
+  figure[data-example] {
+    margin-block-end: var(--_m-space-2);
+    padding: var(--_m-space-6);
+    border: 1px solid var(--_m-border);
+    border-radius: calc(var(--m-radius) * 1.5);
+  }
+
+  [data-support] {
+    color: var(--_m-text-muted);
+  }
+
+  [data-example-code] pre {
+    margin-block: 0 var(--_m-space-2);
+  }
 }

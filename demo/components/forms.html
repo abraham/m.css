@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forms · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Kitchen sink</a></li>
+          <li><a href="forms.html" aria-current="page">Components</a></li>
+          <li><a href="../docs.html">Docs layout</a></li>
+          <li><a href="../article.html">Article page</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <h1>Forms</h1>
+      <p>Fields, choices, and validation from plain form markup. Use the state buttons to see each example change.</p>
+    </header>
+
+    <nav aria-label="Examples">
+      <ul>
+        <li><a href="#text-fields">Text fields</a></li>
+        <li><a href="#select">Select</a></li>
+        <li><a href="#validation">Validation</a></li>
+        <li><a href="#choices">Checkboxes and radios</a></li>
+        <li><a href="#switches">Switches</a></li>
+        <li><a href="#special-inputs">Range, color, and file</a></li>
+        <li><a href="#search">Search</a></li>
+        <li><a href="#fieldsets">Fieldsets</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="text-fields" aria-labelledby="text-fields-title">
+        <h2 id="text-fields-title">Text fields</h2>
+        <p>
+          Text-like inputs and <code>textarea</code> fill the width. Wrap a field in its <code>label</code>, or put the
+          label right before it with a matching <code>for</code>.
+        </p>
+        <figure data-example="text-fields" data-states="disabled readonly invalid valid rtl dark contrast">
+          <label>
+            Name
+            <input name="name" autocomplete="name" placeholder="Ada Lovelace" />
+          </label>
+          <label for="demo-password">Password</label>
+          <input id="demo-password" name="password" type="password" autocomplete="new-password" />
+          <label>
+            Quantity
+            <input name="quantity" type="number" min="1" value="1" />
+          </label>
+          <label>
+            Date
+            <input name="date" type="date" value="2026-01-15" />
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="3" placeholder="Write something…"></textarea>
+          </label>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>Every field needs a label. Placeholders are hints, not labels: they disappear as soon as someone types.</p>
+        <h3>Customize</h3>
+        <p><code>--m-density</code> sets the padding, and <code>--m-radius</code> the corners.</p>
+      </section>
+
+      <section id="select" aria-labelledby="select-title">
+        <h2 id="select-title">Select</h2>
+        <p>
+          A single <code>select</code> opens a styled picker where the browser supports customizable selects, and a
+          native one elsewhere.
+        </p>
+        <figure data-example="select" data-states="disabled invalid rtl dark" data-requires="appearance: base-select">
+          <label>
+            Plan
+            <select name="plan">
+              <option>Free</option>
+              <option>Pro</option>
+              <option>Team</option>
+            </select>
+          </label>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>Keyboard and screen reader behavior come from the browser in both versions.</p>
+        <h3>Customize</h3>
+        <p>The picker uses the overlay surface and <code>--m-radius</code>.</p>
+      </section>
+
+      <section id="validation" aria-labelledby="validation-title">
+        <h2 id="validation-title">Validation</h2>
+        <p>
+          A field turns red after the user leaves it invalid (<code>:user-invalid</code>), or whenever it has
+          <code>aria-invalid="true"</code>. <code>aria-invalid="false"</code> marks it valid. A <code>small</code> right
+          after the field is helper text that takes the same color.
+        </p>
+        <figure data-example="validation" data-states="rtl dark contrast">
+          <label>
+            Username
+            <input name="username" value="ada" aria-invalid="true" aria-describedby="username-help" />
+            <small id="username-help">That username is already taken.</small>
+          </label>
+          <label>
+            Handle
+            <input name="handle" value="ada.lovelace" aria-invalid="false" aria-describedby="handle-help" />
+            <small id="handle-help">This handle is available.</small>
+          </label>
+          <label>
+            Email (required, invalid after you interact)
+            <input name="email" type="email" required placeholder="ada@example.com" autocomplete="email" />
+          </label>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          A warning or check icon joins the border color, so the state doesn't rely on color. Connect helper text with
+          <code>aria-describedby</code> so it's announced.
+        </p>
+        <h3>Customize</h3>
+        <p>The danger and success colors adapt to the scheme and to more contrast.</p>
+      </section>
+
+      <section id="choices" aria-labelledby="choices-title">
+        <h2 id="choices-title">Checkboxes and radios</h2>
+        <p>
+          Group related choices in a <code>fieldset</code> with a <code>legend</code>. A <code>small</code> right after
+          the fieldset is helper text for the whole group.
+        </p>
+        <figure data-example="choices" data-states="disabled invalid rtl dark contrast">
+          <fieldset>
+            <legend>Notifications</legend>
+            <label><input name="email-notify" type="checkbox" checked /> Email</label>
+            <label><input name="sms-notify" type="checkbox" /> SMS</label>
+            <label><input name="all-notify" type="checkbox" data-indeterminate /> Some channels</label>
+          </fieldset>
+          <fieldset aria-describedby="frequency-help">
+            <legend>Frequency</legend>
+            <label><input name="frequency" type="radio" value="daily" checked /> Daily</label>
+            <label><input name="frequency" type="radio" value="weekly" /> Weekly</label>
+            <label><input name="frequency" type="radio" value="never" /> Never</label>
+          </fieldset>
+          <small id="frequency-help">How often we email a summary.</small>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          The indeterminate state can only be set from script (<code>input.indeterminate = true</code>). Labels of
+          disabled controls are muted.
+        </p>
+        <h3>Customize</h3>
+        <p>Checked controls use <code>--m-primary</code>.</p>
+      </section>
+
+      <section id="switches" aria-labelledby="switches-title">
+        <h2 id="switches-title">Switches</h2>
+        <p>A checkbox with <code>role="switch"</code> is an on/off switch. Screen readers announce it as one.</p>
+        <figure data-example="switches" data-states="disabled rtl dark contrast">
+          <label><input name="digest" type="checkbox" role="switch" checked /> Weekly digest</label>
+          <label><input name="beta" type="checkbox" role="switch" /> Beta features</label>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>The thumb slides only when motion is allowed, and forced-colors mode redraws it in system colors.</p>
+        <h3>Customize</h3>
+        <p>The track turns <code>--m-primary</code> when on.</p>
+      </section>
+
+      <section id="special-inputs" aria-labelledby="special-inputs-title">
+        <h2 id="special-inputs-title">Range, color, and file</h2>
+        <p>Sliders get a filled track, color inputs a bordered swatch, and file inputs a secondary button.</p>
+        <figure data-example="special-inputs" data-states="disabled rtl dark contrast">
+          <label>
+            Volume
+            <input name="volume" type="range" value="60" />
+          </label>
+          <label>
+            Color
+            <input name="color" type="color" value="#c2410c" />
+          </label>
+          <label>
+            Attachment
+            <input name="attachment" type="file" />
+          </label>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>These controls keep their native keyboard behavior and draw the standard focus ring.</p>
+        <h3>Customize</h3>
+        <p>The slider's fill and thumb use <code>--m-primary</code>.</p>
+      </section>
+
+      <section id="search" aria-labelledby="search-title">
+        <h2 id="search-title">Search</h2>
+        <p>
+          A <code>search</code> element joins its field and button into one control, with the controls in a
+          <code>form</code> or directly inside it.
+        </p>
+        <figure data-example="search" data-states="disabled invalid rtl dark contrast">
+          <search>
+            <form action="#search">
+              <input type="search" name="q" aria-label="Search the docs" placeholder="Search the docs" />
+              <button>Search</button>
+            </form>
+          </search>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          <code>search</code> is a landmark, so screen reader users can jump to it. Label the field, because the
+          magnifier icon is decoration.
+        </p>
+        <h3>Customize</h3>
+        <p>The joined corners use <code>--m-radius</code>.</p>
+      </section>
+
+      <section id="fieldsets" aria-labelledby="fieldsets-title">
+        <h2 id="fieldsets-title">Fieldsets</h2>
+        <p>
+          A <code>fieldset</code> frames a group. Disabling it disables every control inside and mutes their labels.
+        </p>
+        <figure data-example="fieldsets" data-states="disabled rtl dark contrast">
+          <fieldset>
+            <legend>Billing</legend>
+            <label><input name="invoices" type="checkbox" checked /> Email invoices</label>
+            <label><input name="receipts" type="checkbox" /> Email receipts</label>
+            <label>
+              Account
+              <input name="account" value="ACC-1042" readonly />
+            </label>
+          </fieldset>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          A <code>legend</code> names the group for screen readers. Read-only fields stay focusable, and disabled ones
+          don't.
+        </p>
+        <h3>Customize</h3>
+        <p>The frame uses the border color and <code>--m-radius</code>.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

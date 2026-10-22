@@ -260,7 +260,7 @@ function setUpExamples() {
     /** @type {HTMLInputElement} */ (checkbox).indeterminate = true;
   }
 
-  for (const group of document.querySelectorAll('[role="group"]:has(> [aria-pressed])')) {
+  for (const group of document.querySelectorAll('[role="group"]:not([data-example-states]):has(> [aria-pressed])')) {
     group.addEventListener("click", ({ target }) => {
       const pressed = target instanceof Element ? target.closest("[aria-pressed]") : null;
       if (!pressed) return;
@@ -368,7 +368,171 @@ function renderTokens(panel) {
   }
 }
 
+/** Demo hooks that aren't part of the markup a user would copy. */
+const demoAttributes = ["data-indeterminate"];
+
+/**
+ * States an example can toggle. `self` states go on the figure; the rest on its matching controls.
+ * @type {Record<string, { label: string, attribute: string, value: string, targets?: string, excludes?: string }>}
+ */
+const exampleStates = {
+  disabled: {
+    label: "Disabled",
+    attribute: "disabled",
+    value: "",
+    targets: "input, select, textarea, button, fieldset",
+  },
+  readonly: {
+    label: "Read-only",
+    attribute: "readonly",
+    value: "",
+    targets: 'textarea, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"])',
+  },
+  invalid: {
+    label: "Invalid",
+    attribute: "aria-invalid",
+    value: "true",
+    targets: "input, select, textarea",
+    excludes: "valid",
+  },
+  valid: {
+    label: "Valid",
+    attribute: "aria-invalid",
+    value: "false",
+    targets: "input, select, textarea",
+    excludes: "invalid",
+  },
+  busy: { label: "Busy", attribute: "aria-busy", value: "true", targets: "button" },
+  rtl: { label: "Right to left", attribute: "dir", value: "rtl" },
+  dark: { label: "Dark", attribute: "data-theme", value: "dark" },
+  contrast: { label: "More contrast", attribute: "data-contrast", value: "more" },
+};
+
+/**
+ * The example's markup as a user would write it: demo hooks removed, `=""` dropped, and the shared indent trimmed.
+ * @param {Element} figure
+ */
+function exampleMarkup(figure) {
+  const clone = /** @type {Element} */ (figure.cloneNode(true));
+  for (const name of demoAttributes) {
+    for (const element of clone.querySelectorAll(`[${name}]`)) element.removeAttribute(name);
+  }
+  const lines = clone.innerHTML.replace(/(\s[\w:-]+)=""/g, "$1").split("\n");
+  while (lines.length > 0 && lines[0].trim() === "") lines.shift();
+  while (lines.length > 0 && lines.at(-1)?.trim() === "") lines.pop();
+  const indent = Math.min(...lines.filter((line) => line.trim()).map((line) => line.search(/\S/)));
+  const ancestor = ["dir", "data-theme", "data-contrast"]
+    .filter((name) => figure.hasAttribute(name))
+    .map((name) => `${name}="${figure.getAttribute(name)}"`);
+  const body = lines.map((line) => line.slice(indent)).join("\n");
+  return ancestor.length > 0 ? `<!-- On a containing element: ${ancestor.join(" ")} -->\n${body}` : body;
+}
+
+/**
+ * Adds state toggles and a support badge before an example, and its markup after it.
+ * @param {Element} figure
+ */
+function setUpExampleFigure(figure) {
+  const names = (figure.getAttribute("data-states") ?? "").split(/\s+/).filter((name) => name in exampleStates);
+  const code = document.createElement("code");
+
+  /** Original values of every attribute a toggle can change, so turning a state off restores the markup. */
+  const originals = new Map();
+  /** @param {string} name */
+  const targetsOf = (name) => {
+    const { targets } = exampleStates[name];
+    return targets ? [...figure.querySelectorAll(targets)] : [figure];
+  };
+  for (const name of names) {
+    for (const element of targetsOf(name)) {
+      const key = exampleStates[name].attribute;
+      const saved = originals.get(element) ?? {};
+      if (!(key in saved)) saved[key] = element.getAttribute(key);
+      originals.set(element, saved);
+    }
+  }
+
+  /** @type {Set<string>} */
+  const pressed = new Set();
+  const render = () => {
+    for (const [element, attributes] of originals) {
+      for (const [key, value] of Object.entries(attributes)) {
+        if (value === null) element.removeAttribute(key);
+        else element.setAttribute(key, value);
+      }
+    }
+    for (const name of names) {
+      if (!pressed.has(name)) continue;
+      const { attribute, value } = exampleStates[name];
+      for (const element of targetsOf(name)) element.setAttribute(attribute, value);
+    }
+    code.textContent = exampleMarkup(figure);
+  };
+
+  const toolbar = document.createElement("p");
+  if (names.length > 0) {
+    const group = document.createElement("span");
+    group.setAttribute("role", "group");
+    group.setAttribute("aria-label", "Example states");
+    group.dataset.exampleStates = "";
+    for (const name of names) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = exampleStates[name].label;
+      button.setAttribute("aria-pressed", "false");
+      button.dataset.state = name;
+      button.addEventListener("click", () => {
+        if (pressed.has(name)) pressed.delete(name);
+        else {
+          pressed.add(name);
+          const { excludes } = exampleStates[name];
+          if (excludes) pressed.delete(excludes);
+        }
+        for (const other of group.querySelectorAll("button")) {
+          other.setAttribute(
+            "aria-pressed",
+            String(pressed.has(/** @type {HTMLElement} */ (other).dataset.state ?? "")),
+          );
+        }
+        render();
+      });
+      group.append(button);
+    }
+    toolbar.append(group);
+  }
+
+  const requires = figure.getAttribute("data-requires");
+  if (requires) {
+    const badge = document.createElement("small");
+    badge.dataset.support = CSS.supports(`(${requires})`) ? "yes" : "no";
+    badge.textContent = CSS.supports(`(${requires})`)
+      ? `Uses ${requires}, which this browser supports.`
+      : `Uses ${requires}, which this browser doesn't support yet, so it falls back.`;
+    toolbar.append(" ", badge);
+  }
+  if (toolbar.childNodes.length > 0) figure.before(toolbar);
+
+  const details = document.createElement("details");
+  details.dataset.exampleCode = "";
+  const summary = document.createElement("summary");
+  summary.textContent = "HTML";
+  const pre = document.createElement("pre");
+  pre.tabIndex = 0;
+  pre.append(code);
+  const copy = document.createElement("button");
+  copy.type = "button";
+  copy.textContent = "Copy";
+  copy.addEventListener("click", () => navigator.clipboard?.writeText(code.textContent ?? ""));
+  const actions = document.createElement("p");
+  actions.append(copy);
+  details.append(summary, pre, actions);
+  figure.after(details);
+
+  render();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setUpSettings();
   setUpExamples();
+  for (const figure of document.querySelectorAll("figure[data-example]")) setUpExampleFigure(figure);
 });
