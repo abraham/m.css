@@ -19,6 +19,12 @@
   scale: 0.96;
 }
 
+/* The page behind a modal dialog doesn't scroll; the stable gutter holds the scrollbar's space so it doesn't shift. */
+:where(:root:has(dialog:modal)) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
 :where([popover]) {
   translate: 0 var(--_m-space-2);
 }

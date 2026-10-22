@@ -329,6 +329,10 @@
             <input name="disabled" value="Can't edit this" disabled />
           </label>
           <label>
+            Read-only
+            <input name="account" value="ACC-1042" readonly />
+          </label>
+          <label>
             Volume
             <input name="volume" type="range" value="60" />
           </label>
@@ -347,17 +351,23 @@
             <label><input name="all-notify" type="checkbox" data-indeterminate /> Some channels (indeterminate)</label>
             <label><input name="push-notify" type="checkbox" disabled /> Push (disabled)</label>
           </fieldset>
-          <fieldset>
+          <fieldset aria-describedby="frequency-help">
             <legend>Frequency</legend>
             <label><input name="frequency" type="radio" value="daily" checked /> Daily</label>
             <label><input name="frequency" type="radio" value="weekly" /> Weekly</label>
             <label><input name="frequency" type="radio" value="never" /> Never</label>
           </fieldset>
+          <small id="frequency-help">How often we email a summary.</small>
           <fieldset>
             <legend>Preferences</legend>
             <label><input name="digest" type="checkbox" role="switch" checked /> Weekly digest</label>
             <label><input name="beta" type="checkbox" role="switch" /> Beta features</label>
             <label><input name="locked" type="checkbox" role="switch" disabled /> Locked (disabled)</label>
+          </fieldset>
+          <fieldset disabled>
+            <legend>Billing (disabled fieldset)</legend>
+            <label><input name="invoices" type="checkbox" checked /> Email invoices</label>
+            <label><input name="receipts" type="checkbox" /> Email receipts</label>
           </fieldset>
           <button>Submit</button>
           <button type="reset">Reset</button>

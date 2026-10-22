@@ -47,6 +47,74 @@ test("aria-invalid colors the field border and its helper text", async ({ page }
   expect(plain.helper).not.toBe(invalid.helper);
 });
 
+test.describe("form details", () => {
+  const style = (page: Page, selector: string, properties: string[]) =>
+    page
+      .locator(selector)
+      .evaluate(
+        (element, properties) =>
+          Object.fromEntries(properties.map((name) => [name, getComputedStyle(element).getPropertyValue(name)])),
+        properties,
+      );
+
+  test("a read-only field looks fixed but keeps its focus ring", async ({ page }) => {
+    const looks = ["background-color", "border-top-color"];
+    const [plain, readonly] = await Promise.all([
+      style(page, 'input[name="name"]', looks),
+      style(page, 'input[name="account"]', looks),
+    ]);
+    expect(readonly["background-color"]).not.toBe(plain["background-color"]);
+    expect(readonly["border-top-color"]).not.toBe(plain["border-top-color"]);
+
+    await page.keyboard.press("Shift");
+    await page.locator('input[name="account"]').focus();
+    expect((await style(page, 'input[name="account"]', ["box-shadow"]))["box-shadow"]).not.toBe("none");
+  });
+
+  test("labels of disabled controls and disabled fieldsets are muted", async ({ page }) => {
+    const color = (selector: string) => style(page, selector, ["color"]).then((value) => value.color);
+    const [plain, wrapped, before, inFieldset] = await Promise.all([
+      color('label:has(> input[name="name"])'),
+      color('label:has(> input[name="disabled"])'),
+      page.locator("#forms form").evaluate((form) => {
+        form.insertAdjacentHTML("beforeend", '<label for="x">Before</label><input id="x" disabled />');
+        return getComputedStyle(form.querySelector('label[for="x"]')!).color;
+      }),
+      color('fieldset[disabled] label:has(input[name="receipts"])'),
+    ]);
+    expect(wrapped).not.toBe(plain);
+    expect(before).toBe(wrapped);
+    expect(inFieldset).toBe(wrapped);
+  });
+
+  test("a small after a fieldset is helper text that turns red when the group is invalid", async ({ page }) => {
+    const helper = page.locator("#frequency-help");
+    const muted = (await style(page, "#frequency-help", ["color"])).color;
+    const plain = (await style(page, 'label:has(> input[name="name"])', ["color"])).color;
+    expect(muted).not.toBe(plain);
+
+    await page
+      .locator('input[name="frequency"]')
+      .first()
+      .evaluate((radio) => radio.setAttribute("aria-invalid", "true"));
+    const danger = (await style(page, 'input[name="username"] + small', ["color"])).color;
+    expect(await helper.evaluate((small) => getComputedStyle(small).color)).toBe(danger);
+  });
+
+  test("the page behind a modal dialog doesn't scroll", async ({ page }) => {
+    await page.locator("#open-dialog").click();
+    expect((await style(page, "html", ["overflow"])).overflow).toBe("hidden");
+    const before = await page.evaluate(() => scrollY);
+    await page.mouse.move(10, 10);
+    await page.mouse.wheel(0, 800);
+    await page.waitForTimeout(100);
+    expect(await page.evaluate(() => scrollY)).toBe(before);
+
+    await page.keyboard.press("Escape");
+    expect((await style(page, "html", ["overflow"])).overflow).toBe("visible");
+  });
+});
+
 test.describe("validation icons", () => {
   // Reads the icon slot at the field's inline end from a screenshot: inked pixels and whether red or green dominates.
   const icon = async (page: Page, name: string) => {
