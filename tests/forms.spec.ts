@@ -15,7 +15,7 @@ const switchState = (page: Page, name: string) =>
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/demo/kitchen-sink.html");
+  await page.goto("/kitchen-sink.html");
 });
 
 test("a switch moves its thumb to the end of the track when checked", async ({ page }) => {

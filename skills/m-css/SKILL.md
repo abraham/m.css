@@ -71,7 +71,7 @@ Set these on `:root` for the whole site. `--m-primary`, `--m-on-primary`, `--m-d
 
 Hover, subtle, and dark-mode variants of the primary color are derived from it, so set one brand color, not a palette.
 
-These few properties go a long way. The showcase (https://abraham.github.io/m.css/demo/showcase/) has three whole pages, a magazine essay, a dark operations dashboard, and a playful landing page. Each is themed with only a `:root` block of these properties, and shows that block at the bottom of the page. Use them as starting points.
+These few properties go a long way. The showcase (https://abraham.github.io/m.css/showcase/) has three whole pages, a magazine essay, a dark operations dashboard, and a playful landing page. Each is themed with only a `:root` block of these properties, and shows that block at the bottom of the page. Use them as starting points.
 
 What the properties can't change: neutral surfaces and text colors, heading weight, shadows, and a separate heading font. Don't reach for `--_m-*` tokens to get them. Tell the user it's outside m.css's theming, or add a small unlayered rule of their own.
 

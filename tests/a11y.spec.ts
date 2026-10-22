@@ -55,7 +55,7 @@ test("fluid headings reach 2x their size with browser zoom", async ({ page }) =>
       ),
     );
 
-  await page.goto("/demo/kitchen-sink.html");
+  await page.goto("/kitchen-sink.html");
   for (const width of [320, 768, 1280, 1920]) {
     await page.setViewportSize({ width, height: 800 });
     const unzoomed = await readSizes();
@@ -96,7 +96,7 @@ test.describe("more contrast", () => {
     });
 
   test("solid underlines, control-strength borders, and a 3px focus ring", async ({ page }) => {
-    await page.goto("/demo/kitchen-sink.html");
+    await page.goto("/kitchen-sink.html");
     const normal = await read(page);
     await page.emulateMedia({ contrast: "more", reducedMotion: "reduce" });
     const more = await read(page);
@@ -118,7 +118,7 @@ test.describe("more contrast", () => {
   });
 
   test('data-contrast="more" applies to its whole subtree', async ({ page }) => {
-    await page.goto("/demo/kitchen-sink.html");
+    await page.goto("/kitchen-sink.html");
     const normal = await read(page);
     await page.evaluate(() => document.documentElement.setAttribute("data-contrast", "more"));
     const more = await read(page);

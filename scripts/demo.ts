@@ -15,14 +15,14 @@ export const showcase = ["editorial", "console", "playful"];
 
 /** Every demo page, for checks that cover the whole site. */
 export const pages = [
-  "/demo/",
-  "/demo/theming.html",
-  ...components.map((name) => `/demo/components/${name}.html`),
-  "/demo/kitchen-sink.html",
-  "/demo/layouts/",
-  ...layouts.map((name) => `/demo/layouts/${name}.html`),
-  "/demo/showcase/",
-  ...showcase.map((name) => `/demo/showcase/${name}.html`),
+  "/",
+  "/theming.html",
+  ...components.map((name) => `/components/${name}.html`),
+  "/kitchen-sink.html",
+  "/layouts/",
+  ...layouts.map((name) => `/layouts/${name}.html`),
+  "/showcase/",
+  ...showcase.map((name) => `/showcase/${name}.html`),
 ];
 
 interface Section {
@@ -124,7 +124,7 @@ ${section.markup.join("\n")}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kitchen sink · m.css</title>
-    <link rel="stylesheet" href="../dist/m.css" />
+    <link rel="stylesheet" href="dist/m.css" />
     <link rel="stylesheet" href="assets/demo.css" />
     <script src="assets/demo.js"></script>
   </head>
