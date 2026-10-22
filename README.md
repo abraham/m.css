@@ -32,6 +32,16 @@ npm install @abraham/m.css
 
 m.css is meant to be the page's only stylesheet, and it owns the document layout.
 
+## Use with an AI agent
+
+The [`m-css` agent skill](skills/m-css/SKILL.md) teaches coding agents such as GitHub Copilot, Claude Code, and Codex how to add m.css to a site. It covers converting class-based markup to semantic HTML, theming, and checking the result. Install it with the [GitHub CLI](https://cli.github.com/), which asks which agent to set it up for:
+
+```sh
+gh skills add abraham/m.css m-css
+```
+
+If you installed the package from npm, it's also in `node_modules/@abraham/m.css/skills/m-css` to copy into your agent's skills folder. Then ask your agent something like "Restyle this site with m.css."
+
 ## Customize
 
 Set any of these on `:root`, or on any element to scope them to that part of the page. Try them live on the [Theming page](https://abraham.github.io/m.css/demo/theming.html).

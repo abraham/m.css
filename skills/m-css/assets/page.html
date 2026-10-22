@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page title · Site name</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/m.css/dist/m.min.css" />
+    <!-- Optional: one brand color and any other public properties. -->
+    <style>
+      :root {
+        --m-primary: #2563eb;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- The first nav here is the sticky top bar. Two lists split to either end. -->
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>Site name</strong></li>
+        </ul>
+        <ul>
+          <li><a href="/" aria-current="page">Home</a></li>
+          <li><a href="/docs/">Docs</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </nav>
+      <h1>Page title</h1>
+      <p>One or two sentences about this page.</p>
+    </header>
+
+    <!-- Optional: a side nav. Delete it for a single-column page. -->
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#first">First section</a></li>
+        <li><a href="#second">Second section</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="first" aria-labelledby="first-title">
+        <h2 id="first-title">First section</h2>
+        <p>Content goes here.</p>
+      </section>
+      <section id="second" aria-labelledby="second-title">
+        <h2 id="second-title">Second section</h2>
+        <p>More content.</p>
+      </section>
+    </main>
+
+    <!-- Optional: a rail on the other side. Delete it if you don't need one. -->
+    <aside aria-label="On this page">
+      <p><strong>On this page</strong></p>
+      <ul>
+        <li><a href="#first">First section</a></li>
+        <li><a href="#second">Second section</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p>© Site name</p>
+    </footer>
+  </body>
+</html>
