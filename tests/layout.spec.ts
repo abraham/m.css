@@ -255,3 +255,70 @@ test("the top bar hides while scrolling down and returns while scrolling up", as
     .poll(async () => (await rect(page, lastBar)).top)
     .toBeCloseTo((await rect(page, "body > header > nav")).bottom, 0);
 });
+
+test.describe("popover menus", () => {
+  const anchored = (page: Page) => page.evaluate(() => CSS.supports("position-area: block-end"));
+
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/demo/#dialog");
+  });
+
+  test("a menu opens below its button, aligned to its start", async ({ page }) => {
+    test.skip(!(await anchored(page)), "needs CSS anchor positioning");
+    await page.locator('[popovertarget="demo-menu"]').click();
+    const [button, menu] = await Promise.all([rect(page, '[popovertarget="demo-menu"]'), rect(page, "#demo-menu")]);
+    expect(menu.top).toBeGreaterThanOrEqual(button.bottom);
+    expect(menu.top - button.bottom).toBeLessThan(16);
+    expect(menu.left).toBeCloseTo(button.left, 0);
+  });
+
+  test("a menu flips above its button when there's no room below", async ({ page }) => {
+    test.skip(!(await anchored(page)), "needs CSS anchor positioning");
+    await page.locator('[popovertarget="demo-menu"]').evaluate((button) => {
+      const { bottom } = button.getBoundingClientRect();
+      scrollBy({ top: bottom - innerHeight + 8, behavior: "instant" });
+    });
+    await page.locator('[popovertarget="demo-menu"]').click();
+    const [button, menu] = await Promise.all([rect(page, '[popovertarget="demo-menu"]'), rect(page, "#demo-menu")]);
+    expect(menu.bottom).toBeLessThanOrEqual(button.top);
+  });
+
+  test("Escape and a click outside close the menu", async ({ page }) => {
+    const menu = page.locator("#demo-menu");
+    await page.locator('[popovertarget="demo-menu"]').click();
+    await expect(menu).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(menu).toBeHidden();
+
+    await page.locator('[popovertarget="demo-menu"]').click();
+    await expect(menu).toBeVisible();
+    await page.mouse.click(4, 4);
+    await expect(menu).toBeHidden();
+  });
+
+  test("menu items fill the menu, even in a nav, while a popover without a list stays centered", async ({ page }) => {
+    await page.locator("#dialog").evaluate((section) =>
+      section.insertAdjacentHTML(
+        "beforeend",
+        `<nav aria-label="Test"><ul><li><button type="button" popovertarget="nav-menu">More</button>
+          <ul id="nav-menu" popover><li><a href="#dialog">One</a></li><li><a href="#dialog">Two</a></li></ul>
+        </li></ul></nav>`,
+      ),
+    );
+    await page.locator('[popovertarget="nav-menu"]').click();
+    const layout = await page.locator("#nav-menu").evaluate((menu) => ({
+      direction: getComputedStyle(menu).flexDirection,
+      menu: menu.clientWidth - parseFloat(getComputedStyle(menu).paddingInlineStart) * 2,
+      items: [...menu.querySelectorAll("a")].map((link) => link.getBoundingClientRect().width),
+    }));
+    expect(layout.direction).toBe("column");
+    for (const width of layout.items) expect(width).toBeCloseTo(layout.menu, 0);
+
+    await page.keyboard.press("Escape");
+    await page.locator('[popovertarget="demo-popover"]').click();
+    const popover = await rect(page, "#demo-popover");
+    const viewport = page.viewportSize()!;
+    expect(popover.left + popover.width / 2).toBeCloseTo(viewport.width / 2, 0);
+  });
+});

@@ -83,6 +83,16 @@ A `search` element joins its field and button like `role="group"`, whether they 
 </search>
 ```
 
+A popover that is a list, or holds one, is a menu. It opens below the button that toggles it, flips when there isn't room, and closes on Escape or a click outside:
+
+```html
+<button popovertarget="actions">Actions</button>
+<menu id="actions" popover>
+  <li><a href="/edit">Edit</a></li>
+  <li><button>Duplicate</button></li>
+</menu>
+```
+
 A `small` right after a form field is styled as helper text. Connect it with `aria-describedby` so screen readers announce it:
 
 ```html

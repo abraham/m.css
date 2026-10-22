@@ -408,7 +408,14 @@
         <p>
           <button type="button" id="open-dialog">Open dialog</button>
           <button type="button" popovertarget="demo-popover">Toggle popover</button>
+          <button type="button" popovertarget="demo-menu">Actions</button>
         </p>
+        <menu id="demo-menu" popover>
+          <li><a href="#dialog">Edit</a></li>
+          <li><button type="button">Duplicate</button></li>
+          <li><a href="#dialog" aria-current="page">Current item</a></li>
+          <li><button type="button" disabled>Archive</button></li>
+        </menu>
         <dialog id="demo-dialog" aria-labelledby="demo-dialog-title">
           <h3 id="demo-dialog-title">Dialog title</h3>
           <p>A modal dialog on the overlay surface with a blurred backdrop.</p>

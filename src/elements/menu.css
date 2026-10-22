@@ -1,0 +1,62 @@
+/* A popover that is or holds a list is a menu; this comes after layout.css so nav list rules don't apply. */
+:where(:is(ul, ol, menu)[popover], [popover] > :is(ul, ol, menu)) {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  list-style: none;
+
+  /* display: flex would otherwise override the UA's display: none for a closed popover. */
+  &:where([popover]:not(:popover-open)) {
+    display: none;
+  }
+
+  > :where(li) {
+    margin: 0;
+    padding: 0;
+  }
+
+  > :where(li) > :where(a, button) {
+    display: block;
+    inline-size: 100%;
+    padding: var(--_m-space-2) var(--_m-space-3);
+    border: 0;
+    border-radius: var(--m-radius);
+    background-color: transparent;
+    color: var(--_m-text);
+    font-weight: inherit;
+    text-align: start;
+    text-decoration-line: none;
+
+    &:where(:hover:not(:disabled), :focus-visible) {
+      background-color: var(--_m-tint);
+      color: var(--_m-text);
+    }
+
+    &:where([aria-current]:not([aria-current="false"])) {
+      color: var(--_m-primary);
+      font-weight: 600;
+    }
+
+    &:where(:focus-visible) {
+      outline-offset: -2px;
+    }
+  }
+}
+
+:where(:is(ul, ol, menu)[popover], [popover]:has(> :is(ul, ol, menu))) {
+  min-inline-size: 12rem;
+  padding: var(--_m-space-1);
+}
+
+/* Opens below its popovertarget button (the implicit anchor), flipping when there's no room. */
+@supports (position-area: block-end) {
+  :where(:is(ul, ol, menu)[popover], [popover]:has(> :is(ul, ol, menu))) {
+    inset: auto;
+    margin: var(--_m-space-1) 0;
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block, flip-inline;
+  }
+}
