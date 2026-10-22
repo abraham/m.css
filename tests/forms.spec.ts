@@ -47,6 +47,70 @@ test("aria-invalid colors the field border and its helper text", async ({ page }
   expect(plain.helper).not.toBe(invalid.helper);
 });
 
+test.describe("validation icons", () => {
+  // Reads the icon slot at the field's inline end from a screenshot: inked pixels and whether red or green dominates.
+  const icon = async (page: Page, name: string) => {
+    const field = page.locator(`input[name="${name}"]`);
+    const png = (await field.screenshot()).toString("base64");
+    return field.evaluate(async (input, data) => {
+      const image = await createImageBitmap(await (await fetch(`data:image/png;base64,${data}`)).blob());
+      const context = new OffscreenCanvas(image.width, image.height).getContext("2d")!;
+      context.drawImage(image, 0, 0);
+      const style = getComputedStyle(input);
+      const scale = image.width / input.getBoundingClientRect().width;
+      const size = parseFloat(style.fontSize) * scale;
+      const inset = (parseFloat(style.borderInlineEndWidth) + 12) * scale;
+      const rtl = style.direction === "rtl";
+      const x = rtl ? inset : image.width - inset - size;
+      const pixel = (px: number, py: number) => context.getImageData(px, py, 1, 1).data;
+      const background = pixel(rtl ? image.width - 4 * scale : 4 * scale, image.height / 2);
+      let [count, red, green] = [0, 0, 0];
+      for (let px = Math.floor(x); px < x + size; px++) {
+        for (let py = Math.floor((image.height - size) / 2); py < (image.height + size) / 2; py++) {
+          const [r, g, b] = pixel(px, py);
+          if (Math.max(Math.abs(r - background[0]), Math.abs(g - background[1]), Math.abs(b - background[2])) > 64) {
+            count++;
+            red += r > g ? 1 : 0;
+            green += g > r ? 1 : 0;
+          }
+        }
+      }
+      return { count, hue: count === 0 ? "none" : red > green ? "red" : "green" };
+    }, png);
+  };
+
+  test("invalid and valid fields show an icon at the inline end; plain fields don't", async ({ page }) => {
+    expect((await icon(page, "username")).hue).toBe("red");
+    expect((await icon(page, "handle")).hue).toBe("green");
+    expect((await icon(page, "name")).count).toBe(0);
+  });
+
+  test("the icon moves to the left in right-to-left text", async ({ page }) => {
+    await page.locator('input[name="username"]').evaluate((input) => input.setAttribute("dir", "rtl"));
+    expect((await icon(page, "username")).hue).toBe("red");
+  });
+
+  test("the icons stay in forced-colors mode, where both borders look the same", async ({ page }) => {
+    await page.emulateMedia({ forcedColors: "active" });
+    expect((await icon(page, "username")).hue).toBe("red");
+    expect((await icon(page, "handle")).hue).toBe("green");
+  });
+
+  test("selects and date fields skip the icon", async ({ page }) => {
+    const images = await page.evaluate(() => {
+      const field = (html: string) => {
+        document.body.insertAdjacentHTML("beforeend", html);
+        return getComputedStyle(document.body.lastElementChild!).backgroundImage;
+      };
+      return [
+        field('<input type="date" aria-invalid="true" />'),
+        field('<select aria-invalid="true"><option>x</option></select>'),
+      ];
+    });
+    for (const image of images) expect(image).not.toContain("de3c37");
+  });
+});
+
 test.describe("range", () => {
   // Fill and thumb are vendor pseudo-elements that getComputedStyle can't read, so sample a screenshot's middle row.
   const samples = async (page: Page) => {
@@ -123,9 +187,10 @@ test.describe("search", () => {
     const read = () =>
       page.locator('input[type="search"]').evaluate((input) => {
         const style = getComputedStyle(input);
+        // The magnifier is the last background layer; the first is the validation icon slot.
         return {
-          image: style.backgroundImage.startsWith('url("data:image/svg+xml'),
-          x: style.backgroundPositionX,
+          image: style.backgroundImage.split(", ").at(-1)!.startsWith('url("data:image/svg+xml'),
+          x: style.backgroundPositionX.split(", ").at(-1)!,
           start: parseFloat(style.paddingInlineStart),
           end: parseFloat(style.paddingInlineEnd),
         };
