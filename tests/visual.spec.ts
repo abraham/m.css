@@ -43,5 +43,22 @@ test.describe("visual", { tag: "@visual" }, () => {
         await expect(page).toHaveScreenshot(`docs-${colorScheme}-${width}.png`, screenshot);
       });
     }
+
+    test(`popover menu, ${colorScheme}`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
+      await page.goto("/demo/");
+      // A whole-pixel scroll keeps the anchored menu off fractional offsets, which WebKit renders inconsistently.
+      await page
+        .locator('[popovertarget="demo-menu"]')
+        .evaluate((button) =>
+          scrollTo({ top: Math.round(button.getBoundingClientRect().top + scrollY - 100), behavior: "instant" }),
+        );
+      await page.locator('[popovertarget="demo-menu"]').click();
+      await page.mouse.move(0, 0);
+      await expect(page.locator("#demo-menu")).toHaveScreenshot(`menu-${colorScheme}.png`, {
+        animations: "disabled",
+        stylePath: screenshot.stylePath,
+      });
+    });
   }
 });
