@@ -1,6 +1,6 @@
 # m.css markup reference
 
-What m.css styles, and the markup that produces each pattern. Everything here works without classes. Live versions of every pattern: https://abraham.github.io/m.css/demo/components/typography.html
+What m.css styles, and the markup that produces each pattern. Everything here works without classes. Live versions of every pattern: https://abraham.github.io/m.css/components/typography.html
 
 ## Converting class-based markup
 

@@ -5,7 +5,7 @@ import { createServer } from "node:http";
 import { extname, join, resolve, sep } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
-const servable = [join(root, "demo"), join(root, "dist")];
+const site = join(root, "demo");
 const port = Number(process.env.PORT ?? 8080);
 const types: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
@@ -34,12 +34,8 @@ for (const dir of ["src", "demo/components"]) {
 createServer(async (req, res) => {
   try {
     const { pathname } = new URL(req.url ?? "/", "http://localhost");
-    if (pathname === "/") {
-      res.writeHead(302, { location: "/demo/" }).end();
-      return;
-    }
-    let file = resolve(root, `.${decodeURIComponent(pathname)}`);
-    if (!servable.some((dir) => file === dir || file.startsWith(dir + sep))) {
+    let file = resolve(site, `.${decodeURIComponent(pathname)}`);
+    if (file !== site && !file.startsWith(site + sep)) {
       res.writeHead(404).end();
       return;
     }
@@ -54,5 +50,5 @@ createServer(async (req, res) => {
     res.writeHead(404).end();
   }
 }).listen(port, "127.0.0.1", () => {
-  console.log(`Demo: http://localhost:${port}/demo/`);
+  console.log(`Demo: http://localhost:${port}/`);
 });

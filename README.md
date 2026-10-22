@@ -44,7 +44,7 @@ If you installed the package from npm, it's also in `node_modules/@abraham/m.css
 
 ## Customize
 
-Set any of these on `:root`. The color, spacing, corner, and code-font properties also work on any element, to scope them to that part of the page. `--m-font-sans`, `--m-font-size`, and `--m-measure` set the page's font, text size, and column width, so set them on `:root`. Try them live on the [Theming page](https://abraham.github.io/m.css/demo/theming.html), and see whole pages themed with nothing else in the [showcase](https://abraham.github.io/m.css/demo/showcase/).
+Set any of these on `:root`. The color, spacing, corner, and code-font properties also work on any element, to scope them to that part of the page. `--m-font-sans`, `--m-font-size`, and `--m-measure` set the page's font, text size, and column width, so set them on `:root`. Try them live on the [Theming page](https://abraham.github.io/m.css/theming.html), and see whole pages themed with nothing else in the [showcase](https://abraham.github.io/m.css/showcase/).
 
 | Property         | Default                                   | Purpose                                                                   |
 | ---------------- | ----------------------------------------- | ------------------------------------------------------------------------- |
@@ -118,7 +118,7 @@ A `small` right after a `fieldset` is helper text for the whole group, and turns
 
 ## Layout
 
-The markup picks the layout, as the pages in the [layouts gallery](https://abraham.github.io/m.css/demo/layouts/) show:
+The markup picks the layout, as the pages in the [layouts gallery](https://abraham.github.io/m.css/layouts/) show:
 
 ```html
 <body>
@@ -175,8 +175,8 @@ Requires Node 26, which runs the TypeScript tooling directly.
 
 ```sh
 npm install
-npm start               # builds, rebuilds on change, and serves the demo at http://localhost:8080/demo/
-npm run build           # writes dist/m.css and dist/m.min.css, and generates demo/kitchen-sink.html
+npm start               # builds, rebuilds on change, and serves the demo at http://localhost:8080/
+npm run build           # writes dist/m.css and dist/m.min.css, copies m.css into demo/dist, and generates demo/kitchen-sink.html
 npm run lint            # Stylelint, including the no-classes rule
 npm run typecheck
 npm run format          # Prettier

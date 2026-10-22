@@ -19,7 +19,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "node scripts/dev.ts",
-    url: `http://localhost:${port}/demo/`,
+    url: `http://localhost:${port}/`,
     reuseExistingServer: !process.env.CI,
     env: { PORT: String(port) },
   },

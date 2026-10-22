@@ -569,6 +569,14 @@ function setUpBeforeAfter(figure) {
   const iframe = document.createElement("iframe");
   iframe.title = "Example page, with and without m.css";
   iframe.srcdoc = `<!doctype html>${page.documentElement.outerHTML}`;
+  // The fragment's links and form resolve against this page, so following them would load it inside the frame.
+  iframe.addEventListener("load", () => {
+    const frame = iframe.contentDocument;
+    frame?.addEventListener("submit", (event) => event.preventDefault());
+    frame?.addEventListener("click", (event) => {
+      if (/** @type {Element} */ (event.target).closest("a[href]")) event.preventDefault();
+    });
+  });
   figure.replaceChildren(iframe);
 
   const toggle = document.createElement("input");

@@ -16,7 +16,7 @@ test.describe("visual", { tag: "@visual" }, () => {
     for (const colorScheme of forced ? ([undefined] as const) : (["light", "dark"] as const)) {
       test(`${name} showcase page${colorScheme ? `, ${colorScheme}` : ""}`, async ({ page }) => {
         await page.emulateMedia({ colorScheme: colorScheme ?? null, reducedMotion: "reduce" });
-        await page.goto(`/demo/showcase/${name}.html`);
+        await page.goto(`/showcase/${name}.html`);
         await expect(page).toHaveScreenshot(`showcase-${name}${colorScheme ? `-${colorScheme}` : ""}.png`, screenshot);
       });
     }
@@ -25,13 +25,13 @@ test.describe("visual", { tag: "@visual" }, () => {
   for (const colorScheme of ["light", "dark"] as const) {
     test(`kitchen sink, ${colorScheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-      await page.goto("/demo/kitchen-sink.html");
+      await page.goto("/kitchen-sink.html");
       await expect(page).toHaveScreenshot(`kitchen-sink-${colorScheme}.png`, screenshot);
     });
 
     test(`kitchen sink, ${colorScheme}, more contrast`, async ({ page }) => {
       await page.emulateMedia({ colorScheme, contrast: "more", reducedMotion: "reduce" });
-      await page.goto("/demo/kitchen-sink.html");
+      await page.goto("/kitchen-sink.html");
       await expect(page).toHaveScreenshot(`kitchen-sink-${colorScheme}-more-contrast.png`, screenshot);
     });
 
@@ -39,7 +39,7 @@ test.describe("visual", { tag: "@visual" }, () => {
     for (const name of components) {
       test(`${name} examples, ${colorScheme}`, async ({ page }) => {
         await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-        await page.goto(`/demo/components/${name}.html`);
+        await page.goto(`/components/${name}.html`);
         // A sticky top bar would cover the top of whichever example it scrolls to.
         await page.addStyleTag({ content: "body > header > nav { position: static !important; }" });
         for (const figure of await page.locator("figure[data-example]").all()) {
@@ -54,18 +54,18 @@ test.describe("visual", { tag: "@visual" }, () => {
 
     test(`article page, ${colorScheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-      await page.goto("/demo/layouts/article.html");
+      await page.goto("/layouts/article.html");
       await expect(page).toHaveScreenshot(`article-${colorScheme}.png`, screenshot);
     });
 
     for (const [name, path] of [
-      ["home", "/demo/"],
-      ["theming", "/demo/theming.html"],
-      ["layouts", "/demo/layouts/"],
-      ["login", "/demo/layouts/login.html"],
-      ["pricing", "/demo/layouts/pricing.html"],
-      ["settings", "/demo/layouts/settings.html"],
-      ["showcase", "/demo/showcase/"],
+      ["home", "/"],
+      ["theming", "/theming.html"],
+      ["layouts", "/layouts/"],
+      ["login", "/layouts/login.html"],
+      ["pricing", "/layouts/pricing.html"],
+      ["settings", "/layouts/settings.html"],
+      ["showcase", "/showcase/"],
     ]) {
       test(`${name} page, ${colorScheme}`, async ({ page }) => {
         await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
@@ -78,14 +78,14 @@ test.describe("visual", { tag: "@visual" }, () => {
       test(`docs layout, ${colorScheme}, ${width}px`, async ({ page }) => {
         await page.setViewportSize({ width, height: 720 });
         await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-        await page.goto("/demo/layouts/docs.html");
+        await page.goto("/layouts/docs.html");
         await expect(page).toHaveScreenshot(`docs-${colorScheme}-${width}.png`, screenshot);
       });
     }
 
     test(`popover menu, ${colorScheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-      await page.goto("/demo/kitchen-sink.html");
+      await page.goto("/kitchen-sink.html");
       // A whole-pixel scroll keeps the anchored menu off fractional offsets, which WebKit renders inconsistently.
       await page
         .locator('[popovertarget="demo-menu"]')

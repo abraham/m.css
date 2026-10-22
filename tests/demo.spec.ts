@@ -11,8 +11,8 @@ const root = (page: Page) =>
 
 const openSettings = (page: Page) => page.getByRole("button", { name: "Settings" }).click();
 
-const components = componentNames.map((name) => `/demo/components/${name}.html`);
-const themePages = showcase.map((name) => `/demo/showcase/${name}.html`);
+const components = componentNames.map((name) => `/components/${name}.html`);
+const themePages = showcase.map((name) => `/showcase/${name}.html`);
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -44,7 +44,7 @@ test("every internal link resolves, including its fragment", async ({ page, requ
 });
 
 test("every example gets its markup, and state toggles when it declares states", async ({ page }) => {
-  for (const path of [...components, "/demo/theming.html"]) {
+  for (const path of [...components, "/theming.html"]) {
     await page.goto(path);
     const examples = await page.locator("figure[data-example]").evaluateAll((figures) =>
       figures.map((figure) => ({
@@ -80,12 +80,12 @@ test("every page shares the same top bar, marking the current page or its sectio
       }));
     // Pages in a section mark the section's link "true", or "page" on the page it links to.
     const section =
-      components.includes(path) || path === "/demo/kitchen-sink.html"
-        ? "/demo/components/typography.html"
-        : path.startsWith("/demo/layouts/")
-          ? "/demo/layouts/"
-          : path.startsWith("/demo/showcase/")
-            ? "/demo/showcase/"
+      components.includes(path) || path === "/kitchen-sink.html"
+        ? "/components/typography.html"
+        : path.startsWith("/layouts/")
+          ? "/layouts/"
+          : path.startsWith("/showcase/")
+            ? "/showcase/"
             : path;
     const link = new URL(section, page.url()).href;
     expect(bar.current, path).toEqual([`${page.url() === link ? "page" : "true"} ${link}`]);
@@ -137,7 +137,7 @@ test("every page has a settings button, except themed showcase pages, and the to
 });
 
 test("settings apply live, persist across pages, and show the matching CSS", async ({ page }) => {
-  await page.goto("/demo/");
+  await page.goto("/");
   await openSettings(page);
   await page.locator('#demo-settings select[name="theme"]').selectOption("dark");
   await page.locator('#demo-settings input[name="density"]').fill("1.25");
@@ -148,18 +148,18 @@ test("settings apply live, persist across pages, and show the matching CSS", asy
   await expect(page.locator("[data-demo-snippet]")).toContainText('<html data-theme="dark" data-contrast="more">');
   expect(new URL(page.url()).searchParams.get("theme")).toBe("dark");
 
-  await page.goto("/demo/layouts/docs.html");
+  await page.goto("/layouts/docs.html");
   expect(await root(page)).toEqual({ theme: "dark", contrast: "more", dir: null, style: "--m-density: 1.25;" });
 
   await openSettings(page);
   await page.locator('#demo-settings button[type="reset"]').click();
   expect(await root(page)).toEqual({ theme: null, contrast: null, dir: null, style: "" });
-  await page.goto("/demo/layouts/article.html");
+  await page.goto("/layouts/article.html");
   expect(await root(page)).toEqual({ theme: null, contrast: null, dir: null, style: "" });
 });
 
 test("URL parameters apply, and unknown or unsafe values are dropped", async ({ page }) => {
-  await page.goto("/demo/layouts/article.html?dir=rtl&density=9&primary=red;color:red&font=evil&theme=sepia");
+  await page.goto("/layouts/article.html?dir=rtl&density=9&primary=red;color:red&font=evil&theme=sepia");
   expect(await root(page)).toEqual({ theme: null, contrast: null, dir: "rtl", style: "--m-density: 1.5;" });
 });
 
@@ -169,7 +169,7 @@ test.describe("examples", () => {
     page.locator(`#${id} [data-example-states]`).getByRole("button", { name, exact: true });
 
   test.beforeEach(async ({ page }) => {
-    await page.goto("/demo/components/forms.html");
+    await page.goto("/components/forms.html");
   });
 
   test("every example shows its own markup, without demo-only hooks", async ({ page }) => {
@@ -216,9 +216,9 @@ test.describe("examples", () => {
   });
 
   test("a snippet keeps the whitespace inside a pre and drops demo-only hooks", async ({ page }) => {
-    await page.goto("/demo/components/typography.html");
+    await page.goto("/components/typography.html");
     expect(await snippet(page, "code")).toContain("<code>:root {\n  --m-primary:");
-    await page.goto("/demo/components/overlays.html");
+    await page.goto("/components/overlays.html");
     expect(await snippet(page, "dialog")).not.toContain("data-show-modal");
   });
 
@@ -229,7 +229,7 @@ test.describe("examples", () => {
 });
 
 test("the home page switches m.css off and on for its example only", async ({ page }) => {
-  await page.goto("/demo/?theme=dark");
+  await page.goto("/?theme=dark");
   const frame = page.frameLocator("[data-before-after] iframe");
   const button = frame.getByRole("button", { name: "Sign up" });
   const styleOf = () => button.evaluate((element) => getComputedStyle(element).backgroundColor);
@@ -250,9 +250,21 @@ test("the home page switches m.css off and on for its example only", async ({ pa
   await expect(page.locator("pre[data-copy] + p").getByRole("button", { name: "Copy" })).toHaveCount(3);
 });
 
+test("the home page example keeps its form and link inside the example", async ({ page }) => {
+  await page.goto("/");
+  const frame = page.frameLocator("[data-before-after] iframe");
+  await frame.getByRole("textbox", { name: "Email" }).fill("ada@example.com");
+  await frame.getByRole("button", { name: "Sign up" }).click();
+  await frame.getByRole("link", { name: "change these details" }).click();
+  await page.waitForTimeout(500);
+  await expect(frame.getByRole("heading", { name: "Create an account" })).toBeVisible();
+  await expect(frame.locator("[data-before-after]")).toHaveCount(0);
+  expect(await frame.locator("body").evaluate(() => location.href)).toBe("about:srcdoc");
+});
+
 test.describe("theming", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/demo/theming.html");
+    await page.goto("/theming.html");
   });
 
   test("property controls restyle only the example and show the matching CSS", async ({ page }) => {
@@ -295,14 +307,14 @@ test.describe("theming", () => {
 
 test.describe("layouts", () => {
   test("the gallery links every layout, and each layout links its own source", async ({ page }) => {
-    await page.goto("/demo/layouts/");
+    await page.goto("/layouts/");
     const links = await page
       .locator("main article h2 a")
       .evaluateAll((links) => links.map((link) => (link as HTMLAnchorElement).href));
     expect(links).toEqual(layouts.map((name) => new URL(`${name}.html`, page.url()).href));
 
     for (const name of layouts) {
-      await page.goto(`/demo/layouts/${name}.html`);
+      await page.goto(`/layouts/${name}.html`);
       await expect(page.getByRole("link", { name: "View source" })).toHaveAttribute(
         "href",
         `https://github.com/abraham/m.css/blob/main/demo/layouts/${name}.html`,
@@ -311,7 +323,7 @@ test.describe("layouts", () => {
   });
 
   test("settings opens a confirmation dialog and moves the pressed toggle", async ({ page }) => {
-    await page.goto("/demo/layouts/settings.html");
+    await page.goto("/layouts/settings.html");
     await page.getByRole("button", { name: "Delete account", exact: true }).click();
     const dialog = page.getByRole("dialog", { name: "Delete your account?" });
     await expect(dialog).toBeVisible();
@@ -366,7 +378,7 @@ test.describe("showcase", () => {
 
   test("theme pages ignore saved and URL settings, and leave the saved ones alone", async ({ page, request }) => {
     const saved = JSON.stringify({ theme: "dark", density: "1.5", primary: "#00ff00", progress: "on" });
-    await page.goto("/demo/");
+    await page.goto("/");
     await page.evaluate((value) => localStorage.setItem("m-demo-settings", value), saved);
     for (const path of themePages) {
       const theme = (await (await request.get(path)).text()).match(/<html[^>]*data-theme="(\w+)"/)?.[1] ?? null;
@@ -401,7 +413,7 @@ test.describe("showcase", () => {
   });
 
   test("every showcase page has the same sticky subnav, marking the current page", async ({ page }) => {
-    const all = ["/demo/showcase/", ...themePages];
+    const all = ["/showcase/", ...themePages];
     for (const path of all) {
       await page.goto(path);
       const nav = await page.locator('body > header > nav + nav[aria-label="Showcase"]').evaluate((nav) => ({
@@ -417,7 +429,7 @@ test.describe("showcase", () => {
 
   test("gallery cards preview each theme with the values its page uses", async ({ page }) => {
     for (const name of showcase) {
-      await page.goto("/demo/showcase/");
+      await page.goto("/showcase/");
       const card = await page
         .locator(`article[data-showcase="${name}"]`)
         .evaluate(({ style }) =>
@@ -425,7 +437,7 @@ test.describe("showcase", () => {
             Array.from({ length: style.length }, (_, i) => [style[i], style.getPropertyValue(style[i]).trim()]),
           ),
         );
-      await page.goto(`/demo/showcase/${name}.html`);
+      await page.goto(`/showcase/${name}.html`);
       const theme = await themeValues(page);
       expect(Object.keys(card).length, name).toBeGreaterThan(0);
       for (const [property, value] of Object.entries(card)) expect(value, `${name} ${property}`).toBe(theme[property]);
