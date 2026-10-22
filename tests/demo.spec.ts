@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { components as componentNames, pages } from "../scripts/demo.ts";
+import { components as componentNames, layouts, pages } from "../scripts/demo.ts";
 
 const root = (page: Page) =>
   page.evaluate(() => ({
@@ -77,12 +77,15 @@ test("every page shares the same top bar, marking the current page or its sectio
           (link) => `${link.getAttribute("aria-current")} ${(link as HTMLAnchorElement).href}`,
         ),
       }));
-    // A component page marks Components as its section, or as the page itself on the first component page.
-    const typography = new URL("/demo/components/typography.html", page.url()).href;
-    const expected = !components.includes(path)
-      ? [`page ${page.url()}`]
-      : [`${page.url() === typography ? "page" : "true"} ${typography}`];
-    expect(bar.current, path).toEqual(expected);
+    // Pages in a section mark the section's link "true", or "page" on the page it links to.
+    const section =
+      components.includes(path) || path === "/demo/kitchen-sink.html"
+        ? "/demo/components/typography.html"
+        : path.startsWith("/demo/layouts/")
+          ? "/demo/layouts/"
+          : path;
+    const link = new URL(section, page.url()).href;
+    expect(bar.current, path).toEqual([`${page.url() === link ? "page" : "true"} ${link}`]);
     bars.push({ label: bar.label, links: bar.links });
   }
   for (const bar of bars.slice(1)) expect(bar).toEqual(bars[0]);
@@ -139,18 +142,18 @@ test("settings apply live, persist across pages, and show the matching CSS", asy
   await expect(page.locator("[data-demo-snippet]")).toContainText('<html data-theme="dark" data-contrast="more">');
   expect(new URL(page.url()).searchParams.get("theme")).toBe("dark");
 
-  await page.goto("/demo/docs.html");
+  await page.goto("/demo/layouts/docs.html");
   expect(await root(page)).toEqual({ theme: "dark", contrast: "more", dir: null, style: "--m-density: 1.25;" });
 
   await openSettings(page);
   await page.locator('#demo-settings button[type="reset"]').click();
   expect(await root(page)).toEqual({ theme: null, contrast: null, dir: null, style: "" });
-  await page.goto("/demo/article.html");
+  await page.goto("/demo/layouts/article.html");
   expect(await root(page)).toEqual({ theme: null, contrast: null, dir: null, style: "" });
 });
 
 test("URL parameters apply, and unknown or unsafe values are dropped", async ({ page }) => {
-  await page.goto("/demo/article.html?dir=rtl&density=9&primary=red;color:red&font=evil&theme=sepia");
+  await page.goto("/demo/layouts/article.html?dir=rtl&density=9&primary=red;color:red&font=evil&theme=sepia");
   expect(await root(page)).toEqual({ theme: null, contrast: null, dir: "rtl", style: "--m-density: 1.5;" });
 });
 
@@ -281,5 +284,38 @@ test.describe("theming", () => {
       await expect(panel.locator("*").first()).toBeAttached();
     }
     await expect(page.locator("[data-motion-readout]")).not.toBeEmpty();
+  });
+});
+
+test.describe("layouts", () => {
+  test("the gallery links every layout, and each layout links its own source", async ({ page }) => {
+    await page.goto("/demo/layouts/");
+    const links = await page
+      .locator("main article h2 a")
+      .evaluateAll((links) => links.map((link) => (link as HTMLAnchorElement).href));
+    expect(links).toEqual(layouts.map((name) => new URL(`${name}.html`, page.url()).href));
+
+    for (const name of layouts) {
+      await page.goto(`/demo/layouts/${name}.html`);
+      await expect(page.getByRole("link", { name: "View source" })).toHaveAttribute(
+        "href",
+        `https://github.com/abraham/m.css/blob/main/demo/layouts/${name}.html`,
+      );
+    }
+  });
+
+  test("settings opens a confirmation dialog and moves the pressed toggle", async ({ page }) => {
+    await page.goto("/demo/layouts/settings.html");
+    await page.getByRole("button", { name: "Delete account", exact: true }).click();
+    const dialog = page.getByRole("dialog", { name: "Delete your account?" });
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole("button", { name: "Cancel" })).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+
+    const week = page.getByRole("group", { name: "Week starts on" });
+    await week.getByRole("button", { name: "Sunday" }).click();
+    await expect(week.getByRole("button", { name: "Sunday" })).toHaveAttribute("aria-pressed", "true");
+    await expect(week.getByRole("button", { name: "Monday" })).toHaveAttribute("aria-pressed", "false");
   });
 });

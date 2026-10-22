@@ -51,7 +51,7 @@ test.describe("cards", () => {
   });
 
   test("a page's lone article is plain text, not a card", async ({ page }) => {
-    await page.goto("/demo/article.html");
+    await page.goto("/demo/layouts/article.html");
     const style = await page.locator("main > article").evaluate((article) => ({
       border: getComputedStyle(article).borderTopWidth,
       padding: getComputedStyle(article).paddingTop,
@@ -69,7 +69,7 @@ test.describe("docs layout", () => {
 
   test("the top nav sticks and the sticky offset matches its height", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 320 });
-    await page.goto("/demo/article.html");
+    await page.goto("/demo/layouts/article.html");
     expect(await page.locator("body > header > nav").count()).toBe(1);
     expect(await stickyOffset(page)).toBeCloseTo((await rect(page, "body > header > nav")).height, 0);
 
@@ -78,7 +78,7 @@ test.describe("docs layout", () => {
   });
 
   test("a subnav sticks below the top bar and the sticky offset covers both", async ({ page }) => {
-    await page.goto("/demo/docs.html");
+    await page.goto("/demo/layouts/docs.html");
     const top = await rect(page, "body > header > nav");
     const sub = await rect(page, lastBar);
     expect(sub.height).toBeCloseTo(top.height, 0);
@@ -90,7 +90,7 @@ test.describe("docs layout", () => {
   });
 
   test("the side nav and rail sit beside main and stick below the top bar", async ({ page }) => {
-    await page.goto("/demo/docs.html");
+    await page.goto("/demo/layouts/docs.html");
     const [side, main, aside] = await Promise.all([
       rect(page, "body > nav"),
       rect(page, "main"),
@@ -107,7 +107,7 @@ test.describe("docs layout", () => {
 
   test("a side nav taller than the window scrolls on its own", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 320 });
-    await page.goto("/demo/docs.html");
+    await page.goto("/demo/layouts/docs.html");
     await page.evaluate(() => scrollTo({ top: 1200, behavior: "instant" }));
     const sizes = await page.locator("body > nav").evaluate((nav) => ({
       scroll: nav.scrollHeight,
@@ -140,7 +140,7 @@ test.describe("docs layout", () => {
 
   test("narrow screens stack into one column with sideways-scrolling nav rows", async ({ page }) => {
     await page.setViewportSize({ width: 600, height: 800 });
-    await page.goto("/demo/docs.html");
+    await page.goto("/demo/layouts/docs.html");
     expect(await page.evaluate(() => getComputedStyle(document.body).display)).toBe("block");
     const list = await page
       .locator("body > nav > ul")
@@ -150,7 +150,7 @@ test.describe("docs layout", () => {
   });
 
   test("anchor targets and sticky table headers clear the top bar", async ({ page }) => {
-    await page.goto("/demo/docs.html#density");
+    await page.goto("/demo/layouts/docs.html#density");
     const bar = await rect(page, lastBar);
     expect((await rect(page, "#density h2")).top).toBeGreaterThanOrEqual(bar.bottom);
 
@@ -161,7 +161,7 @@ test.describe("docs layout", () => {
 
   // WCAG 2.4.11 Focus Not Obscured.
   test("focused content is not hidden behind the top bar", async ({ page }) => {
-    await page.goto("/demo/docs.html");
+    await page.goto("/demo/layouts/docs.html");
     await page.evaluate(() => scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
     await page.locator("#install pre").focus();
     const bar = await rect(page, lastBar);
@@ -177,7 +177,7 @@ test.describe("navigation extras", () => {
   for (const width of [1440, 360]) {
     test(`a top bar with two lists splits to either end and keeps one line at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 800 });
-      await page.goto("/demo/docs.html");
+      await page.goto("/demo/layouts/docs.html");
       const [nav, brand, links] = await Promise.all([
         rect(page, "body > header > nav"),
         rect(page, "body > header > nav > ul:first-child"),
@@ -207,7 +207,7 @@ test.describe("navigation extras", () => {
   });
 
   test("breadcrumb separators are drawn but not announced, and the last item is muted", async ({ page }) => {
-    await page.goto("/demo/docs.html");
+    await page.goto("/demo/layouts/docs.html");
     const crumbs = page.locator('main nav[aria-label="Breadcrumb"]');
     const separators = await crumbs
       .locator("li")
@@ -215,7 +215,7 @@ test.describe("navigation extras", () => {
     expect(separators[0]).toBe("none");
     expect(separators.slice(1).every((content) => content.startsWith('"/"'))).toBe(true);
     const snapshot = await crumbs.ariaSnapshot();
-    expect(snapshot).toContain('link "Layout"');
+    expect(snapshot).toContain('link "Docs"');
     expect(snapshot.split("\n").filter((line) => line.includes("/") && !line.includes("/url:"))).toEqual([]);
 
     const colors = await crumbs.evaluate((nav) => ({
@@ -225,6 +225,48 @@ test.describe("navigation extras", () => {
     }));
     expect(colors.last).toBe(colors.muted);
     expect(colors.last).not.toBe(colors.first);
+  });
+});
+
+test.describe("layout pages", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1280, height: 800 });
+  });
+
+  test("pricing puts its plans in one row of equal cards under a split subnav", async ({ page }) => {
+    await page.goto("/demo/layouts/pricing.html");
+    const cards = await page
+      .locator("#plans article")
+      .evaluateAll((articles) => articles.map((article) => article.getBoundingClientRect().toJSON() as DOMRect));
+    expect(cards).toHaveLength(3);
+    for (const card of cards) {
+      expect(card.top).toBeCloseTo(cards[0].top, 0);
+      expect(card.height).toBeCloseTo(cards[0].height, 0);
+    }
+
+    const [nav, sections, account] = await Promise.all([
+      rect(page, lastBar),
+      rect(page, `${lastBar} > ul:first-child`),
+      rect(page, `${lastBar} > ul:last-child`),
+    ]);
+    expect(sections.left).toBeLessThanOrEqual(nav.left);
+    expect(account.right).toBeGreaterThanOrEqual(nav.right);
+    expect(await stickyOffset(page)).toBeCloseTo(await barsHeight(page), 0);
+  });
+
+  test("the sign-in card is narrow and centered", async ({ page }) => {
+    await page.goto("/demo/layouts/login.html");
+    const main = await rect(page, "main");
+    const width = await page.evaluate(() => document.documentElement.clientWidth);
+    expect(main.width).toBeLessThanOrEqual(24 * 16);
+    expect(main.left).toBeCloseTo(width - main.right, 0);
+    expect(await page.locator("main > article").evaluate((card) => getComputedStyle(card).borderTopWidth)).toBe("1px");
+  });
+
+  test("settings puts its side nav beside the form groups", async ({ page }) => {
+    await page.goto("/demo/layouts/settings.html");
+    expect((await rect(page, "body > nav")).right).toBeLessThanOrEqual((await rect(page, "main")).left);
   });
 });
 
@@ -259,7 +301,7 @@ test("the top bar hides while scrolling down and returns while scrolling up", as
   test.skip(browserName !== "chromium", "scroll-state(scrolled) queries are Chromium-only");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.setViewportSize({ width: 1440, height: 800 });
-  await page.goto("/demo/docs.html");
+  await page.goto("/demo/layouts/docs.html");
   await page.mouse.move(700, 400);
 
   await page.mouse.wheel(0, 600);

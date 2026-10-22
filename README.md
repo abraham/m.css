@@ -108,7 +108,7 @@ A `small` right after a `fieldset` is helper text for the whole group, and turns
 
 ## Layout
 
-The markup picks the layout:
+The markup picks the layout, as the pages in the [layouts gallery](https://abraham.github.io/m.css/demo/layouts/) show:
 
 ```html
 <body>

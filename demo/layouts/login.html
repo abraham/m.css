@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign in · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+    <style>
+      /* m.css has no centering rule. Unlayered CSS like this beats it without !important. */
+      main {
+        max-inline-size: 24rem;
+        margin-inline: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="../components/typography.html">Components</a></li>
+          <li><a href="./" aria-current="true">Layouts</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <article>
+        <header><h1>Sign in</h1></header>
+        <form>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            Password
+            <input type="password" name="password" autocomplete="current-password" required />
+          </label>
+          <label><input type="checkbox" name="remember" role="switch" /> Keep me signed in</label>
+          <button>Sign in</button>
+        </form>
+        <footer>
+          <small>Forgot your password? Ask your workspace admin to send a reset link.</small>
+        </footer>
+      </article>
+      <p>New here? <a href="pricing.html">Choose a plan</a> to create an account.</p>
+    </main>
+
+    <footer>
+      <p>
+        <a href="https://github.com/abraham/m.css/blob/main/demo/layouts/login.html">View source</a> ·
+        <a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a>
+      </p>
+    </footer>
+  </body>
+</html>

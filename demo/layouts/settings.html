@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="../components/typography.html">Components</a></li>
+          <li><a href="./" aria-current="true">Layouts</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <h1>Account settings</h1>
+      <p>Your profile, notifications, and preferences.</p>
+    </header>
+
+    <nav aria-label="Account settings">
+      <ul>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#notifications">Notifications</a></li>
+        <li><a href="#preferences">Preferences</a></li>
+        <li><a href="#account">Account</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="profile" aria-labelledby="profile-title">
+        <h2 id="profile-title">Profile</h2>
+        <form>
+          <label>
+            Name
+            <input name="name" autocomplete="name" value="Ada Lovelace" />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" value="ada@example.com" />
+          </label>
+          <label>
+            Bio
+            <textarea name="bio" rows="3">Writes about engines, notes, and poetical science.</textarea>
+          </label>
+          <button>Save profile</button>
+        </form>
+      </section>
+
+      <section id="notifications" aria-labelledby="notifications-title">
+        <h2 id="notifications-title">Notifications</h2>
+        <form>
+          <fieldset>
+            <legend>Email me when</legend>
+            <label><input type="checkbox" name="notify-comments" role="switch" checked /> Someone comments</label>
+            <label><input type="checkbox" name="notify-mentions" role="switch" checked /> Someone mentions me</label>
+            <label><input type="checkbox" name="notify-summary" role="switch" /> A weekly summary is ready</label>
+          </fieldset>
+          <button>Save notifications</button>
+        </form>
+      </section>
+
+      <section id="preferences" aria-labelledby="preferences-title">
+        <h2 id="preferences-title">Preferences</h2>
+        <p id="week-start">Week starts on</p>
+        <p>
+          <span role="group" aria-labelledby="week-start">
+            <button type="button" aria-pressed="false">Sunday</button>
+            <button type="button" aria-pressed="true">Monday</button>
+          </span>
+        </p>
+        <form>
+          <label>
+            Language
+            <select name="language">
+              <option>English</option>
+              <option>Español</option>
+              <option>Français</option>
+            </select>
+          </label>
+          <label>
+            Time zone
+            <select name="time-zone">
+              <option>London</option>
+              <option>New York</option>
+              <option>Tokyo</option>
+            </select>
+          </label>
+          <button>Save preferences</button>
+        </form>
+      </section>
+
+      <section id="account" aria-labelledby="account-title">
+        <h2 id="account-title">Account</h2>
+        <p>Deleting your account removes your projects and can't be undone.</p>
+        <button type="button" data-show-modal="delete-dialog">Delete account</button>
+        <dialog id="delete-dialog" aria-labelledby="delete-dialog-title">
+          <h3 id="delete-dialog-title">Delete your account?</h3>
+          <p>Your projects and settings will be removed. This can't be undone.</p>
+          <form method="dialog">
+            <button value="cancel" autofocus>Cancel</button>
+            <button value="delete">Delete account</button>
+          </form>
+        </dialog>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="https://github.com/abraham/m.css/blob/main/demo/layouts/settings.html">View source</a> ·
+        <a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a>
+      </p>
+    </footer>
+  </body>
+</html>

@@ -40,13 +40,17 @@ test.describe("visual", { tag: "@visual" }, () => {
 
     test(`article page, ${colorScheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-      await page.goto("/demo/article.html");
+      await page.goto("/demo/layouts/article.html");
       await expect(page).toHaveScreenshot(`article-${colorScheme}.png`, screenshot);
     });
 
     for (const [name, path] of [
       ["home", "/demo/"],
       ["theming", "/demo/theming.html"],
+      ["layouts", "/demo/layouts/"],
+      ["login", "/demo/layouts/login.html"],
+      ["pricing", "/demo/layouts/pricing.html"],
+      ["settings", "/demo/layouts/settings.html"],
     ]) {
       test(`${name} page, ${colorScheme}`, async ({ page }) => {
         await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
@@ -59,7 +63,7 @@ test.describe("visual", { tag: "@visual" }, () => {
       test(`docs layout, ${colorScheme}, ${width}px`, async ({ page }) => {
         await page.setViewportSize({ width, height: 720 });
         await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-        await page.goto("/demo/docs.html");
+        await page.goto("/demo/layouts/docs.html");
         await expect(page).toHaveScreenshot(`docs-${colorScheme}-${width}.png`, screenshot);
       });
     }

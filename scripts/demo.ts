@@ -7,14 +7,17 @@ const demo = join(root, "demo");
 /** Component pages in site order; the kitchen sink and the site checks are generated from this list. */
 export const components = ["typography", "links-buttons", "forms", "content", "navigation", "overlays", "feedback"];
 
+/** Layout pages in gallery order, under demo/layouts/. */
+export const layouts = ["docs", "article", "login", "pricing", "settings"];
+
 /** Every demo page, for checks that cover the whole site. */
 export const pages = [
   "/demo/",
   "/demo/theming.html",
   ...components.map((name) => `/demo/components/${name}.html`),
   "/demo/kitchen-sink.html",
-  "/demo/docs.html",
-  "/demo/article.html",
+  "/demo/layouts/",
+  ...layouts.map((name) => `/demo/layouts/${name}.html`),
 ];
 
 interface Section {
@@ -129,10 +132,8 @@ ${section.markup.join("\n")}
         <ul>
           <li><a href="./">Home</a></li>
           <li><a href="theming.html">Theming</a></li>
-          <li><a href="components/typography.html">Components</a></li>
-          <li><a href="kitchen-sink.html" aria-current="page">Kitchen sink</a></li>
-          <li><a href="docs.html">Docs layout</a></li>
-          <li><a href="article.html">Article page</a></li>
+          <li><a href="components/typography.html" aria-current="true">Components</a></li>
+          <li><a href="layouts/">Layouts</a></li>
           <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
         </ul>
       </nav>
