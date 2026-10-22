@@ -250,6 +250,18 @@ test("the home page switches m.css off and on for its example only", async ({ pa
   await expect(page.locator("pre[data-copy] + p").getByRole("button", { name: "Copy" })).toHaveCount(3);
 });
 
+test("the home page example keeps its form and link inside the example", async ({ page }) => {
+  await page.goto("/");
+  const frame = page.frameLocator("[data-before-after] iframe");
+  await frame.getByRole("textbox", { name: "Email" }).fill("ada@example.com");
+  await frame.getByRole("button", { name: "Sign up" }).click();
+  await frame.getByRole("link", { name: "change these details" }).click();
+  await page.waitForTimeout(500);
+  await expect(frame.getByRole("heading", { name: "Create an account" })).toBeVisible();
+  await expect(frame.locator("[data-before-after]")).toHaveCount(0);
+  expect(await frame.locator("body").evaluate(() => location.href)).toBe("about:srcdoc");
+});
+
 test.describe("theming", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/theming.html");
