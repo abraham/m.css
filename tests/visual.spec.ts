@@ -29,6 +29,13 @@ test.describe("visual", { tag: "@visual" }, () => {
       }
     }
 
+    test(`kitchen sink, ${colorScheme}, more contrast`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme, contrast: "more", reducedMotion: "reduce" });
+      await page.goto("/demo/");
+      await page.locator('input[type="date"]').evaluate((input: HTMLInputElement) => (input.value = "2026-01-15"));
+      await expect(page).toHaveScreenshot(`kitchen-sink-${colorScheme}-more-contrast.png`, screenshot);
+    });
+
     test(`article page, ${colorScheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
       await page.goto("/demo/article.html");

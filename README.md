@@ -63,6 +63,7 @@ Hover, subtle, and dark-mode variants of the primary color are derived automatic
 | ---------------------------------- | --------------------- | ------------------------------------------------------------------------ |
 | `data-theme="light"` or `"dark"`   | `html` or any element | Forces a color scheme instead of following the system                    |
 | `data-motion="reduce"`             | `html` or any element | Turns animations off, like `prefers-reduced-motion`                      |
+| `data-contrast="more"`             | `html` or any element | Raises contrast, like `prefers-contrast: more`                           |
 | `data-scroll-progress`             | `html`                | Shows a reading progress bar at the top of the window                    |
 | `aria-busy="true"`                 | Any element           | Shows an inline loading spinner                                          |
 | `aria-current="page"`              | A link in a `nav`     | Marks the current page                                                   |
@@ -153,7 +154,7 @@ The two most recent major versions of Chrome, Edge, Firefox, and Safari (desktop
 
 ## Accessibility
 
-Colors meet WCAG AA in both schemes, focus rings are always visible, and forced-colors mode redraws custom controls in system colors. A few things are up to your markup:
+Colors meet WCAG AA in both schemes, focus rings are always visible, and forced-colors mode redraws custom controls in system colors. When the system asks for more contrast (`prefers-contrast: more`), or an element has `data-contrast="more"`, text reaches WCAG AAA (7:1), borders and underlines turn solid, and focus rings grow to 3px. A few things are up to your markup:
 
 - Give a horizontally scrolling `pre` a `tabindex="0"` so keyboard users can scroll it.
 - Label navigation landmarks, for example `<nav aria-label="Docs">`, when a page has more than one.
