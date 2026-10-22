@@ -44,6 +44,17 @@ test.describe("visual", { tag: "@visual" }, () => {
       await expect(page).toHaveScreenshot(`article-${colorScheme}.png`, screenshot);
     });
 
+    for (const [name, path] of [
+      ["home", "/demo/"],
+      ["theming", "/demo/theming.html"],
+    ]) {
+      test(`${name} page, ${colorScheme}`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
+        await page.goto(path);
+        await expect(page).toHaveScreenshot(`${name}-${colorScheme}.png`, screenshot);
+      });
+    }
+
     for (const width of [1280, 600]) {
       test(`docs layout, ${colorScheme}, ${width}px`, async ({ page }) => {
         await page.setViewportSize({ width, height: 720 });

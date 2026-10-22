@@ -34,7 +34,7 @@ m.css is meant to be the page's only stylesheet, and it owns the document layout
 
 ## Customize
 
-Set any of these on `:root`, or on any element to scope them to that part of the page.
+Set any of these on `:root`, or on any element to scope them to that part of the page. Try them live on the [Theming page](https://abraham.github.io/m.css/demo/theming.html).
 
 | Property         | Default                                   | Purpose                                                                   |
 | ---------------- | ----------------------------------------- | ------------------------------------------------------------------------- |

@@ -16,6 +16,7 @@
         </ul>
         <ul>
           <li><a href="./" aria-current="page">Home</a></li>
+          <li><a href="theming.html">Theming</a></li>
           <li><a href="components/typography.html">Components</a></li>
           <li><a href="kitchen-sink.html">Kitchen sink</a></li>
           <li><a href="docs.html">Docs layout</a></li>
@@ -23,36 +24,151 @@
           <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
         </ul>
       </nav>
-      <h1>m.css</h1>
-      <p>A classless stylesheet: link it, write semantic HTML, and every element looks clean and modern.</p>
+      <hgroup>
+        <p>Classless CSS</p>
+        <h1>m.css</h1>
+        <p>Link one stylesheet, write semantic HTML, and every element looks clean and modern. No classes.</p>
+      </hgroup>
     </header>
 
     <main>
-      <section id="explore">
-        <h2>Explore</h2>
-        <ul>
-          <li><a href="components/typography.html">Components</a>: every element, with live states and its markup.</li>
-          <li><a href="kitchen-sink.html">Kitchen sink</a>: every example on one page.</li>
-          <li><a href="docs.html">Docs layout</a> and <a href="article.html">article page</a>: full-page layouts.</li>
-        </ul>
+      <section id="before-after" aria-labelledby="before-after-title">
+        <h2 id="before-after-title">Same HTML, with and without m.css</h2>
+        <p>
+          This fragment is plain markup: a heading, a paragraph, a form, and a table, with no classes or attributes for
+          styling. Turn m.css off to see what the browser does on its own.
+        </p>
+        <figure data-before-after>
+          <h3>Create an account</h3>
+          <p>It takes a minute. You can <a href="#before-after">change these details</a> later.</p>
+          <form action="#before-after">
+            <label>
+              Email
+              <input type="email" name="signup-email" placeholder="ada@example.com" autocomplete="email" />
+            </label>
+            <label><input type="checkbox" name="signup-news" role="switch" checked /> Send me product news</label>
+            <button>Sign up</button>
+          </form>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Plan</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Starter</td>
+                <td>Free</td>
+              </tr>
+              <tr>
+                <td>Team</td>
+                <td>$12</td>
+              </tr>
+            </tbody>
+          </table>
+        </figure>
       </section>
 
-      <section id="tokens">
-        <h2>Tokens</h2>
-        <p>The internal tokens m.css derives from its public properties, at the root and in two themed subtrees.</p>
-        <p>Motion: <output id="motion" data-motion-readout></output></p>
-        <div data-token-panel></div>
-        <div data-theme="dark" style="--m-primary: oklch(65% 0.2 150); --m-density: 1.25; padding: 1rem">
-          <p>Dark subtree, green primary, density 1.25</p>
-          <div data-token-panel></div>
+      <section id="quick-start" aria-labelledby="quick-start-title">
+        <h2 id="quick-start-title">Quick start</h2>
+        <ol>
+          <li>
+            <p>Link the stylesheet in your page's <code>head</code>:</p>
+            <pre
+              tabindex="0"
+              data-copy
+            ><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/m.css/dist/m.min.css" /&gt;</code></pre>
+          </li>
+          <li>
+            <p>Write semantic HTML. Landmarks, headings, forms, and tables are styled as they are:</p>
+            <pre tabindex="0" data-copy><code>&lt;main&gt;
+  &lt;h1&gt;Hello&lt;/h1&gt;
+  &lt;p&gt;Plain HTML, styled.&lt;/p&gt;
+  &lt;button&gt;Get started&lt;/button&gt;
+&lt;/main&gt;</code></pre>
+          </li>
+          <li>
+            <p>Optionally, set a property or two to make it yours:</p>
+            <pre tabindex="0" data-copy><code>:root {
+  --m-primary: #2563eb;
+  --m-density: 1.1;
+}</code></pre>
+          </li>
+        </ol>
+        <p>
+          Or install it with <code>npm install @abraham/m.css</code> and import it through your bundler. Try the
+          properties live on the <a href="theming.html">Theming</a> page, or with the Settings button at the top of any
+          page.
+        </p>
+      </section>
+
+      <section id="explore" aria-labelledby="explore-title">
+        <h2 id="explore-title">What you get</h2>
+        <div>
+          <article>
+            <h3><a href="components/typography.html">Typography</a></h3>
+            <p>Text, headings, lists, quotes, and code.</p>
+          </article>
+          <article>
+            <h3><a href="components/links-buttons.html">Links and buttons</a></h3>
+            <p>Buttons, link buttons, groups, and toggles.</p>
+          </article>
+          <article>
+            <h3><a href="components/forms.html">Forms</a></h3>
+            <p>Fields, choices, switches, validation, and search.</p>
+          </article>
+          <article>
+            <h3><a href="components/content.html">Content</a></h3>
+            <p>Cards, tables, media, and details.</p>
+          </article>
+          <article>
+            <h3><a href="components/navigation.html">Navigation</a></h3>
+            <p>Sticky bars, side navs, breadcrumbs, and layouts from markup.</p>
+          </article>
+          <article>
+            <h3><a href="components/overlays.html">Overlays</a></h3>
+            <p>Dialogs, popovers, and menus.</p>
+          </article>
+          <article>
+            <h3><a href="components/feedback.html">Feedback</a></h3>
+            <p>Progress, meters, and loading states.</p>
+          </article>
+          <article>
+            <h3><a href="theming.html">Theming</a></h3>
+            <p>Properties, schemes, motion, and contrast.</p>
+          </article>
+          <article>
+            <h3><a href="docs.html">Layouts</a></h3>
+            <p>A <a href="docs.html">docs layout</a> and an <a href="article.html">article page</a>.</p>
+          </article>
         </div>
-        <div
-          data-theme="light"
-          style="--m-primary: oklch(55% 0.22 20); --m-on-primary: oklch(98% 0.01 20); --m-density: 0.75; padding: 1rem"
-        >
-          <p>Light subtree, red primary, custom on-primary, density 0.75</p>
-          <div data-token-panel></div>
-        </div>
+      </section>
+
+      <section id="principles" aria-labelledby="principles-title">
+        <h2 id="principles-title">Principles</h2>
+        <ul>
+          <li>
+            <strong>Strictly classless.</strong> m.css only styles elements, attributes, and ARIA states. See any
+            <a href="components/typography.html">component page</a>.
+          </li>
+          <li>
+            <strong>Easy to override.</strong> Every rule sits in a cascade layer with zero specificity, so your CSS
+            wins without <code>!important</code>.
+          </li>
+          <li>
+            <strong>Light and dark.</strong> It follows the system, and <code>data-theme</code> overrides it for the
+            page or any section. See <a href="theming.html#schemes">Theming</a>.
+          </li>
+          <li>
+            <strong>Motion and contrast preferences.</strong> Reduced motion and more contrast are honored, with
+            attribute overrides. See <a href="theming.html#preferences">Theming</a>.
+          </li>
+          <li>
+            <strong>Accessible by default.</strong> Text meets WCAG AA, focus is always visible, and forced-colors mode
+            redraws custom controls in system colors.
+          </li>
+        </ul>
       </section>
     </main>
 

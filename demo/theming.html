@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Theming · m.css</title>
+    <link rel="stylesheet" href="../dist/m.css" />
+    <link rel="stylesheet" href="assets/demo.css" />
+    <script src="assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="./">Home</a></li>
+          <li><a href="theming.html" aria-current="page">Theming</a></li>
+          <li><a href="components/typography.html">Components</a></li>
+          <li><a href="kitchen-sink.html">Kitchen sink</a></li>
+          <li><a href="docs.html">Docs layout</a></li>
+          <li><a href="article.html">Article page</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <h1>Theming</h1>
+      <p>A handful of custom properties restyle everything, and attributes switch schemes and preferences.</p>
+    </header>
+
+    <main>
+      <section id="properties" aria-labelledby="properties-title">
+        <h2 id="properties-title">Properties</h2>
+        <p>
+          Set these on <code>:root</code> for the whole page, or on any element to scope them to that part of the page.
+          Spacing, type, and every color variant derive from them.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Default</th>
+              <th scope="col">Controls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--m-primary</code></td>
+              <td><code>oklch(55% 0.19 40)</code></td>
+              <td>Links, buttons, focus rings, checked controls, and every hover and tint variant</td>
+            </tr>
+            <tr>
+              <td><code>--m-on-primary</code></td>
+              <td>Black or white, for contrast</td>
+              <td>Text on primary backgrounds</td>
+            </tr>
+            <tr>
+              <td><code>--m-density</code></td>
+              <td><code>1</code></td>
+              <td>All spacing and line height</td>
+            </tr>
+            <tr>
+              <td><code>--m-radius</code></td>
+              <td><code>0.5rem</code></td>
+              <td>Corner rounding</td>
+            </tr>
+            <tr>
+              <td><code>--m-font-size</code></td>
+              <td><code>1rem</code></td>
+              <td>Body text size</td>
+            </tr>
+            <tr>
+              <td><code>--m-measure</code></td>
+              <td><code>100ch</code></td>
+              <td>The width of the main column</td>
+            </tr>
+            <tr>
+              <td><code>--m-font-sans</code></td>
+              <td><code>system-ui, sans-serif</code></td>
+              <td>Body and heading font</td>
+            </tr>
+            <tr>
+              <td><code>--m-font-mono</code></td>
+              <td><code>ui-monospace, …, monospace</code></td>
+              <td>Code font</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="playground" aria-labelledby="playground-title">
+        <h2 id="playground-title">Try them</h2>
+        <p>These controls set the properties on the example below only, which is how you'd theme one part of a page.</p>
+        <form data-property-controls aria-label="Property controls">
+          <label data-property="--m-primary">
+            Primary
+            <input type="color" value="#c2410c" />
+          </label>
+          <label data-property="--m-density">
+            Density
+            <input type="range" min="0.75" max="1.5" step="0.05" value="1" />
+          </label>
+          <label data-property="--m-radius" data-unit="rem">
+            Radius
+            <input type="range" min="0" max="1.5" step="0.125" value="0.5" />
+          </label>
+          <label data-property="--m-font-size" data-unit="rem">
+            Font size
+            <input type="range" min="0.875" max="1.25" step="0.0625" value="1" />
+          </label>
+        </form>
+        <figure data-example="playground">
+          <article>
+            <header><strong>Team plan</strong></header>
+            <p>Shared settings and more storage. <a href="#playground">Compare plans</a>.</p>
+            <label>
+              Work email
+              <input type="email" name="playground-email" placeholder="ada@example.com" />
+            </label>
+            <label><input type="checkbox" name="playground-annual" role="switch" checked /> Bill yearly</label>
+            <footer>
+              <button type="button">Choose Team</button>
+              <button type="submit" form="none" formnovalidate>Talk to sales</button>
+            </footer>
+          </article>
+        </figure>
+        <pre tabindex="0" data-copy><code data-property-css>/* Move a control to see the CSS. */</code></pre>
+      </section>
+
+      <section id="schemes" aria-labelledby="schemes-title">
+        <h2 id="schemes-title">Light and dark</h2>
+        <p>
+          The page follows the system preference. <code>data-theme="light"</code> or <code>"dark"</code> forces a scheme
+          for the whole page or for any section, like these two cards.
+        </p>
+        <figure data-example="schemes">
+          <div>
+            <article data-theme="light">
+              <h3>Light</h3>
+              <p>Body text with <a href="#schemes">a link</a> and <mark>a highlight</mark>.</p>
+              <p><button type="button">Primary</button></p>
+            </article>
+            <article data-theme="dark">
+              <h3>Dark</h3>
+              <p>Body text with <a href="#schemes">a link</a> and <mark>a highlight</mark>.</p>
+              <p><button type="button">Primary</button></p>
+            </article>
+          </div>
+        </figure>
+      </section>
+
+      <section id="preferences" aria-labelledby="preferences-title">
+        <h2 id="preferences-title">Motion and contrast</h2>
+        <p>
+          m.css follows <code>prefers-reduced-motion</code> and <code>prefers-contrast: more</code>. To force them on
+          for a page or a section, set <code>data-motion="reduce"</code> or <code>data-contrast="more"</code>.
+        </p>
+        <figure data-example="preferences">
+          <div>
+            <article>
+              <h3>Default</h3>
+              <p>Borders, underlines, and <a href="#preferences">links</a> at their usual strength.</p>
+              <progress>Loading…</progress>
+            </article>
+            <article data-motion="reduce" data-contrast="more">
+              <h3>Reduced motion, more contrast</h3>
+              <p>
+                Solid borders and underlines, and stronger <a href="#preferences">links</a>. The bar pulses instead of
+                sliding.
+              </p>
+              <progress>Loading…</progress>
+            </article>
+          </div>
+        </figure>
+        <p>
+          To test the system settings, emulate them in your browser's developer tools. In Chromium, open the Rendering
+          panel and set "Emulate CSS media feature" for <code>prefers-reduced-motion</code>,
+          <code>prefers-contrast</code>, or <code>forced-colors</code>.
+        </p>
+      </section>
+
+      <section id="tokens" aria-labelledby="tokens-title">
+        <h2 id="tokens-title">Token explorer</h2>
+        <p>
+          The internal <code>--_m-*</code> tokens m.css derives from the properties, at the root and in two themed
+          subtrees. They can change between versions, so set the public properties instead.
+        </p>
+        <p>Motion: <output id="motion" data-motion-readout></output></p>
+        <div data-token-panel></div>
+        <div data-theme="dark" style="--m-primary: oklch(65% 0.2 150); --m-density: 1.25; padding: 1rem">
+          <p>Dark subtree, green primary, density 1.25</p>
+          <div data-token-panel></div>
+        </div>
+        <div
+          data-theme="light"
+          style="--m-primary: oklch(55% 0.22 20); --m-on-primary: oklch(98% 0.01 20); --m-density: 0.75; padding: 1rem"
+        >
+          <p>Light subtree, red primary, custom on-primary, density 0.75</p>
+          <div data-token-panel></div>
+        </div>
+      </section>
+    </main>
+
+    <aside aria-label="On this page">
+      <p><strong>On this page</strong></p>
+      <ul>
+        <li><a href="#properties">Properties</a></li>
+        <li><a href="#playground">Try them</a></li>
+        <li><a href="#schemes">Light and dark</a></li>
+        <li><a href="#preferences">Motion and contrast</a></li>
+        <li><a href="#tokens">Token explorer</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

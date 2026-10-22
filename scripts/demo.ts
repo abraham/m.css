@@ -10,6 +10,7 @@ export const components = ["typography", "links-buttons", "forms", "content", "n
 /** Every demo page, for checks that cover the whole site. */
 export const pages = [
   "/demo/",
+  "/demo/theming.html",
   ...components.map((name) => `/demo/components/${name}.html`),
   "/demo/kitchen-sink.html",
   "/demo/docs.html",
@@ -127,6 +128,7 @@ ${section.markup.join("\n")}
         </ul>
         <ul>
           <li><a href="./">Home</a></li>
+          <li><a href="theming.html">Theming</a></li>
           <li><a href="components/typography.html">Components</a></li>
           <li><a href="kitchen-sink.html" aria-current="page">Kitchen sink</a></li>
           <li><a href="docs.html">Docs layout</a></li>

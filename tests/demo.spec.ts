@@ -43,7 +43,7 @@ test("every internal link resolves, including its fragment", async ({ page, requ
 });
 
 test("every example gets its markup, and state toggles when it declares states", async ({ page }) => {
-  for (const path of components) {
+  for (const path of [...components, "/demo/theming.html"]) {
     await page.goto(path);
     const examples = await page.locator("figure[data-example]").evaluateAll((figures) =>
       figures.map((figure) => ({
@@ -216,5 +216,70 @@ test.describe("examples", () => {
   test("a support badge reports what this browser supports", async ({ page }) => {
     const supported = await page.evaluate(() => CSS.supports("(appearance: base-select)"));
     await expect(page.locator("#select [data-support]")).toHaveAttribute("data-support", supported ? "yes" : "no");
+  });
+});
+
+test("the home page switches m.css off and on for its example only", async ({ page }) => {
+  await page.goto("/demo/?theme=dark");
+  const frame = page.frameLocator("[data-before-after] iframe");
+  const button = frame.getByRole("button", { name: "Sign up" });
+  const styleOf = () => button.evaluate((element) => getComputedStyle(element).backgroundColor);
+  await expect(frame.locator("html")).toHaveAttribute("data-theme", "dark");
+  const styled = await styleOf();
+
+  await page.getByRole("switch", { name: "Use m.css" }).uncheck();
+  expect(await frame.locator("link").evaluate((link) => (link as HTMLLinkElement).disabled)).toBe(true);
+  await expect.poll(styleOf).not.toBe(styled);
+
+  // Chromium re-applies a re-enabled stylesheet asynchronously.
+  await page.getByRole("switch", { name: "Use m.css" }).check();
+  await expect.poll(styleOf).toBe(styled);
+  expect(
+    await frame.locator("html").evaluate((html) => html.scrollHeight <= html.clientHeight),
+    "the frame fits its content",
+  ).toBe(true);
+  await expect(page.locator("pre[data-copy] + p").getByRole("button", { name: "Copy" })).toHaveCount(3);
+});
+
+test.describe("theming", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/demo/theming.html");
+  });
+
+  test("property controls restyle only the example and show the matching CSS", async ({ page }) => {
+    const card = page.locator("#playground figure article");
+    const elsewhere = page.locator("#schemes article").first();
+    const css = page.locator("[data-property-css]");
+    const radius = page.locator('[data-property="--m-radius"] input');
+    const before = await elsewhere.evaluate((element) => getComputedStyle(element).borderTopLeftRadius);
+
+    // Cards round at 1.5 times --m-radius.
+    await radius.fill("1");
+    await expect(card).toHaveCSS("border-top-left-radius", "24px");
+    await expect(css).toContainText(":root {\n  --m-radius: 1rem;\n}");
+    await expect(page.locator('[data-property="--m-radius"] output')).toHaveText("1rem");
+    await expect(elsewhere).toHaveCSS("border-top-left-radius", before);
+
+    await radius.fill("0.5");
+    await expect(page.locator("#playground figure")).not.toHaveAttribute("style", /--m-radius/);
+    await expect(css).not.toContainText("--m-radius");
+  });
+
+  test("forced schemes and preferences change their own section", async ({ page }) => {
+    const [light, dark] = await page
+      .locator("#schemes article")
+      .evaluateAll((articles) => articles.map((article) => getComputedStyle(article).color));
+    expect(light).not.toBe(dark);
+    const [normal, more] = await page
+      .locator("#preferences article a")
+      .evaluateAll((links) => links.map((link) => getComputedStyle(link).color));
+    expect(normal).not.toBe(more);
+  });
+
+  test("the token explorer renders every panel", async ({ page }) => {
+    for (const panel of await page.locator("[data-token-panel]").all()) {
+      await expect(panel.locator("*").first()).toBeAttached();
+    }
+    await expect(page.locator("[data-motion-readout]")).not.toBeEmpty();
   });
 });

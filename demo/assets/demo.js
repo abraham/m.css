@@ -541,8 +541,106 @@ function setUpExampleFigure(figure) {
   render();
 }
 
+/**
+ * Moves a fragment into an iframe that links only m.css, with a switch that turns the stylesheet off,
+ * so the fragment shows what the browser does on its own. Without script, the fragment stays inline and styled.
+ * @param {Element} figure
+ */
+function setUpBeforeAfter(figure) {
+  const stylesheet = /** @type {HTMLLinkElement | null} */ (
+    document.querySelector('link[rel="stylesheet"][href*="m.css"]')
+  );
+  if (!stylesheet) return;
+  const page = document.implementation.createHTMLDocument("Example");
+  page.documentElement.lang = "en";
+  for (const name of ["data-theme", "data-motion", "data-contrast", "style"]) {
+    const value = root.getAttribute(name);
+    if (value) page.documentElement.setAttribute(name, value);
+  }
+  const link = page.createElement("link");
+  link.rel = "stylesheet";
+  link.href = stylesheet.href;
+  page.head.append(link);
+  page.body.append(...[...figure.childNodes].map((node) => page.importNode(node, true)));
+
+  const iframe = document.createElement("iframe");
+  iframe.title = "Example page, with and without m.css";
+  iframe.srcdoc = `<!doctype html>${page.documentElement.outerHTML}`;
+  figure.replaceChildren(iframe);
+
+  const toggle = document.createElement("input");
+  toggle.type = "checkbox";
+  toggle.setAttribute("role", "switch");
+  toggle.checked = true;
+  toggle.dataset.beforeAfterToggle = "";
+  toggle.addEventListener("change", () => {
+    const link = iframe.contentDocument?.querySelector("link");
+    if (link) link.disabled = !toggle.checked;
+  });
+  const label = document.createElement("label");
+  label.append(toggle, " Use m.css");
+  figure.before(label);
+}
+
+/** Adds a Copy button after each `pre[data-copy]`. */
+function setUpCopyButtons() {
+  for (const pre of document.querySelectorAll("pre[data-copy]")) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "Copy";
+    button.addEventListener("click", () => navigator.clipboard?.writeText(pre.textContent ?? ""));
+    const actions = document.createElement("p");
+    actions.append(button);
+    pre.after(actions);
+  }
+}
+
+/**
+ * Property controls set custom properties on their section's example only, and show the CSS that would do the same.
+ * @param {Element} form
+ */
+function setUpPropertyControls(form) {
+  const section = form.closest("section");
+  const figure = /** @type {HTMLElement | null} */ (section?.querySelector("figure[data-example]") ?? null);
+  const code = section?.querySelector("[data-property-css]");
+  if (!figure || !code) return;
+  const labels = /** @type {HTMLLabelElement[]} */ ([...form.querySelectorAll("label[data-property]")]);
+  for (const label of labels) {
+    const input = label.querySelector("input");
+    if (!input) continue;
+    const output = document.createElement("output");
+    output.value = `${input.value}${label.dataset.unit ?? ""}`;
+    input.before(output);
+  }
+
+  form.addEventListener("input", () => {
+    const declarations = [];
+    for (const label of labels) {
+      const input = label.querySelector("input");
+      const property = label.dataset.property;
+      if (!input || !property) continue;
+      const value = `${input.value}${label.dataset.unit ?? ""}`;
+      const output = label.querySelector("output");
+      if (output) output.value = value;
+      if (input.value === input.defaultValue) {
+        figure.style.removeProperty(property);
+      } else {
+        figure.style.setProperty(property, value);
+        declarations.push(`  ${property}: ${value};`);
+      }
+    }
+    code.textContent =
+      declarations.length > 0
+        ? `/* On :root for the whole page, or on any element for its part of the page. */\n:root {\n${declarations.join("\n")}\n}`
+        : "/* The defaults: nothing to add. */";
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setUpSettings();
   setUpExamples();
   for (const figure of document.querySelectorAll("figure[data-example]")) setUpExampleFigure(figure);
+  for (const figure of document.querySelectorAll("figure[data-before-after]")) setUpBeforeAfter(figure);
+  for (const form of document.querySelectorAll("form[data-property-controls]")) setUpPropertyControls(form);
+  setUpCopyButtons();
 });

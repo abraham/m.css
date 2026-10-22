@@ -43,7 +43,9 @@
     inline-size: min(28rem, calc(100vw - 2rem));
     max-block-size: calc(100dvh - 2rem);
     overflow-y: auto;
+  }
 
+  :is([data-demo-settings], [data-property-controls]) {
     & label:has(> output) {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -73,5 +75,21 @@
 
   [data-example-code] pre {
     margin-block: 0 var(--_m-space-2);
+  }
+
+  [data-property-controls] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+    gap: var(--_m-space-4);
+    align-items: end;
+  }
+
+  /* A fixed height, not one measured by script, keeps the page stable while the switch restyles the frame. */
+  [data-before-after] iframe {
+    display: block;
+    inline-size: 100%;
+    block-size: 30rem;
+    border: 1px solid var(--_m-border);
+    border-radius: calc(var(--m-radius) * 1.5);
   }
 }
