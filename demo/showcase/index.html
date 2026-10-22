@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Showcase · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="../components/typography.html">Components</a></li>
+          <li><a href="../layouts/">Layouts</a></li>
+          <li><a href="./" aria-current="page">Showcase</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Showcase">
+        <ul>
+          <li><a href="./" aria-current="page">Gallery</a></li>
+          <li><a href="editorial.html">Editorial</a></li>
+          <li><a href="console.html">Console</a></li>
+          <li><a href="playful.html">Playful</a></li>
+        </ul>
+      </nav>
+      <h1>Showcase</h1>
+      <p>
+        Whole pages, each with its own look, made only from m.css and a few custom properties. No classes, and no other
+        CSS. Each page shows its complete theme at the bottom.
+      </p>
+    </header>
+
+    <main>
+      <p>
+        Each card below sets its theme's color, spacing, and corners on the card itself, so the same markup shows how
+        each theme changes it. Fonts and text size only apply to a whole page, so open a theme to see them.
+      </p>
+      <article data-showcase="editorial" style="--m-primary: oklch(45% 0.16 25deg); --m-density: 1.15; --m-radius: 0">
+        <h2><a href="editorial.html">Editorial</a></h2>
+        <p>
+          A long-read magazine essay: quiet, bookish, and generous. Serif text, a narrow column, and square corners.
+        </p>
+        <p><small>Charter or Georgia, 1.125rem, always light.</small></p>
+        <form>
+          <label
+            ><input type="checkbox" name="editorial-digest" role="switch" checked /> Also send the reading list</label
+          >
+          <button type="button">Subscribe</button>
+        </form>
+      </article>
+      <article
+        data-showcase="console"
+        data-theme="dark"
+        style="--m-primary: oklch(70% 0.19 145deg); --m-density: 0.75; --m-radius: 2px"
+      >
+        <h2><a href="console.html">Console</a></h2>
+        <p>An operations dashboard: dense, technical, and high-signal. Compact spacing and nearly square corners.</p>
+        <p><small>Monospace, 0.875rem, always dark.</small></p>
+        <form>
+          <label><input type="checkbox" name="console-alerts" role="switch" checked /> Page me on failures</label>
+          <button type="button">Roll back</button>
+        </form>
+      </article>
+      <article
+        data-showcase="playful"
+        style="
+          --m-primary: oklch(55% 0.21 300deg);
+          --m-on-primary: light-dark(oklch(99% 0.01 300deg), oklch(20% 0.06 300deg));
+          --m-density: 1.3;
+          --m-radius: 1.25rem;
+        "
+      >
+        <h2><a href="playful.html">Playful</a></h2>
+        <p>A product landing page: soft, bright, and approachable. Generous spacing and very round corners.</p>
+        <p><small>A rounded system font, light or dark to match your setting.</small></p>
+        <form>
+          <label><input type="checkbox" name="playful-invite" role="switch" checked /> Invite my household</label>
+          <button type="button">Start free</button>
+        </form>
+      </article>
+    </main>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

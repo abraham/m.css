@@ -49,7 +49,7 @@ Live demo and examples: https://abraham.github.io/m.css/
 
 ## Theme
 
-Set these on `:root` for the whole site, or on any element for one part of it:
+Set these on `:root` for the whole site. `--m-primary`, `--m-on-primary`, `--m-density`, `--m-radius`, and `--m-font-mono` also work on any element, for one part of a page. `--m-font-sans`, `--m-font-size`, and `--m-measure` are read on `body`, so set them on `:root`; on an inner element they don't change its body text.
 
 | Property         | Default                                   | Controls                                       |
 | ---------------- | ----------------------------------------- | ---------------------------------------------- |
@@ -70,6 +70,15 @@ Set these on `:root` for the whole site, or on any element for one part of it:
 ```
 
 Hover, subtle, and dark-mode variants of the primary color are derived from it, so set one brand color, not a palette.
+
+These few properties go a long way. The showcase (https://abraham.github.io/m.css/demo/showcase/) has three whole pages, a magazine essay, a dark operations dashboard, and a playful landing page. Each is themed with only a `:root` block of these properties, and shows that block at the bottom of the page. Use them as starting points.
+
+What the properties can't change: neutral surfaces and text colors, heading weight, shadows, and a separate heading font. Don't reach for `--_m-*` tokens to get them. Tell the user it's outside m.css's theming, or add a small unlayered rule of their own.
+
+Keep contrast in mind:
+
+- In dark mode, m.css lightens the primary. Its default `--m-on-primary` adapts, but an explicit one should too, for example `light-dark(white, oklch(20% 0.05 300deg))`.
+- In dark themes, keep the primary at or below about 70% lightness. Lighter primaries can make pressed toggles fail contrast when the reader asks for more contrast.
 
 The page follows the system's light or dark scheme, reduced motion, and contrast preferences. These attributes force them, on `<html>` or on any element:
 

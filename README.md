@@ -44,7 +44,7 @@ If you installed the package from npm, it's also in `node_modules/@abraham/m.css
 
 ## Customize
 
-Set any of these on `:root`, or on any element to scope them to that part of the page. Try them live on the [Theming page](https://abraham.github.io/m.css/demo/theming.html).
+Set any of these on `:root`. The color, spacing, corner, and code-font properties also work on any element, to scope them to that part of the page. `--m-font-sans`, `--m-font-size`, and `--m-measure` set the page's font, text size, and column width, so set them on `:root`. Try them live on the [Theming page](https://abraham.github.io/m.css/demo/theming.html), and see whole pages themed with nothing else in the [showcase](https://abraham.github.io/m.css/demo/showcase/).
 
 | Property         | Default                                   | Purpose                                                                   |
 | ---------------- | ----------------------------------------- | ------------------------------------------------------------------------- |

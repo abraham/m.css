@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Production overview · Console · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <style data-theme-source>
+      :root {
+        --m-primary: oklch(70% 0.19 145deg);
+        --m-font-sans: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        --m-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        --m-font-size: 0.875rem;
+        --m-density: 0.75;
+        --m-measure: 140ch;
+        --m-radius: 2px;
+      }
+    </style>
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="../components/typography.html">Components</a></li>
+          <li><a href="../layouts/">Layouts</a></li>
+          <li><a href="./" aria-current="true">Showcase</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Showcase">
+        <ul>
+          <li><a href="./">Gallery</a></li>
+          <li><a href="editorial.html">Editorial</a></li>
+          <li><a href="console.html" aria-current="page">Console</a></li>
+          <li><a href="playful.html">Playful</a></li>
+        </ul>
+      </nav>
+      <hgroup>
+        <p>prod · eu-west</p>
+        <h1>Production overview</h1>
+        <p>Four services, one rollout in progress, no open incidents.</p>
+      </hgroup>
+      <search>
+        <form action="#deployments">
+          <input type="search" name="q" aria-label="Search deployments" placeholder="Search deployments" />
+          <button>Search</button>
+        </form>
+      </search>
+    </header>
+
+    <nav aria-label="Console">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#deployments">Deployments</a></li>
+        <li><a href="#logs">Logs</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="services" aria-labelledby="services-title">
+        <h2 id="services-title">Services</h2>
+        <p>
+          <span role="group" aria-label="Time range">
+            <button type="button" aria-pressed="false">1h</button>
+            <button type="button" aria-pressed="true">24h</button>
+            <button type="button" aria-pressed="false">7d</button>
+          </span>
+        </p>
+        <div>
+          <article>
+            <header><strong>api</strong></header>
+            <p>Healthy · p95 <data value="182">182 ms</data></p>
+            <label>CPU <meter value="0.42" low="0.7" high="0.9" optimum="0.2">42%</meter></label>
+          </article>
+          <article>
+            <header><strong>web</strong></header>
+            <p>Rolling out · p95 <data value="96">96 ms</data></p>
+            <label>CPU <meter value="0.58" low="0.7" high="0.9" optimum="0.2">58%</meter></label>
+          </article>
+          <article>
+            <header><strong>worker</strong></header>
+            <p>Busy · queue <data value="1240">1,240 jobs</data></p>
+            <label>CPU <meter value="0.83" low="0.7" high="0.9" optimum="0.2">83%</meter></label>
+          </article>
+          <article>
+            <header><strong>billing</strong></header>
+            <p>Healthy · p95 <data value="240">240 ms</data></p>
+            <label>CPU <meter value="0.17" low="0.7" high="0.9" optimum="0.2">17%</meter></label>
+          </article>
+        </div>
+      </section>
+
+      <section id="deployments" aria-labelledby="deployments-title">
+        <h2 id="deployments-title">Deployments</h2>
+        <table>
+          <caption>
+            Last 24 hours
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Service</th>
+              <th scope="col">Version</th>
+              <th scope="col">Status</th>
+              <th scope="col">Started</th>
+              <th scope="col">By</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">web</th>
+              <td><code>2.14.0</code></td>
+              <td><progress value="60" max="100" aria-label="web 2.14.0 rollout">60%</progress></td>
+              <td><time datetime="2026-10-22T09:41">09:41</time></td>
+              <td>ci</td>
+            </tr>
+            <tr>
+              <th scope="row">worker</th>
+              <td><code>5.2.1</code></td>
+              <td><span aria-busy="true">Building</span></td>
+              <td><time datetime="2026-10-22T09:38">09:38</time></td>
+              <td>mara</td>
+            </tr>
+            <tr>
+              <th scope="row">api</th>
+              <td><code>8.0.3</code></td>
+              <td>Live</td>
+              <td><time datetime="2026-10-22T07:12">07:12</time></td>
+              <td>ci</td>
+            </tr>
+            <tr>
+              <th scope="row">billing</th>
+              <td><code>1.9.0</code></td>
+              <td>Live</td>
+              <td><time datetime="2026-10-21T18:05">18:05</time></td>
+              <td>jun</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <button type="button" data-show-modal="rollback">Roll back web</button>
+          <a href="#logs" role="button">View logs</a>
+        </p>
+        <dialog id="rollback" aria-labelledby="rollback-title">
+          <h3 id="rollback-title">Roll back web to 2.13.4?</h3>
+          <p>The 2.14.0 rollout stops at 60%, and every instance returns to 2.13.4 within about two minutes.</p>
+          <form method="dialog">
+            <button value="cancel" autofocus>Cancel</button>
+            <button value="rollback">Roll back</button>
+          </form>
+        </dialog>
+      </section>
+
+      <section id="logs" aria-labelledby="logs-title">
+        <h2 id="logs-title">Logs</h2>
+        <details open>
+          <summary>worker · last 6 lines</summary>
+          <pre tabindex="0"><code>09:41:02 INFO  queue depth 1240, 8 consumers
+09:41:05 INFO  invoice batch 7731 committed (412 rows)
+09:41:09 WARN  retrying job 99120: upstream timeout (attempt 2/5)
+09:41:11 INFO  job 99120 succeeded after retry
+09:41:14 INFO  queue depth 1196, 8 consumers
+09:41:17 INFO  scaling consumers 8 -> 10</code></pre>
+        </details>
+        <details>
+          <summary>api · last 6 lines</summary>
+          <pre tabindex="0"><code>09:40:58 INFO  GET /v2/orders 200 41ms
+09:40:59 INFO  GET /v2/orders/88213 200 12ms
+09:41:00 INFO  POST /v2/payments 201 182ms
+09:41:03 INFO  GET /v2/health 200 2ms
+09:41:06 INFO  GET /v2/orders 200 38ms
+09:41:10 INFO  PATCH /v2/orders/88213 200 64ms</code></pre>
+        </details>
+      </section>
+    </main>
+
+    <footer id="colophon">
+      <p>
+        <strong>Colophon.</strong> This page is plain, semantic HTML styled by m.css. Its whole theme is the code below:
+        seven custom properties and one attribute, with no classes and no other CSS.
+      </p>
+      <pre tabindex="0" data-copy data-theme-code><code>&lt;html lang="en" data-theme="dark"&gt;
+
+:root {
+  --m-primary: oklch(70% 0.19 145deg);
+  --m-font-sans: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --m-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --m-font-size: 0.875rem;
+  --m-density: 0.75;
+  --m-measure: 140ch;
+  --m-radius: 2px;
+}</code></pre>
+      <p>
+        <a href="https://github.com/abraham/m.css/blob/main/demo/showcase/console.html">View source</a> ·
+        <a href="./">All showcase pages</a>
+      </p>
+    </footer>
+  </body>
+</html>
