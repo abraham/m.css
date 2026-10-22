@@ -11,7 +11,7 @@ export const components = ["typography", "links-buttons", "forms", "content", "n
 export const layouts = ["docs", "article", "login", "pricing", "settings"];
 
 /** Themed showcase pages in gallery order, under demo/showcase/; each carries its own theme and skips settings. */
-export const showcase = ["editorial", "console"];
+export const showcase = ["editorial", "console", "playful"];
 
 /** Every demo page, for checks that cover the whole site. */
 export const pages = [

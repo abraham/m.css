@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pebble, the shared shopping list · Playful · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <style data-theme-source>
+      :root {
+        --m-primary: oklch(55% 0.21 300deg);
+        --m-on-primary: light-dark(oklch(99% 0.01 300deg), oklch(20% 0.06 300deg));
+        --m-font-sans: ui-rounded, "SF Pro Rounded", Nunito, Quicksand, system-ui, sans-serif;
+        --m-density: 1.3;
+        --m-radius: 1.25rem;
+        --m-measure: 90ch;
+      }
+    </style>
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="../components/typography.html">Components</a></li>
+          <li><a href="../layouts/">Layouts</a></li>
+          <li><a href="./" aria-current="true">Showcase</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Showcase">
+        <ul>
+          <li><a href="./">Gallery</a></li>
+          <li><a href="editorial.html">Editorial</a></li>
+          <li><a href="console.html">Console</a></li>
+          <li><a href="playful.html" aria-current="page">Playful</a></li>
+        </ul>
+      </nav>
+      <hgroup>
+        <p>Pebble for households</p>
+        <h1>One shopping list for the whole house</h1>
+        <p>
+          Add milk from the couch, and it's on the list when your partner walks into the store. No more double eggs.
+          <a href="#features">See how it works</a>.
+        </p>
+      </hgroup>
+      <p><a href="#signup" role="button">Start free</a></p>
+    </header>
+
+    <main>
+      <section id="features" aria-labelledby="features-title">
+        <h2 id="features-title">Small things, done together</h2>
+        <div>
+          <article>
+            <h3>Shared in real time</h3>
+            <p>Everyone in the house sees the same list, the moment anything changes.</p>
+          </article>
+          <article>
+            <h3>Sorted by aisle</h3>
+            <p>Pebble learns your store's layout, so you walk it once, front to back.</p>
+          </article>
+          <article>
+            <h3>Remembers the regulars</h3>
+            <p>Coffee running low every ten days? Pebble adds it before you notice.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="pricing" aria-labelledby="pricing-title">
+        <h2 id="pricing-title">Simple pricing</h2>
+        <table>
+          <caption>
+            Every plan includes unlimited lists
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Plan</th>
+              <th scope="col">People</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Solo</th>
+              <td>1</td>
+              <td>Free</td>
+            </tr>
+            <tr>
+              <th scope="row">Household</th>
+              <td>Up to 6</td>
+              <td>$3 a month</td>
+            </tr>
+            <tr>
+              <th scope="row">Big family</th>
+              <td>Up to 12</td>
+              <td>$5 a month</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="stories" aria-labelledby="stories-title">
+        <h2 id="stories-title">What households say</h2>
+        <figure>
+          <blockquote>
+            <p>“We stopped buying three bags of the same pasta. That alone paid for it.”</p>
+          </blockquote>
+          <figcaption>— Priya, household of four</figcaption>
+        </figure>
+        <figure>
+          <blockquote>
+            <p>“My kids add things to the list now. Mostly cereal, but still.”</p>
+          </blockquote>
+          <figcaption>— Tom, household of five</figcaption>
+        </figure>
+      </section>
+
+      <section id="signup" aria-labelledby="signup-title">
+        <h2 id="signup-title">Start your first list</h2>
+        <form>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label><input type="checkbox" name="invite" role="switch" checked /> Invite my household right away</label>
+          <label><input type="checkbox" name="tips" role="switch" /> Send me a weekly tip</label>
+          <button>Create my list</button>
+        </form>
+      </section>
+
+      <section id="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">Questions</h2>
+        <details>
+          <summary>Does everyone need an account?</summary>
+          <p>Yes, but it takes a few seconds, and kids can join with a code instead of an email.</p>
+        </details>
+        <details>
+          <summary>Does it work offline?</summary>
+          <p>Yes. Changes sync as soon as you're back online, even if two people edited the list.</p>
+        </details>
+        <details>
+          <summary>Can I cancel any time?</summary>
+          <p>Of course. Your lists stay free for one person, forever.</p>
+        </details>
+      </section>
+    </main>
+
+    <footer id="colophon">
+      <p>
+        <strong>Colophon.</strong> This page is plain, semantic HTML styled by m.css. Its whole theme is the code below:
+        six custom properties, with no classes and no other CSS. It follows your light or dark setting.
+      </p>
+      <pre tabindex="0" data-copy data-theme-code><code>&lt;html lang="en"&gt;
+
+:root {
+  --m-primary: oklch(55% 0.21 300deg);
+  --m-on-primary: light-dark(oklch(99% 0.01 300deg), oklch(20% 0.06 300deg));
+  --m-font-sans: ui-rounded, "SF Pro Rounded", Nunito, Quicksand, system-ui, sans-serif;
+  --m-density: 1.3;
+  --m-radius: 1.25rem;
+  --m-measure: 90ch;
+}</code></pre>
+      <p>
+        <a href="https://github.com/abraham/m.css/blob/main/demo/showcase/playful.html">View source</a> ·
+        <a href="./">All showcase pages</a>
+      </p>
+    </footer>
+  </body>
+</html>

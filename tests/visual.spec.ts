@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { expect, test, type PageAssertionsToHaveScreenshotOptions } from "@playwright/test";
 import { components, showcase } from "../scripts/demo.ts";
 
@@ -8,13 +9,17 @@ const screenshot: PageAssertionsToHaveScreenshotOptions = {
 };
 
 test.describe("visual", { tag: "@visual" }, () => {
-  // A theme page forces its own scheme, so one screenshot covers it.
+  // A theme page that forces its scheme needs one screenshot; one that follows the system needs both.
   for (const name of showcase) {
-    test(`${name} showcase page`, async ({ page }) => {
-      await page.emulateMedia({ reducedMotion: "reduce" });
-      await page.goto(`/demo/showcase/${name}.html`);
-      await expect(page).toHaveScreenshot(`showcase-${name}.png`, screenshot);
-    });
+    const html = readFileSync(new URL(`../demo/showcase/${name}.html`, import.meta.url), "utf8");
+    const forced = /<html[^>]*\sdata-theme=/.test(html);
+    for (const colorScheme of forced ? ([undefined] as const) : (["light", "dark"] as const)) {
+      test(`${name} showcase page${colorScheme ? `, ${colorScheme}` : ""}`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme: colorScheme ?? null, reducedMotion: "reduce" });
+        await page.goto(`/demo/showcase/${name}.html`);
+        await expect(page).toHaveScreenshot(`showcase-${name}${colorScheme ? `-${colorScheme}` : ""}.png`, screenshot);
+      });
+    }
   }
 
   for (const colorScheme of ["light", "dark"] as const) {
