@@ -80,6 +80,30 @@
       0 0 0 4px color-mix(in oklch, var(--_m-success), transparent 80%);
   }
 
+  /* An icon marks the state without relying on color (WCAG 1.4.1); fixed hues keep 3:1 on both surfaces. */
+  &:where(:not(select, [type="date"], [type="datetime-local"], [type="month"], [type="week"], [type="time"])) {
+    background-image: var(--_m-field-icon, none);
+    background-position: right var(--_m-space-3) center;
+    background-size: 1em;
+    background-repeat: no-repeat;
+
+    &:where(:dir(rtl)) {
+      background-position: left var(--_m-space-3) center;
+    }
+
+    &:where(:user-invalid, [aria-invalid="true"], [aria-invalid="false"]) {
+      padding-inline-end: calc(var(--_m-space-3) + 1.5em);
+    }
+
+    &:where(:user-invalid, [aria-invalid="true"]) {
+      --_m-field-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23de3c37' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='M12 7v6m0 4h.01'/%3E%3C/svg%3E");
+    }
+
+    &:where([aria-invalid="false"]) {
+      --_m-field-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23319751' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    }
+  }
+
   &::placeholder {
     color: var(--_m-text-muted);
     opacity: 1;
@@ -95,18 +119,27 @@
 :where(textarea) {
   line-height: var(--_m-leading);
   resize: vertical;
+  background-position: right var(--_m-space-3) top calc(var(--_m-space-2) + (1lh - 1em) / 2);
+
+  &:where(:dir(rtl)) {
+    background-position: left var(--_m-space-3) top calc(var(--_m-space-2) + (1lh - 1em) / 2);
+  }
 }
 
 /* A data-URI image can't read custom properties, so the magnifier is a gray that reads on both schemes. */
 :where(input[type="search"]) {
   padding-inline-start: calc(var(--_m-space-3) + 1.5em);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m15.5 15.5 5 5'/%3E%3C/svg%3E");
-  background-position: left var(--_m-space-3) center;
-  background-size: 1em;
-  background-repeat: no-repeat;
+  background-image:
+    var(--_m-field-icon, none),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m15.5 15.5 5 5'/%3E%3C/svg%3E");
+  background-position:
+    right var(--_m-space-3) center,
+    left var(--_m-space-3) center;
 
   &:where(:dir(rtl)) {
-    background-position: right var(--_m-space-3) center;
+    background-position:
+      left var(--_m-space-3) center,
+      right var(--_m-space-3) center;
   }
 
   &::-webkit-search-decoration {
