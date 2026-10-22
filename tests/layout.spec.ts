@@ -26,7 +26,7 @@ const barsHeight = (page: Page) =>
 test.describe("cards", () => {
   test("a container of only articles lays out equal-height cards with footers at the bottom", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto("/demo/");
+    await page.goto("/demo/kitchen-sink.html");
     const cards = await page.locator("#cards > div > article").evaluateAll((articles) =>
       articles.map((article) => ({
         top: article.getBoundingClientRect().top,
@@ -43,7 +43,7 @@ test.describe("cards", () => {
   });
 
   test("a container with other content keeps articles in normal flow", async ({ page }) => {
-    await page.goto("/demo/");
+    await page.goto("/demo/kitchen-sink.html");
     expect(await page.locator("#cards").evaluate((section) => getComputedStyle(section).display)).toBe("block");
     expect(await page.locator("#cards > article").evaluate((card) => getComputedStyle(card).borderTopWidth)).toBe(
       "1px",
@@ -119,7 +119,7 @@ test.describe("docs layout", () => {
   });
 
   test("a long top bar doesn't widen the empty rail column or squeeze main", async ({ page }) => {
-    await page.goto("/demo/");
+    await page.goto("/demo/kitchen-sink.html");
     const columns = () =>
       page.evaluate(() =>
         getComputedStyle(document.body)
@@ -194,8 +194,8 @@ test.describe("navigation extras", () => {
 
   test("a nav with two lists outside the top bar splits to either end", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/demo/");
-    const selector = '#layout nav[aria-label="Account"]';
+    await page.goto("/demo/kitchen-sink.html");
+    const selector = '#split-bar nav[aria-label="Account"]';
     const [nav, brand, links] = await Promise.all([
       rect(page, selector),
       rect(page, `${selector} > ul:first-child`),
@@ -230,19 +230,19 @@ test.describe("navigation extras", () => {
 
 test.describe("typography", () => {
   test("a quote footer gets an em dash that isn't announced", async ({ page }) => {
-    await page.goto("/demo/");
+    await page.goto("/demo/kitchen-sink.html");
     const footer = page.locator("#quotes blockquote > footer");
     expect(await footer.evaluate((element) => getComputedStyle(element, "::before").content)).toMatch(/^"— "/);
     expect(await page.locator("#quotes > blockquote").ariaSnapshot()).toContain("- text: A footer inside the quote");
   });
 
   test("heading links keep the heading color, and ins and del use the status colors", async ({ page }) => {
-    await page.goto("/demo/");
+    await page.goto("/demo/kitchen-sink.html");
     const colors = await page.evaluate(() => {
       const color = (selector: string) => getComputedStyle(document.querySelector(selector)!).color;
       return {
-        heading: color("#typography h3:has(a)"),
-        headingLink: color("#typography h3 a"),
+        heading: color("#headings h3:has(a)"),
+        headingLink: color("#headings h3 a"),
         link: color("#links a"),
         ins: color("#typography ins"),
         del: color("#typography del"),
@@ -281,7 +281,7 @@ test.describe("popover menus", () => {
 
   test.beforeEach(async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/demo/#dialog");
+    await page.goto("/demo/kitchen-sink.html#dialog");
   });
 
   test("a menu opens below its button, aligned to its start", async ({ page }) => {

@@ -15,8 +15,9 @@
           <li><strong>m.css</strong></li>
         </ul>
         <ul>
-          <li><a href="../">Kitchen sink</a></li>
+          <li><a href="../">Home</a></li>
           <li><a href="typography.html" aria-current="true">Components</a></li>
+          <li><a href="../kitchen-sink.html">Kitchen sink</a></li>
           <li><a href="../docs.html">Docs layout</a></li>
           <li><a href="../article.html">Article page</a></li>
           <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
@@ -48,7 +49,8 @@
         <figure data-example="text-fields" data-states="disabled readonly invalid valid rtl dark contrast">
           <label>
             Name
-            <input name="name" autocomplete="name" placeholder="Ada Lovelace" />
+            <input name="name" autocomplete="name" placeholder="Ada Lovelace" aria-describedby="name-help" />
+            <small id="name-help">As it should appear on your profile.</small>
           </label>
           <label for="demo-password">Password</label>
           <input id="demo-password" name="password" type="password" autocomplete="new-password" />

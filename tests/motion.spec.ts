@@ -31,14 +31,14 @@ function loopAnimations() {
 
 test("prefers-reduced-motion stops all motion except pulsing loops", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/demo/");
+  await page.goto("/demo/kitchen-sink.html");
   expect(await page.evaluate(findMotion)).toEqual([]);
   expect(await page.evaluate(loopAnimations)).toEqual({ spinner: "m-pulse", progress: "m-pulse" });
 });
 
 test('data-motion="reduce" stops all motion except pulsing loops', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/demo/");
+  await page.goto("/demo/kitchen-sink.html");
   await page.evaluate(() => document.documentElement.setAttribute("data-motion", "reduce"));
   expect(await page.evaluate(findMotion)).toEqual([]);
   expect(await page.evaluate(loopAnimations)).toEqual({ spinner: "m-pulse", progress: "m-pulse" });
@@ -46,7 +46,7 @@ test('data-motion="reduce" stops all motion except pulsing loops', async ({ page
 
 test("motion runs without a reduced-motion preference", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/demo/");
+  await page.goto("/demo/kitchen-sink.html");
   expect(await page.evaluate(loopAnimations)).toEqual({ spinner: "m-spin", progress: "m-slide" });
   expect(await page.evaluate(findMotion)).not.toEqual([]);
 });

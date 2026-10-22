@@ -15,7 +15,7 @@ const switchState = (page: Page, name: string) =>
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/demo/");
+  await page.goto("/demo/kitchen-sink.html");
 });
 
 test("a switch moves its thumb to the end of the track when checked", async ({ page }) => {
@@ -72,14 +72,19 @@ test.describe("form details", () => {
   });
 
   test("labels of disabled controls and disabled fieldsets are muted", async ({ page }) => {
+    // The examples show disabled states through toggles, so disable a field and the billing fieldset here.
+    await page.evaluate(() => {
+      document.querySelector('input[name="quantity"]')!.setAttribute("disabled", "");
+      document.querySelector('fieldset:has(input[name="receipts"])')!.setAttribute("disabled", "");
+      document
+        .querySelector("#fieldsets")!
+        .insertAdjacentHTML("beforeend", '<label for="x">Before</label><input id="x" disabled />');
+    });
     const color = (selector: string) => style(page, selector, ["color"]).then((value) => value.color);
     const [plain, wrapped, before, inFieldset] = await Promise.all([
       color('label:has(> input[name="name"])'),
-      color('label:has(> input[name="disabled"])'),
-      page.locator("#forms form").evaluate((form) => {
-        form.insertAdjacentHTML("beforeend", '<label for="x">Before</label><input id="x" disabled />');
-        return getComputedStyle(form.querySelector('label[for="x"]')!).color;
-      }),
+      color('label:has(> input[name="quantity"])'),
+      color('label[for="x"]'),
       color('fieldset[disabled] label:has(input[name="receipts"])'),
     ]);
     expect(wrapped).not.toBe(plain);
@@ -224,14 +229,14 @@ test.describe("range", () => {
 test.describe("search", () => {
   test("a search landmark joins its field and button, with or without a form", async ({ page }) => {
     await page
-      .locator("#buttons search")
+      .locator("#search search")
       .evaluate((search) =>
         search.insertAdjacentHTML(
           "afterend",
           '<search id="bare"><input type="search" aria-label="Bare" /><button>Go</button></search>',
         ),
       );
-    for (const selector of ["#buttons search > form", "#bare"]) {
+    for (const selector of ["#search search > form", "#bare"]) {
       const layout = await page.locator(selector).evaluate((group) => {
         const [input, button] = [...group.children].map((child) => ({
           rect: child.getBoundingClientRect(),
@@ -268,7 +273,7 @@ test.describe("search", () => {
     expect(ltr.x).not.toMatch(/right|100%/);
     expect(ltr.start).toBeGreaterThan(ltr.end);
 
-    await page.locator("#buttons search").evaluate((search) => search.setAttribute("dir", "rtl"));
+    await page.locator("#search search").evaluate((search) => search.setAttribute("dir", "rtl"));
     expect((await read()).x).toMatch(/right|100%/);
   });
 });
@@ -318,7 +323,7 @@ test.describe("buttons and groups", () => {
   });
 
   test("an input and button group stretches to fill its container", async ({ page }) => {
-    const sizes = await page.locator("#buttons search > form").evaluate((group) => ({
+    const sizes = await page.locator("#search search > form").evaluate((group) => ({
       group: group.getBoundingClientRect().width,
       children: [...group.children].reduce((sum, child) => sum + child.getBoundingClientRect().width, 0) - 1,
     }));
@@ -349,7 +354,7 @@ test.describe("toggle buttons", () => {
     const [pressed, unpressed, other] = await looks(page);
     expect(unpressed).toBe(other);
     expect(pressed).not.toBe(unpressed);
-    const secondary = await page.locator('#forms button[type="reset"]').evaluate((button) => {
+    const secondary = await page.locator("#buttons button[formnovalidate]").evaluate((button) => {
       const style = getComputedStyle(button);
       return `${style.backgroundColor} ${style.borderTopColor} ${style.color}`;
     });

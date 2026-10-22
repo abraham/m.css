@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { components as componentNames, pages } from "../scripts/demo.ts";
 
 const root = (page: Page) =>
   page.evaluate(() => ({
@@ -10,13 +11,56 @@ const root = (page: Page) =>
 
 const openSettings = (page: Page) => page.getByRole("button", { name: "Settings" }).click();
 
-const components = ["typography", "links-buttons", "forms", "content", "navigation", "overlays", "feedback"].map(
-  (name) => `/demo/components/${name}.html`,
-);
-const pages = ["/demo/", ...components, "/demo/docs.html", "/demo/article.html"];
+const components = componentNames.map((name) => `/demo/components/${name}.html`);
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
+});
+
+test("every internal link resolves, including its fragment", async ({ page, request }) => {
+  const checked = new Map<string, string>();
+  for (const path of pages) {
+    await page.goto(path);
+    const links = await page
+      .locator("a[href]")
+      .evaluateAll((links) =>
+        links.map((link) => (link as HTMLAnchorElement).href).filter((href) => href.startsWith(location.origin)),
+      );
+    for (const link of links) {
+      const url = new URL(link);
+      const target = url.origin + url.pathname;
+      if (!checked.has(target)) {
+        const response = await request.get(target);
+        expect(response.status(), `${link} from ${path}`).toBe(200);
+        checked.set(target, await response.text());
+      }
+      if (url.hash) {
+        const id = decodeURIComponent(url.hash.slice(1));
+        expect(checked.get(target), `${link} from ${path}`).toContain(`id="${id}"`);
+      }
+    }
+  }
+});
+
+test("every example gets its markup, and state toggles when it declares states", async ({ page }) => {
+  for (const path of components) {
+    await page.goto(path);
+    const examples = await page.locator("figure[data-example]").evaluateAll((figures) =>
+      figures.map((figure) => ({
+        name: figure.getAttribute("data-example"),
+        states: (figure.getAttribute("data-states") ?? "").split(/\s+/).filter(Boolean).length,
+        toggles: figure.previousElementSibling?.querySelectorAll("[data-example-states] button").length ?? 0,
+        code: figure.nextElementSibling?.matches("[data-example-code]")
+          ? (figure.nextElementSibling.querySelector("code")?.textContent ?? "")
+          : "",
+      })),
+    );
+    expect(examples.length, path).toBeGreaterThan(0);
+    for (const { name, states, toggles, code } of examples) {
+      expect(toggles, `${path} ${name}`).toBe(states);
+      expect(code.trim(), `${path} ${name}`).not.toBe("");
+    }
+  }
 });
 
 test("every page shares the same top bar, marking the current page or its section", async ({ page }) => {
@@ -141,7 +185,7 @@ test.describe("examples", () => {
     const field = page.locator('#text-fields input[name="name"]');
     await state(page, "text-fields", "Disabled").click();
     await expect(field).toBeDisabled();
-    expect(await snippet(page, "text-fields")).toContain('placeholder="Ada Lovelace" disabled');
+    expect(await snippet(page, "text-fields")).toMatch(/<input name="name"[^>]* disabled[ >]/);
 
     await state(page, "text-fields", "Invalid").click();
     await expect(field).toHaveAttribute("aria-invalid", "true");

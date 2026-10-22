@@ -1,13 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
-
-const components = ["typography", "links-buttons", "forms", "content", "navigation", "overlays", "feedback"];
-const pages = [
-  "/demo/",
-  ...components.map((name) => `/demo/components/${name}.html`),
-  "/demo/article.html",
-  "/demo/docs.html",
-];
+import { pages } from "../scripts/demo.ts";
 
 for (const path of pages) {
   for (const colorScheme of ["light", "dark"] as const) {
@@ -37,11 +30,11 @@ test("fluid headings reach 2x their size with browser zoom", async ({ page }) =>
   const readSizes = () =>
     page.evaluate(() =>
       ["h1", "h2", "h3"].map((tag) =>
-        parseFloat(getComputedStyle(document.querySelector(`#typography ${tag}`)!).fontSize),
+        parseFloat(getComputedStyle(document.querySelector(`#headings ${tag}`)!).fontSize),
       ),
     );
 
-  await page.goto("/demo/");
+  await page.goto("/demo/kitchen-sink.html");
   for (const width of [320, 768, 1280, 1920]) {
     await page.setViewportSize({ width, height: 800 });
     const unzoomed = await readSizes();
@@ -82,7 +75,7 @@ test.describe("more contrast", () => {
     });
 
   test("solid underlines, control-strength borders, and a 3px focus ring", async ({ page }) => {
-    await page.goto("/demo/");
+    await page.goto("/demo/kitchen-sink.html");
     const normal = await read(page);
     await page.emulateMedia({ contrast: "more", reducedMotion: "reduce" });
     const more = await read(page);
@@ -104,7 +97,7 @@ test.describe("more contrast", () => {
   });
 
   test('data-contrast="more" applies to its whole subtree', async ({ page }) => {
-    await page.goto("/demo/");
+    await page.goto("/demo/kitchen-sink.html");
     const normal = await read(page);
     await page.evaluate(() => document.documentElement.setAttribute("data-contrast", "more"));
     const more = await read(page);

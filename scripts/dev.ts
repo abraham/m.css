@@ -24,10 +24,12 @@ function build() {
 build();
 
 let pending: NodeJS.Timeout | undefined;
-watch(join(root, "src"), { recursive: true }, () => {
-  clearTimeout(pending);
-  pending = setTimeout(build, 50);
-});
+for (const dir of ["src", "demo/components"]) {
+  watch(join(root, dir), { recursive: true }, () => {
+    clearTimeout(pending);
+    pending = setTimeout(build, 50);
+  });
+}
 
 createServer(async (req, res) => {
   try {
