@@ -4,7 +4,7 @@
 }
 
 :where(body > footer) {
-  margin-block-start: var(--_m-space-12);
+  margin-block-start: calc(var(--m-density) * 3rem);
   padding-block-start: var(--_m-space-6);
   border-block-start: 1px solid var(--_m-border);
   font-size: var(--_m-text-sm);

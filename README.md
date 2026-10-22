@@ -180,7 +180,8 @@ npm run build           # writes dist/m.css and dist/m.min.css, and generates de
 npm run lint            # Stylelint, including the no-classes rule
 npm run typecheck
 npm run format          # Prettier
-npm run size            # fails if dist/m.min.css is over 8 KB gzipped
+npm run size            # gzip and Brotli sizes; fails if dist/m.min.css is over 8 KB gzipped
+npm run size -- --report  # what each source file costs; add --save to keep a baseline to compare against
 npm test                # motion, layout, and accessibility tests in Chromium and WebKit
 npm run test:visual     # screenshot tests in the Playwright Docker image; add -- --update-snapshots to rewrite them
 ```
