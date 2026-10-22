@@ -257,13 +257,47 @@ test.describe("buttons and groups", () => {
     expect(sizes.children).toBeCloseTo(sizes.group, 0);
   });
 
-  test("a focused child's ring stays on top of its neighbors", async ({ page }) => {
+  test("a focused child's ring stays on top of its neighbors, including a pressed one", async ({ page }) => {
     // WebKit doesn't Tab to buttons by default, so focus directly after a keypress to get :focus-visible.
     await page.keyboard.press("Shift");
     await page.locator('[aria-label="Text alignment"] > button').nth(1).focus();
     const stacking = await page
       .locator('[aria-label="Text alignment"] > button')
       .evaluateAll((buttons) => buttons.map((button) => getComputedStyle(button).zIndex));
-    expect(stacking).toEqual(["auto", "1", "auto"]);
+    expect(stacking).toEqual(["1", "2", "auto"]);
+  });
+});
+
+test.describe("toggle buttons", () => {
+  const looks = (page: Page) =>
+    page.locator('[aria-label="Text alignment"] > button').evaluateAll((buttons) =>
+      buttons.map((button) => {
+        const style = getComputedStyle(button);
+        return `${style.backgroundColor} ${style.borderTopColor} ${style.color}`;
+      }),
+    );
+
+  test("a pressed toggle stands out from unpressed ones, which match the secondary button", async ({ page }) => {
+    const [pressed, unpressed, other] = await looks(page);
+    expect(unpressed).toBe(other);
+    expect(pressed).not.toBe(unpressed);
+    const secondary = await page.locator('button[type="reset"]').evaluate((button) => {
+      const style = getComputedStyle(button);
+      return `${style.backgroundColor} ${style.borderTopColor} ${style.color}`;
+    });
+    expect(unpressed).toBe(secondary);
+  });
+
+  test("pressing another toggle in the demo group moves the pressed look", async ({ page }) => {
+    const before = await looks(page);
+    await page.locator('[aria-label="Text alignment"] > button').nth(2).click();
+    await page.mouse.move(0, 0);
+    expect(await looks(page)).toEqual([before[1], before[1], before[0]]);
+  });
+
+  test("a pressed toggle stays distinct in forced-colors mode", async ({ page }) => {
+    await page.emulateMedia({ forcedColors: "active" });
+    const [pressed, unpressed] = await looks(page);
+    expect(pressed).not.toBe(unpressed);
   });
 });
