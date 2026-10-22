@@ -14,6 +14,24 @@ test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
 
+test("every page shares the same top bar, marking itself as the current page", async ({ page }) => {
+  const bars = [];
+  for (const path of ["/demo/", "/demo/docs.html", "/demo/article.html"]) {
+    await page.goto(path);
+    const bar = await page
+      .locator("body > header > nav")
+      .first()
+      .evaluate((nav) => ({
+        label: nav.getAttribute("aria-label"),
+        links: [...nav.querySelectorAll("a")].map((link) => `${link.textContent} ${link.href}`),
+        current: [...nav.querySelectorAll('[aria-current="page"]')].map((link) => (link as HTMLAnchorElement).href),
+      }));
+    expect(bar.current, path).toEqual([page.url()]);
+    bars.push({ label: bar.label, links: bar.links });
+  }
+  for (const bar of bars.slice(1)) expect(bar).toEqual(bars[0]);
+});
+
 test("every page has a settings button that keeps the top bar one line tall", async ({ page }) => {
   for (const path of ["/demo/", "/demo/docs.html", "/demo/article.html"]) {
     await page.goto(path);
