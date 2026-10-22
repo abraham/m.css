@@ -14,6 +14,8 @@
   --_m-danger: light-dark(oklch(53% 0.2 27deg), oklch(70% 0.17 27deg));
   --_m-success: light-dark(oklch(50% 0.13 150deg), oklch(72% 0.15 150deg));
   --_m-shadow-overlay: 0 2px 6px -2px oklch(0% 0 0deg / 15%), 0 12px 32px -8px oklch(0% 0 0deg / 30%);
+  --_m-underline-mix: 60%;
+  --_m-focus-width: 2px;
 }
 
 :where([data-theme="light"]) {
@@ -36,4 +38,46 @@
   --_m-primary-hover: color-mix(in oklch, var(--_m-primary), light-dark(black, white) 15%);
   --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 85%);
   --_m-on-primary: var(--m-on-primary, contrast-color(var(--_m-primary)));
+}
+
+/* More contrast, from the system or data-contrast="more": text reaches 7:1 (WCAG 1.4.6), borders and underlines are solid. */
+@media (prefers-contrast: more) {
+  :where(:root) {
+    --_m-border: var(--_m-control-border);
+    --_m-control-border: light-dark(oklch(45% 0.01 260deg), oklch(72% 0.01 260deg));
+    --_m-text-muted: light-dark(oklch(38% 0.012 260deg), oklch(82% 0.01 260deg));
+    --_m-tint: color-mix(in oklch, var(--_m-text), transparent 85%);
+    --_m-danger: light-dark(oklch(43% 0.17 27deg), oklch(80% 0.12 27deg));
+    --_m-success: light-dark(oklch(40% 0.1 150deg), oklch(82% 0.13 150deg));
+    --_m-underline-mix: 0%;
+    --_m-focus-width: 3px;
+  }
+
+  :where(*) {
+    --_m-primary: light-dark(
+      oklch(from var(--m-primary) min(l, 0.4) c h),
+      oklch(from var(--m-primary) max(calc(l + 0.1), 0.8) c h)
+    );
+    --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 70%);
+  }
+}
+
+:where([data-contrast="more"]) {
+  --_m-border: var(--_m-control-border);
+  --_m-control-border: light-dark(oklch(45% 0.01 260deg), oklch(72% 0.01 260deg));
+  --_m-text-muted: light-dark(oklch(38% 0.012 260deg), oklch(82% 0.01 260deg));
+  --_m-tint: color-mix(in oklch, var(--_m-text), transparent 85%);
+  --_m-danger: light-dark(oklch(43% 0.17 27deg), oklch(80% 0.12 27deg));
+  --_m-success: light-dark(oklch(40% 0.1 150deg), oklch(82% 0.13 150deg));
+  --_m-underline-mix: 0%;
+  --_m-focus-width: 3px;
+}
+
+/* --_m-primary is declared on every element, so the subtree's descendants need the override too. */
+:where([data-contrast="more"], [data-contrast="more"] *) {
+  --_m-primary: light-dark(
+    oklch(from var(--m-primary) min(l, 0.4) c h),
+    oklch(from var(--m-primary) max(calc(l + 0.1), 0.8) c h)
+  );
+  --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 70%);
 }

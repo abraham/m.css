@@ -15,7 +15,7 @@
     )
   )
 ) {
-  outline: 2px solid var(--_m-primary);
+  outline: var(--_m-focus-width) solid var(--_m-primary);
   outline-offset: 2px;
   animation: m-focus-in var(--_m-duration) var(--_m-ease);
 }

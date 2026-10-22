@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 const pages = ["/demo/", "/demo/article.html", "/demo/docs.html"];
 
@@ -14,6 +14,14 @@ for (const path of pages) {
       expect(violations.map(({ id, nodes }) => ({ id, targets: nodes.map((node) => node.target.join(" ")) }))).toEqual(
         [],
       );
+    });
+
+    // WCAG 1.4.6 (AAA): with more contrast requested, text reaches 7:1.
+    test(`${path} text reaches 7:1 with more contrast in ${colorScheme} mode`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme, contrast: "more", reducedMotion: "reduce" });
+      await page.goto(path);
+      const { violations } = await new AxeBuilder({ page }).withRules(["color-contrast-enhanced"]).analyze();
+      expect(violations.flatMap(({ nodes }) => nodes.map((node) => node.target.join(" ")))).toEqual([]);
     });
   }
 }
@@ -43,4 +51,60 @@ test("fluid headings reach 2x their size with browser zoom", async ({ page }) =>
       expect(size, `h${index + 1} at ${width}px`).toBeGreaterThanOrEqual(unzoomed[index] * 2 - 0.5);
     });
   }
+});
+
+test.describe("more contrast", () => {
+  // Links transition their underline color, so read settled values.
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+  });
+
+  const read = (page: Page) =>
+    page.evaluate(() => {
+      const link = document.querySelector("#links a")!;
+      const style = (selector: string) => getComputedStyle(document.querySelector(selector)!);
+      // Alpha of a computed color, whether it serializes as "... / a)" or "rgba(..., a)".
+      const alpha = (color: string) =>
+        parseFloat((color.match(/\/\s*([\d.]+)\s*\)$/) ?? color.match(/rgba\([^)]*,\s*([\d.]+)\)$/))?.[1] ?? "1");
+      return {
+        underline: alpha(getComputedStyle(link).textDecorationColor) === 1,
+        border: style("fieldset").borderTopColor,
+        controlBorder: style('input[name="name"]').borderTopColor,
+        muted: style("#frequency-help").color,
+        primary: getComputedStyle(link).color,
+      };
+    });
+
+  test("solid underlines, control-strength borders, and a 3px focus ring", async ({ page }) => {
+    await page.goto("/demo/");
+    const normal = await read(page);
+    await page.emulateMedia({ contrast: "more", reducedMotion: "reduce" });
+    const more = await read(page);
+
+    expect(normal.underline).toBe(false);
+    expect(more.underline).toBe(true);
+    expect(more.border).toBe(more.controlBorder);
+    expect(more.muted).not.toBe(normal.muted);
+    expect(more.primary).not.toBe(normal.primary);
+
+    await page.keyboard.press("Shift");
+    await page.locator("#links a").first().focus();
+    expect(
+      await page
+        .locator("#links a")
+        .first()
+        .evaluate((link) => getComputedStyle(link).outlineWidth),
+    ).toBe("3px");
+  });
+
+  test('data-contrast="more" applies to its whole subtree', async ({ page }) => {
+    await page.goto("/demo/");
+    const normal = await read(page);
+    await page.evaluate(() => document.documentElement.setAttribute("data-contrast", "more"));
+    const more = await read(page);
+    expect(more.underline).toBe(true);
+    expect(more.border).toBe(more.controlBorder);
+    // The link is deep in the page, so this shows the per-element --_m-primary override reached it.
+    expect(more.primary).not.toBe(normal.primary);
+  });
 });

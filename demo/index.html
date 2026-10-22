@@ -77,6 +77,10 @@
             Reduce motion
           </label>
           <label>
+            <input name="contrast" type="checkbox" />
+            More contrast
+          </label>
+          <label>
             <input name="scrollProgress" type="checkbox" />
             Scroll progress
           </label>
@@ -511,6 +515,9 @@
             break;
           case "motion":
             setOrRemove("data-motion", target.checked && "reduce");
+            break;
+          case "contrast":
+            setOrRemove("data-contrast", target.checked && "more");
             break;
           case "scrollProgress":
             root.toggleAttribute("data-scroll-progress", target.checked);
