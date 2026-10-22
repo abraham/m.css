@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 520" width="320" height="520">
+  <defs>
+    <g id="flower" fill="#fbfaf7" stroke="#1f1d1b" stroke-width="2" stroke-linejoin="round">
+      <ellipse cy="-13" rx="10" ry="13" />
+      <ellipse cy="-13" rx="10" ry="13" transform="rotate(72)" />
+      <ellipse cy="-13" rx="10" ry="13" transform="rotate(144)" />
+      <ellipse cy="-13" rx="10" ry="13" transform="rotate(216)" />
+      <ellipse cy="-13" rx="10" ry="13" transform="rotate(288)" />
+      <circle r="5" stroke="none" />
+      <path d="M0 0-4-8M0 0v-10M0 0l4-8" fill="none" stroke-width="1.2" />
+      <g fill="#e0482f" stroke="none">
+        <circle cx="-4" cy="-8" r="1.7" />
+        <circle cy="-10" r="1.7" />
+        <circle cx="4" cy="-8" r="1.7" />
+      </g>
+    </g>
+    <g id="bud">
+      <ellipse cy="-9" rx="6" ry="10" fill="#fbfaf7" stroke="#1f1d1b" stroke-width="2" />
+      <path d="M-6-2Q0 4 6-2L0 7Z" fill="#1f1d1b" />
+    </g>
+  </defs>
+  <circle cx="196" cy="150" r="118" fill="#e0482f" />
+  <g fill="#1f1d1b">
+    <path d="M83 520C96 470 128 420 152 370 170 332 172 290 168 245 165 210 164 185 166 164L170 163C171 185 176 210 178 245 183 292 182 336 164 378 142 428 124 470 118 520Z" />
+    <path d="M170 312C200 292 236 262 290 205L294 208C246 266 210 300 174 326Z" />
+    <path d="M128 462C170 430 230 390 302 328L304 332C236 396 180 444 134 474Z" opacity=".85" />
+    <path d="M150 376C138 360 126 348 112 334L115 331C130 344 142 356 156 368Z" />
+    <path d="M168 175C182 160 196 140 212 120L215 122C200 142 186 162 172 180Z" />
+  </g>
+  <use href="#bud" transform="translate(216 117) rotate(40)" />
+  <use href="#bud" transform="translate(111 331) rotate(-45)" />
+  <use href="#bud" transform="translate(293 204) rotate(45)" />
+  <use href="#flower" transform="translate(160 136) scale(1.25)" />
+  <use href="#flower" transform="translate(240 256) scale(0.8)" />
+  <use href="#flower" transform="translate(138 388) scale(1.1)" />
+</svg>
