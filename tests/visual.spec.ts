@@ -42,11 +42,13 @@ test.describe("visual", { tag: "@visual" }, () => {
       await expect(page).toHaveScreenshot(`article-${colorScheme}.png`, screenshot);
     });
 
-    test(`forms page, ${colorScheme}`, async ({ page }) => {
-      await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
-      await page.goto("/demo/components/forms.html");
-      await expect(page).toHaveScreenshot(`forms-${colorScheme}.png`, screenshot);
-    });
+    for (const name of ["typography", "links-buttons", "forms", "content", "navigation", "overlays", "feedback"]) {
+      test(`${name} page, ${colorScheme}`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
+        await page.goto(`/demo/components/${name}.html`);
+        await expect(page).toHaveScreenshot(`${name}-${colorScheme}.png`, screenshot);
+      });
+    }
 
     for (const width of [1280, 600]) {
       test(`docs layout, ${colorScheme}, ${width}px`, async ({ page }) => {

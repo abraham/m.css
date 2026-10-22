@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Navigation · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Kitchen sink</a></li>
+          <li><a href="typography.html" aria-current="true">Components</a></li>
+          <li><a href="../docs.html">Docs layout</a></li>
+          <li><a href="../article.html">Article page</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <h1>Navigation</h1>
+      <p>
+        Bars, breadcrumbs, and page layout come from where you put a <code>nav</code>. This page's own top bar, side
+        nav, and rail are examples.
+      </p>
+    </header>
+
+    <nav aria-label="Components">
+      <ul>
+        <li><a href="typography.html">Typography</a></li>
+        <li><a href="links-buttons.html">Links and buttons</a></li>
+        <li><a href="forms.html">Forms</a></li>
+        <li><a href="content.html">Content</a></li>
+        <li><a href="navigation.html" aria-current="page">Navigation</a></li>
+        <li><a href="overlays.html">Overlays</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="page-layout" aria-labelledby="page-layout-title">
+        <h2 id="page-layout-title">Page layout</h2>
+        <p>Where a <code>nav</code> or <code>aside</code> sits decides its role, with no attributes:</p>
+        <ul>
+          <li>
+            A <code>nav</code> directly inside <code>body &gt; header</code> is a sticky top bar. A second one right
+            after it is a subnav that sticks below it.
+          </li>
+          <li>
+            A <code>nav</code> or <code>aside</code> directly inside <code>body</code> becomes a sticky column beside
+            <code>main</code> on wide screens, like this page's component list and "On this page" rail.
+          </li>
+          <li>On narrow screens everything stacks, and navs become rows that scroll sideways.</li>
+        </ul>
+        <p>The <a href="../docs.html">docs layout</a> shows a top bar, subnav, side nav, and rail together.</p>
+      </section>
+
+      <section id="split-bar" aria-labelledby="split-bar-title">
+        <h2 id="split-bar-title">Split bar</h2>
+        <p>A <code>nav</code> with two lists puts them at opposite ends, such as a brand and links.</p>
+        <figure data-example="split-bar" data-states="rtl dark contrast">
+          <nav aria-label="Account">
+            <ul>
+              <li><strong>Brand</strong></li>
+            </ul>
+            <ul>
+              <li><a href="#split-bar">Settings</a></li>
+              <li><a href="#split-bar">Sign out</a></li>
+            </ul>
+          </nav>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>Label every <code>nav</code> when a page has more than one, so screen reader users can tell them apart.</p>
+        <h3>Customize</h3>
+        <p>Links use the text color and turn primary on hover and for <code>aria-current</code>.</p>
+      </section>
+
+      <section id="breadcrumbs" aria-labelledby="breadcrumbs-title">
+        <h2 id="breadcrumbs-title">Breadcrumbs</h2>
+        <p>A <code>nav</code> whose list is an <code>ol</code> is a breadcrumb trail.</p>
+        <figure data-example="breadcrumbs" data-states="rtl dark contrast">
+          <nav aria-label="Breadcrumb">
+            <ol>
+              <li><a href="../">Home</a></li>
+              <li><a href="typography.html">Components</a></li>
+              <li><a href="navigation.html" aria-current="page">Navigation</a></li>
+            </ol>
+          </nav>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          The separators are drawn with CSS and aren't read aloud. Mark the last link with
+          <code>aria-current="page"</code>.
+        </p>
+        <h3>Customize</h3>
+        <p>The trail uses small, muted text.</p>
+      </section>
+
+      <section id="callouts" aria-labelledby="callouts-title">
+        <h2 id="callouts-title">Callouts and contact details</h2>
+        <p>
+          An <code>aside</code> inside content is a callout on a raised surface. <code>hr</code> and
+          <code>address</code> round out the page furniture.
+        </p>
+        <figure data-example="callouts" data-states="rtl dark contrast">
+          <aside>
+            <p>An <code>aside</code> renders as a callout on a raised surface.</p>
+          </aside>
+          <hr />
+          <address>
+            m.css<br />
+            <a href="mailto:hello@example.com">hello@example.com</a>
+          </address>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>An <code>aside</code> is a complementary landmark. Give it a label if a page has more than one.</p>
+        <h3>Customize</h3>
+        <p>Callouts use the raised surface and <code>--m-radius</code>.</p>
+      </section>
+    </main>
+
+    <aside aria-label="On this page">
+      <p><strong>On this page</strong></p>
+      <ul>
+        <li><a href="#page-layout">Page layout</a></li>
+        <li><a href="#split-bar">Split bar</a></li>
+        <li><a href="#breadcrumbs">Breadcrumbs</a></li>
+        <li><a href="#callouts">Callouts and contact details</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

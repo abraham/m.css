@@ -1,7 +1,13 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-const pages = ["/demo/", "/demo/components/forms.html", "/demo/article.html", "/demo/docs.html"];
+const components = ["typography", "links-buttons", "forms", "content", "navigation", "overlays", "feedback"];
+const pages = [
+  "/demo/",
+  ...components.map((name) => `/demo/components/${name}.html`),
+  "/demo/article.html",
+  "/demo/docs.html",
+];
 
 for (const path of pages) {
   for (const colorScheme of ["light", "dark"] as const) {

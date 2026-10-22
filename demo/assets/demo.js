@@ -369,7 +369,7 @@ function renderTokens(panel) {
 }
 
 /** Demo hooks that aren't part of the markup a user would copy. */
-const demoAttributes = ["data-indeterminate"];
+const demoAttributes = ["data-indeterminate", "data-show-modal"];
 
 /**
  * States an example can toggle. `self` states go on the figure; the rest on its matching controls.
@@ -420,11 +420,21 @@ function exampleMarkup(figure) {
   const lines = clone.innerHTML.replace(/(\s[\w:-]+)=""/g, "$1").split("\n");
   while (lines.length > 0 && lines[0].trim() === "") lines.shift();
   while (lines.length > 0 && lines.at(-1)?.trim() === "") lines.pop();
-  const indent = Math.min(...lines.filter((line) => line.trim()).map((line) => line.search(/\S/)));
+  // The first line's indent is the shared one. Lines inside a pre keep their own whitespace.
+  const indent = lines.length > 0 ? lines[0].search(/\S/) : 0;
   const ancestor = ["dir", "data-theme", "data-contrast"]
     .filter((name) => figure.hasAttribute(name))
     .map((name) => `${name}="${figure.getAttribute(name)}"`);
-  const body = lines.map((line) => line.slice(indent)).join("\n");
+  let inPre = false;
+  const body = lines
+    .map((line) => {
+      const trimmed = inPre ? line : line.replace(new RegExp(`^ {0,${indent}}`), "");
+      const opens = (line.match(/<pre[\s>]/g) ?? []).length;
+      const closes = (line.match(/<\/pre>/g) ?? []).length;
+      if (opens !== closes) inPre = opens > closes;
+      return trimmed;
+    })
+    .join("\n");
   return ancestor.length > 0 ? `<!-- On a containing element: ${ancestor.join(" ")} -->\n${body}` : body;
 }
 

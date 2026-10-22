@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Links and buttons · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Kitchen sink</a></li>
+          <li><a href="typography.html" aria-current="true">Components</a></li>
+          <li><a href="../docs.html">Docs layout</a></li>
+          <li><a href="../article.html">Article page</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <h1>Links and buttons</h1>
+      <p>Links, buttons, link buttons, groups, and toggles.</p>
+    </header>
+
+    <nav aria-label="Components">
+      <ul>
+        <li><a href="typography.html">Typography</a></li>
+        <li><a href="links-buttons.html" aria-current="page">Links and buttons</a></li>
+        <li><a href="forms.html">Forms</a></li>
+        <li><a href="content.html">Content</a></li>
+        <li><a href="navigation.html">Navigation</a></li>
+        <li><a href="overlays.html">Overlays</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="links" aria-labelledby="links-title">
+        <h2 id="links-title">Links</h2>
+        <p>Links use the primary color with a soft underline that thickens on hover.</p>
+        <figure data-example="links" data-states="rtl dark contrast">
+          <p>
+            Read <a href="#links">this link to the current section</a>. A link can wrap across lines inside a long
+            sentence, <a href="#buttons">such as this longer link that points to the buttons section further down</a>.
+          </p>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          Links keep their underline, so they don't rely on color. With more contrast, the underline turns solid and the
+          focus ring grows.
+        </p>
+        <h3>Customize</h3>
+        <p>Links use <code>--m-primary</code>.</p>
+      </section>
+
+      <section id="buttons" aria-labelledby="buttons-title">
+        <h2 id="buttons-title">Buttons</h2>
+        <p>
+          Buttons are solid primary. <code>type="reset"</code> and <code>formnovalidate</code> buttons are secondary
+          outlines.
+        </p>
+        <figure data-example="buttons" data-states="disabled busy rtl dark contrast">
+          <p>
+            <button type="button">Primary</button>
+            <button type="submit" form="none" formnovalidate>Secondary</button>
+            <input type="button" value="Input button" />
+          </p>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          <code>aria-busy="true"</code> shows a spinner that pulses instead of spinning when motion is reduced. Disabled
+          buttons can't be focused, so explain why an action is unavailable somewhere else.
+        </p>
+        <h3>Customize</h3>
+        <p>
+          The text on a primary button picks black or white for contrast, or <code>--m-on-primary</code> if you set it.
+        </p>
+      </section>
+
+      <section id="link-buttons" aria-labelledby="link-buttons-title">
+        <h2 id="link-buttons-title">Link buttons</h2>
+        <p>A link with <code>role="button"</code> looks like a button.</p>
+        <figure data-example="link-buttons" data-states="rtl dark contrast">
+          <p>
+            <a href="#link-buttons" role="button">Link button</a>
+            <a href="#link-buttons" role="button" aria-disabled="true">Disabled link button</a>
+          </p>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          <code>aria-disabled="true"</code> dims the link, but it still navigates: stop that with script, or remove the
+          <code>href</code>.
+        </p>
+        <h3>Customize</h3>
+        <p>Same as buttons.</p>
+      </section>
+
+      <section id="groups" aria-labelledby="groups-title">
+        <h2 id="groups-title">Groups and toggles</h2>
+        <p>
+          <code>role="group"</code> joins its children into one control. Buttons with <code>aria-pressed</code> are
+          toggles, so a group of them is a segmented control.
+        </p>
+        <figure data-example="groups" data-states="rtl dark contrast">
+          <span role="group" aria-label="Text alignment">
+            <button type="button" aria-pressed="true">Left</button>
+            <button type="button" aria-pressed="false">Center</button>
+            <button type="button" aria-pressed="false">Right</button>
+          </span>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          Label the group with <code>aria-label</code>. Screen readers announce each toggle as pressed or not. This demo
+          moves the pressed state with a small script.
+        </p>
+        <h3>Customize</h3>
+        <p>The pressed state uses a tint of <code>--m-primary</code> and a thicker border.</p>
+      </section>
+    </main>
+
+    <aside aria-label="On this page">
+      <p><strong>On this page</strong></p>
+      <ul>
+        <li><a href="#links">Links</a></li>
+        <li><a href="#buttons">Buttons</a></li>
+        <li><a href="#link-buttons">Link buttons</a></li>
+        <li><a href="#groups">Groups and toggles</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

@@ -10,13 +10,16 @@ const root = (page: Page) =>
 
 const openSettings = (page: Page) => page.getByRole("button", { name: "Settings" }).click();
 
-const pages = ["/demo/", "/demo/components/forms.html", "/demo/docs.html", "/demo/article.html"];
+const components = ["typography", "links-buttons", "forms", "content", "navigation", "overlays", "feedback"].map(
+  (name) => `/demo/components/${name}.html`,
+);
+const pages = ["/demo/", ...components, "/demo/docs.html", "/demo/article.html"];
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
 });
 
-test("every page shares the same top bar, marking itself as the current page", async ({ page }) => {
+test("every page shares the same top bar, marking the current page or its section", async ({ page }) => {
   const bars = [];
   for (const path of pages) {
     await page.goto(path);
@@ -26,12 +29,41 @@ test("every page shares the same top bar, marking itself as the current page", a
       .evaluate((nav) => ({
         label: nav.getAttribute("aria-label"),
         links: [...nav.querySelectorAll("a")].map((link) => `${link.textContent} ${link.href}`),
-        current: [...nav.querySelectorAll('[aria-current="page"]')].map((link) => (link as HTMLAnchorElement).href),
+        current: [...nav.querySelectorAll("[aria-current]")].map(
+          (link) => `${link.getAttribute("aria-current")} ${(link as HTMLAnchorElement).href}`,
+        ),
       }));
-    expect(bar.current, path).toEqual([page.url()]);
+    // A component page marks Components as its section, or as the page itself on the first component page.
+    const typography = new URL("/demo/components/typography.html", page.url()).href;
+    const expected = !components.includes(path)
+      ? [`page ${page.url()}`]
+      : [`${page.url() === typography ? "page" : "true"} ${typography}`];
+    expect(bar.current, path).toEqual(expected);
     bars.push({ label: bar.label, links: bar.links });
   }
   for (const bar of bars.slice(1)) expect(bar).toEqual(bars[0]);
+});
+
+test("component pages share a side nav and an On this page rail that link within the page", async ({ page }) => {
+  const navs = [];
+  for (const path of components) {
+    await page.goto(path);
+    const nav = await page.locator('body > nav[aria-label="Components"]').evaluate((nav) => ({
+      links: [...nav.querySelectorAll("a")].map((link) => link.href),
+      current: [...nav.querySelectorAll('[aria-current="page"]')].map((link) => (link as HTMLAnchorElement).href),
+    }));
+    expect(nav.current, path).toEqual([page.url()]);
+    navs.push(nav.links);
+    expect(nav.links).toEqual(components.map((component) => new URL(component, page.url()).href));
+
+    const rail = await page
+      .locator('body > aside[aria-label="On this page"] a')
+      .evaluateAll((links) =>
+        links.map((link) => Boolean(document.getElementById((link as HTMLAnchorElement).hash.slice(1)))),
+      );
+    expect(rail.length, path).toBeGreaterThan(0);
+    expect(rail.every(Boolean), path).toBe(true);
+  }
 });
 
 test("every page has a settings button that keeps the top bar one line tall", async ({ page }) => {
@@ -128,6 +160,13 @@ test.describe("examples", () => {
     await expect(page.locator("#validation figure")).toHaveAttribute("dir", "rtl");
     expect(await snippet(page, "validation")).toMatch(/^<!-- On a containing element: dir="rtl" -->/);
     await expect(page.locator('#validation input[name="username"]')).toHaveAttribute("aria-invalid", "true");
+  });
+
+  test("a snippet keeps the whitespace inside a pre and drops demo-only hooks", async ({ page }) => {
+    await page.goto("/demo/components/typography.html");
+    expect(await snippet(page, "code")).toContain("<code>:root {\n  --m-primary:");
+    await page.goto("/demo/components/overlays.html");
+    expect(await snippet(page, "dialog")).not.toContain("data-show-modal");
   });
 
   test("a support badge reports what this browser supports", async ({ page }) => {
