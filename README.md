@@ -71,6 +71,17 @@ Hover, subtle, and dark-mode variants of the primary color are derived automatic
 | `role="group"`                     | A wrapper             | Joins buttons, or a field and a button, into one control |
 | `aria-invalid="true"` or `"false"` | A form field          | Red (invalid) or green (valid) border and helper text    |
 
+A `search` element joins its field and button like `role="group"`, whether they sit in a `form` or directly inside it, and `input type="search"` gets a magnifier icon:
+
+```html
+<search>
+  <form action="/search">
+    <input type="search" name="q" aria-label="Search" />
+    <button>Search</button>
+  </form>
+</search>
+```
+
 A `small` right after a form field is styled as helper text. Connect it with `aria-describedby` so screen readers announce it:
 
 ```html

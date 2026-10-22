@@ -97,6 +97,23 @@
   resize: vertical;
 }
 
+/* A data-URI image can't read custom properties, so the magnifier is a gray that reads on both schemes. */
+:where(input[type="search"]) {
+  padding-inline-start: calc(var(--_m-space-3) + 1.5em);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m15.5 15.5 5 5'/%3E%3C/svg%3E");
+  background-position: left var(--_m-space-3) center;
+  background-size: 1em;
+  background-repeat: no-repeat;
+
+  &:where(:dir(rtl)) {
+    background-position: right var(--_m-space-3) center;
+  }
+
+  &::-webkit-search-decoration {
+    appearance: none;
+  }
+}
+
 /* Helper text right after a field; pair it with aria-describedby so it is announced. */
 :where(input, select, textarea) + :where(small) {
   display: block;

@@ -61,7 +61,7 @@
 }
 
 /* Joins its children into one control: overlapping 1px borders and rounded outer corners only. */
-:where([role="group"]) {
+:where([role="group"], search:not(:has(> form)), search > form) {
   display: inline-flex;
   vertical-align: middle;
 
