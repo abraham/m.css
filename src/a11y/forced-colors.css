@@ -1,5 +1,18 @@
 /* Forced colors drop backgrounds, box-shadows, and gradients, so anything drawn with them is redrawn in system colors. */
 @media (forced-colors: active) {
+  :where(button[aria-pressed="true"]) {
+    border-color: SelectedItem;
+    background-color: SelectedItem;
+    color: SelectedItemText;
+
+    /* Opting out drops the Canvas backplate the browser paints behind the text. */
+    forced-color-adjust: none;
+
+    &:where(:focus-visible) {
+      outline-color: CanvasText;
+    }
+  }
+
   :where(input:is([type="checkbox"], [type="radio"])) {
     border-color: CanvasText;
     background-color: Canvas;

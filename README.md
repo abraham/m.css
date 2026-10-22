@@ -69,6 +69,7 @@ Hover, subtle, and dark-mode variants of the primary color are derived automatic
 | `role="switch"`                    | A checkbox            | Renders it as a toggle switch                                            |
 | `role="button"`                    | A link                | Styles it as a button; `aria-disabled="true"` dims it                    |
 | `role="group"`                     | A wrapper             | Joins buttons, or a field and a button, into one control                 |
+| `aria-pressed="true"` or `"false"` | A button              | A toggle: outlined when off, tinted with a thick primary border when on  |
 | `aria-invalid="true"` or `"false"` | A form field          | Red border and warning icon, or green border and check, plus helper text |
 
 A `search` element joins its field and button like `role="group"`, whether they sit in a `form` or directly inside it, and `input type="search"` gets a magnifier icon:

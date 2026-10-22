@@ -78,8 +78,10 @@
     margin-inline-start: -1px;
   }
 
-  /* A focused child rounds its inner corners so its focus ring isn't square. */
+  /* A focused child rounds its inner corners so its focus ring isn't square, and sits above hovered or pressed neighbors. */
   > :where(:focus-visible) {
+    position: relative;
+    z-index: 2;
     border-radius: calc(var(--m-radius) / 2);
   }
 
@@ -99,8 +101,8 @@
     inline-size: auto;
   }
 
-  /* Keeps a focus ring or hover border on top of the neighbor it overlaps. */
-  > :where(:focus-visible, :hover) {
+  /* Keeps a hover border on top of the neighbor it overlaps. */
+  > :where(:hover:not(:focus-visible)) {
     position: relative;
     z-index: 1;
   }
@@ -108,5 +110,34 @@
   > :where(button, input:is([type="submit"], [type="reset"], [type="button"]), a[role="button"])
     + :where(button, input:is([type="submit"], [type="reset"], [type="button"]), a[role="button"]) {
     border-inline-start-color: color-mix(in oklch, currentcolor, transparent 70%);
+  }
+}
+
+/* A toggle reads as secondary until pressed; pressed is a tinted selection, so a group of toggles is a segmented control. */
+:where(button[aria-pressed]) {
+  border-color: var(--_m-control-border);
+  background-color: transparent;
+  color: var(--_m-text);
+
+  &:where(:hover:not(:disabled)) {
+    border-color: var(--_m-control-border);
+    background-color: var(--_m-tint);
+  }
+
+  &:where([aria-pressed="true"]) {
+    border-color: var(--_m-primary);
+    background-color: var(--_m-primary-subtle);
+    box-shadow: inset 0 0 0 1px var(--_m-primary);
+  }
+
+  /* In a group, the pressed button's border sits above its neighbors', below a focus ring. */
+  &:where([aria-pressed="true"]:not(:focus-visible)) {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:where([aria-pressed="true"]:hover:not(:disabled)) {
+    border-color: var(--_m-primary-hover);
+    background-color: color-mix(in oklch, var(--_m-primary), transparent 75%);
   }
 }

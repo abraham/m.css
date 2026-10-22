@@ -378,9 +378,9 @@
         </p>
         <p>
           <span role="group" aria-label="Text alignment">
-            <button type="button">Left</button>
-            <button type="button">Center</button>
-            <button type="button">Right</button>
+            <button type="button" aria-pressed="true">Left</button>
+            <button type="button" aria-pressed="false">Center</button>
+            <button type="button" aria-pressed="false">Right</button>
           </span>
         </p>
         <search>
@@ -511,6 +511,15 @@
 
       for (const checkbox of document.querySelectorAll("[data-indeterminate]")) {
         checkbox.indeterminate = true;
+      }
+      for (const group of document.querySelectorAll('[role="group"]:has(> [aria-pressed])')) {
+        group.addEventListener("click", ({ target }) => {
+          const pressed = target.closest("[aria-pressed]");
+          if (!pressed) return;
+          for (const button of group.querySelectorAll("[aria-pressed]")) {
+            button.setAttribute("aria-pressed", String(button === pressed));
+          }
+        });
       }
       const dialog = document.getElementById("demo-dialog");
       document.getElementById("open-dialog").addEventListener("click", () => dialog.showModal());
