@@ -27,11 +27,12 @@
   color: inherit;
   text-decoration-color: transparent;
 
-  &:where(:hover, [aria-current="page"]) {
+  /* Any truthy aria-current marks the link: "page" for this page, "true" for the section it belongs to. */
+  &:where(:hover, [aria-current]:not([aria-current="false"])) {
     color: var(--_m-primary);
   }
 
-  &:where([aria-current="page"]) {
+  &:where([aria-current]:not([aria-current="false"])) {
     font-weight: 600;
   }
 }
@@ -153,6 +154,12 @@
     > :where(*),
     > :where(header:has(> nav)) > :where(*) {
       grid-column: full;
+    }
+
+    /* Full-width rows take the grid's width instead of sizing it, so a long top bar can't widen the empty aside track and squeeze main. */
+    > :where(:not(nav, aside, main)),
+    > :where(header:has(> nav)) > :where(*) {
+      contain: inline-size;
     }
 
     > :where(main) {

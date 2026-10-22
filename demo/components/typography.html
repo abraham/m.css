@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Typography · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="typography.html" aria-current="page">Components</a></li>
+          <li><a href="../layouts/">Layouts</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <h1>Typography</h1>
+      <p>Text, headings, lists, quotes, and code, all from plain elements.</p>
+    </header>
+
+    <nav aria-label="Components">
+      <ul>
+        <li><a href="typography.html" aria-current="page">Typography</a></li>
+        <li><a href="links-buttons.html">Links and buttons</a></li>
+        <li><a href="forms.html">Forms</a></li>
+        <li><a href="content.html">Content</a></li>
+        <li><a href="navigation.html">Navigation</a></li>
+        <li><a href="overlays.html">Overlays</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="typography" aria-labelledby="typography-title">
+        <h2 id="typography-title">Text</h2>
+        <p>
+          Body text sits at the base size and line height, inside a comfortable measure. Inline elements cover emphasis,
+          edits, abbreviations, and numbers.
+        </p>
+        <figure data-example="text" data-states="rtl dark contrast">
+          <p>
+            Body text includes <strong>strong text</strong>, <em>emphasis</em>, <small>small print</small>,
+            <mark>highlighted text</mark>, an abbreviation like <abbr title="Cascading Style Sheets">CSS</abbr>, and
+            notation such as E = mc<sup>2</sup> and H<sub>2</sub>O without stretching the line.
+          </p>
+          <p>
+            Edits show as <del>removed text</del> and <ins>inserted text</ins>. Figures in
+            <time datetime="2026-10-21T09:41">09:41</time> and <data value="1180">1,180 items</data> use tabular
+            numbers, so digits line up.
+          </p>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          Paragraphs wrap to avoid a lone last word. <code>ins</code> and <code>del</code> keep their underline and
+          strikethrough, so they don't rely on color.
+        </p>
+        <h3>Customize</h3>
+        <p><code>--m-font-sans</code>, <code>--m-font-size</code>, and <code>--m-measure</code> shape body text.</p>
+      </section>
+
+      <section id="headings" aria-labelledby="headings-title">
+        <h2 id="headings-title">Headings</h2>
+        <p>The top three levels scale with the window. Long headings wrap in balanced lines.</p>
+        <figure data-example="headings" data-states="rtl dark contrast">
+          <h1>Heading level one</h1>
+          <h2>Heading level two</h2>
+          <h3>Heading level three</h3>
+          <h4>Heading level four</h4>
+          <h5>Heading level five</h5>
+          <h6>Heading level six</h6>
+          <h2>A much longer heading that wraps onto a second line to show balanced wrapping</h2>
+          <h3><a href="#headings">A linked heading keeps the heading color</a></h3>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>Use levels in order. Pick a heading for its level in the outline, not for its size.</p>
+        <h3>Customize</h3>
+        <p><code>--m-density</code> sets the space above and below headings.</p>
+      </section>
+
+      <section id="hgroup" aria-labelledby="hgroup-title">
+        <h2 id="hgroup-title">Heading groups</h2>
+        <p>
+          In an <code>hgroup</code>, a paragraph before the heading is an eyebrow, and a paragraph after it is a
+          subtitle.
+        </p>
+        <figure data-example="hgroup" data-states="rtl dark contrast">
+          <hgroup>
+            <p>Eyebrow</p>
+            <h3>A heading group</h3>
+            <p>A muted subtitle that sits right under its heading.</p>
+          </hgroup>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>An <code>hgroup</code> holds exactly one heading, so the eyebrow and subtitle stay paragraphs.</p>
+        <h3>Customize</h3>
+        <p>The eyebrow and subtitle use the muted text color.</p>
+      </section>
+
+      <section id="lists" aria-labelledby="lists-title">
+        <h2 id="lists-title">Lists</h2>
+        <p>Bulleted, numbered, and description lists, plus <code>menu</code> for a row of commands.</p>
+        <figure data-example="lists" data-states="rtl dark contrast">
+          <ul>
+            <li>Unordered list item</li>
+            <li>
+              Item with a nested list
+              <ul>
+                <li>Nested item one</li>
+                <li>Nested item two</li>
+              </ul>
+            </li>
+            <li>Last unordered item</li>
+          </ul>
+          <ol>
+            <li>First step</li>
+            <li>Second step</li>
+            <li>Third step</li>
+          </ol>
+          <dl>
+            <dt>Density</dt>
+            <dd>Scales every spacing token.</dd>
+            <dt>Primary</dt>
+            <dd>The single accent color every interactive state derives from.</dd>
+          </dl>
+          <menu>
+            <li><a href="#lists">Menu item</a></li>
+            <li><a href="#lists">Another item</a></li>
+            <li><a href="#lists">Third item</a></li>
+          </menu>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>Numbered lists use tabular numbers, so the items line up.</p>
+        <h3>Customize</h3>
+        <p><code>--m-density</code> sets the space between items.</p>
+      </section>
+
+      <section id="quotes" aria-labelledby="quotes-title">
+        <h2 id="quotes-title">Quotes</h2>
+        <p>
+          A <code>blockquote</code> gets an accent border. A <code>footer</code> inside it is an attribution, and inline
+          <code>q</code> adds quotation marks.
+        </p>
+        <figure data-example="quotes" data-states="rtl dark contrast">
+          <figure>
+            <blockquote>
+              <p>Simplicity is prerequisite for reliability.</p>
+            </blockquote>
+            <figcaption>— <cite>Edsger W. Dijkstra</cite></figcaption>
+          </figure>
+          <blockquote>
+            <p>“A quote that opens with punctuation lets the mark hang outside the text edge where supported.”</p>
+            <footer><cite>A footer inside the quote</cite></footer>
+          </blockquote>
+          <p>An inline quote reads like <q>this short quoted phrase</q> within a sentence.</p>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>The em dash before a quote's footer is drawn with CSS and isn't read aloud.</p>
+        <h3>Customize</h3>
+        <p>The border uses <code>--m-primary</code>.</p>
+      </section>
+
+      <section id="code" aria-labelledby="code-title">
+        <h2 id="code-title">Code</h2>
+        <p>Inline code, keyboard keys, sample output, variables, and preformatted blocks that scroll sideways.</p>
+        <figure data-example="code" data-states="rtl dark contrast">
+          <p>
+            Inline <code>code</code>, keyboard input like <kbd>Ctrl</kbd> + <kbd>C</kbd>, sample output
+            <samp>Build succeeded</samp>, and a variable <var>x</var>.
+          </p>
+          <pre tabindex="0"><code>:root {
+  --m-primary: oklch(55% 0.19 40);
+  --m-density: 1;
+}</code></pre>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>Give a <code>pre</code> that can scroll a <code>tabindex="0"</code>, so keyboard users can scroll it.</p>
+        <h3>Customize</h3>
+        <p><code>--m-font-mono</code> sets the code font.</p>
+      </section>
+    </main>
+
+    <aside aria-label="On this page">
+      <p><strong>On this page</strong></p>
+      <ul>
+        <li><a href="#typography">Text</a></li>
+        <li><a href="#headings">Headings</a></li>
+        <li><a href="#hgroup">Heading groups</a></li>
+        <li><a href="#lists">Lists</a></li>
+        <li><a href="#quotes">Quotes</a></li>
+        <li><a href="#code">Code</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

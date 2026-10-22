@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Overlays · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="typography.html" aria-current="true">Components</a></li>
+          <li><a href="../layouts/">Layouts</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <h1>Overlays</h1>
+      <p>Dialogs, popovers, and menus, opened without JavaScript where the browser allows it.</p>
+    </header>
+
+    <nav aria-label="Components">
+      <ul>
+        <li><a href="typography.html">Typography</a></li>
+        <li><a href="links-buttons.html">Links and buttons</a></li>
+        <li><a href="forms.html">Forms</a></li>
+        <li><a href="content.html">Content</a></li>
+        <li><a href="navigation.html">Navigation</a></li>
+        <li><a href="overlays.html" aria-current="page">Overlays</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="dialog" aria-labelledby="dialog-title">
+        <h2 id="dialog-title">Dialog</h2>
+        <p>
+          A modal <code>dialog</code> sits on the overlay surface over a blurred backdrop, and the page behind it
+          doesn't scroll.
+        </p>
+        <figure data-example="dialog" data-states="rtl dark contrast">
+          <button type="button" id="open-dialog" data-show-modal="demo-dialog">Open dialog</button>
+          <dialog id="demo-dialog" aria-labelledby="demo-dialog-title">
+            <h3 id="demo-dialog-title">Dialog title</h3>
+            <p>A modal dialog on the overlay surface with a blurred backdrop.</p>
+            <form method="dialog">
+              <button>Close</button>
+            </form>
+          </dialog>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          Open it with <code>showModal()</code>, which this demo does from the button, so focus moves into it and Escape
+          closes it. Label it with <code>aria-labelledby</code>.
+        </p>
+        <h3>Customize</h3>
+        <p>It scales in, unless motion is reduced.</p>
+      </section>
+
+      <section id="popover" aria-labelledby="popover-title">
+        <h2 id="popover-title">Popover</h2>
+        <p>A <code>popover</code> opened by a <code>popovertarget</code> button, with no JavaScript.</p>
+        <figure data-example="popover" data-states="rtl dark contrast">
+          <button type="button" popovertarget="demo-popover">Toggle popover</button>
+          <div id="demo-popover" popover>
+            <p>A popover opened with <code>popovertarget</code>, no JavaScript needed.</p>
+          </div>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>Escape and a click outside close it, and the button tells screen readers whether it's open.</p>
+        <h3>Customize</h3>
+        <p>It slides up into place, unless motion is reduced.</p>
+      </section>
+
+      <section id="menus" aria-labelledby="menus-title">
+        <h2 id="menus-title">Menus</h2>
+        <p>A popover that is a list, or holds one, is a menu that opens below its button.</p>
+        <figure data-example="menus" data-states="rtl dark contrast" data-requires="position-area: block-end">
+          <button type="button" popovertarget="demo-menu">Actions</button>
+          <menu id="demo-menu" popover>
+            <li><a href="#menus">Edit</a></li>
+            <li><button type="button">Duplicate</button></li>
+            <li><a href="#menus" aria-current="page">Current item</a></li>
+            <li><button type="button" disabled>Archive</button></li>
+          </menu>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          This is a disclosure of links and buttons, not an ARIA menu, so Tab moves through the items and no extra
+          keyboard script is needed.
+        </p>
+        <h3>Customize</h3>
+        <p>Where anchor positioning isn't supported, the menu opens centered like other popovers.</p>
+      </section>
+    </main>
+
+    <aside aria-label="On this page">
+      <p><strong>On this page</strong></p>
+      <ul>
+        <li><a href="#dialog">Dialog</a></li>
+        <li><a href="#popover">Popover</a></li>
+        <li><a href="#menus">Menus</a></li>
+      </ul>
+    </aside>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

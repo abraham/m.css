@@ -3,623 +3,179 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>m.css kitchen sink</title>
+    <title>m.css</title>
     <link rel="stylesheet" href="../dist/m.css" />
-    <style>
-      /* Demo-only helpers for visualizing tokens. */
-      [data-token-panel] {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-        gap: 1rem;
-      }
-      [data-swatch] {
-        display: inline-block;
-        min-inline-size: 3rem;
-        block-size: 1.5rem;
-        vertical-align: middle;
-        text-align: center;
-        background: var(--swatch);
-        border: 1px solid var(--_m-border);
-        border-radius: var(--m-radius);
-      }
-      [data-bar] {
-        display: inline-block;
-        inline-size: var(--bar);
-        block-size: 0.75rem;
-        background: var(--_m-primary);
-      }
-    </style>
+    <link rel="stylesheet" href="assets/demo.css" />
+    <script src="assets/demo.js"></script>
   </head>
   <body>
     <header>
-      <h1>m.css</h1>
-      <p>Every element <code>m.css</code> styles, with no classes.</p>
-      <nav aria-label="Pages">
+      <nav aria-label="Site">
         <ul>
-          <li><a href="#top" aria-current="page">Kitchen sink</a></li>
-          <li><a href="article.html">Article page</a></li>
-          <li><a href="docs.html">Docs layout</a></li>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="./" aria-current="page">Home</a></li>
+          <li><a href="theming.html">Theming</a></li>
+          <li><a href="components/typography.html">Components</a></li>
+          <li><a href="layouts/">Layouts</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
         </ul>
       </nav>
-      <nav aria-label="Sections">
-        <ul>
-          <li><a href="#tokens">Tokens</a></li>
-          <li><a href="#typography">Typography</a></li>
-          <li><a href="#lists">Lists</a></li>
-          <li><a href="#code">Code</a></li>
-          <li><a href="#tables">Tables</a></li>
-          <li><a href="#media">Media</a></li>
-          <li><a href="#layout">Layout</a></li>
-          <li><a href="#cards">Cards</a></li>
-        </ul>
-      </nav>
-      <form id="controls">
-        <fieldset>
-          <legend>Demo settings</legend>
-          <label>
-            Theme
-            <select name="theme">
-              <option value="">System</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
-          </label>
-          <label>
-            Density
-            <input name="density" type="range" min="0.75" max="1.25" step="0.25" value="1" />
-          </label>
-          <label>
-            Primary
-            <input name="primary" type="color" value="#c2410c" />
-          </label>
-          <label>
-            <input name="motion" type="checkbox" />
-            Reduce motion
-          </label>
-          <label>
-            <input name="contrast" type="checkbox" />
-            More contrast
-          </label>
-          <label>
-            <input name="scrollProgress" type="checkbox" />
-            Scroll progress
-          </label>
-        </fieldset>
-      </form>
+      <hgroup>
+        <p>Classless CSS</p>
+        <h1>m.css</h1>
+        <p>Link one stylesheet, write semantic HTML, and every element looks clean and modern. No classes.</p>
+      </hgroup>
     </header>
 
     <main>
-      <section id="tokens">
-        <h2>Tokens</h2>
-        <p>Motion: <output id="motion"></output></p>
-        <div data-token-panel></div>
-        <div data-theme="dark" style="--m-primary: oklch(65% 0.2 150); --m-density: 1.25; padding: 1rem">
-          <p>Dark subtree, green primary, density 1.25</p>
-          <div data-token-panel></div>
-        </div>
-        <div
-          data-theme="light"
-          style="--m-primary: oklch(55% 0.22 20); --m-on-primary: oklch(98% 0.01 20); --m-density: 0.75; padding: 1rem"
-        >
-          <p>Light subtree, red primary, custom on-primary, density 0.75</p>
-          <div data-token-panel></div>
-        </div>
-      </section>
-      <section id="typography">
-        <h2>Typography</h2>
+      <section id="before-after" aria-labelledby="before-after-title">
+        <h2 id="before-after-title">Same HTML, with and without m.css</h2>
         <p>
-          A paragraph of body text set at the base size and line height, kept to a comfortable measure so lines stay
-          easy to read. It includes <strong>strong text</strong>, <em>emphasis</em>, <small>small print</small>,
-          <mark>highlighted text</mark>, an abbreviation like <abbr title="Cascading Style Sheets">CSS</abbr>, and
-          scientific notation such as E = mc<sup>2</sup> and H<sub>2</sub>O without stretching the line.
+          This fragment is plain markup: a heading, a paragraph, a form, and a table, with no classes or attributes for
+          styling. Turn m.css off to see what the browser does on its own.
         </p>
-        <p>
-          A second paragraph follows to show the vertical rhythm between blocks. Its last line should avoid ending on a
-          single orphaned word thanks to pretty text wrapping.
-        </p>
-        <p>
-          Edits show as <del>removed text</del> and <ins>inserted text</ins>. Figures in
-          <time datetime="2026-10-21T09:41">09:41</time>, <data value="1180">1,180 items</data>, and
-          <data value="4471">4,471 items</data> use tabular numbers, so digits line up.
-        </p>
-        <div>
-          <h1>Heading level one</h1>
-          <p>Body text after a top-level heading.</p>
-          <h2>Heading level two</h2>
-          <p>Body text after a second-level heading.</p>
-          <h3>Heading level three</h3>
-          <p>Body text after a third-level heading.</p>
-          <h4>Heading level four</h4>
-          <p>Body text after a fourth-level heading.</p>
-          <h5>Heading level five</h5>
-          <p>Body text after a fifth-level heading.</p>
-          <h6>Heading level six</h6>
-          <p>Body text after a sixth-level heading.</p>
-          <h2>A much longer heading that wraps onto a second line to show balanced wrapping</h2>
-          <p>Balanced headings split their lines evenly instead of leaving one word behind.</p>
-          <h3><a href="#typography">A linked heading</a></h3>
-          <p>A link inside a heading keeps the heading color and its underline.</p>
-        </div>
-        <hgroup>
-          <p>Eyebrow</p>
-          <h3>A heading group</h3>
-          <p>A muted subtitle that sits right under its heading.</p>
-        </hgroup>
-        <p>Body text continues after the heading group.</p>
-      </section>
-      <section id="cards">
-        <h2>Cards</h2>
-        <p>Every <code>article</code> is a card, and a container holding only articles lays them out as a grid.</p>
-        <div>
-          <article>
-            <header><strong>Starter</strong></header>
-            <p>For personal pages and small projects.</p>
-            <footer><button type="button">Choose Starter</button></footer>
-          </article>
-          <article>
-            <header><strong>Team</strong></header>
-            <p>For groups that need shared settings, more storage, and a longer description than the others.</p>
-            <footer><button type="button">Choose Team</button></footer>
-          </article>
-          <article>
-            <header><strong>Enterprise</strong></header>
-            <p>For organizations with custom needs.</p>
-            <footer><button type="button">Contact us</button></footer>
-          </article>
-        </div>
-        <article>
-          <hgroup>
-            <p>Changelog</p>
-            <h3>A card without bands</h3>
-          </hgroup>
-          <p>An article with no header or footer is a plain padded card.</p>
-        </article>
-      </section>
-      <section id="links">
-        <h2>Links</h2>
-        <p>
-          Links use the primary color with a soft underline that thickens on hover, like
-          <a href="#links">this link to the current section</a>. A link can also wrap across lines when it sits inside a
-          long sentence, <a href="#lists">such as this longer link that points to the lists section further down</a>.
-        </p>
-      </section>
-      <section id="lists">
-        <h2>Lists</h2>
-        <ul>
-          <li>Unordered list item</li>
-          <li>
-            Item with a nested list
-            <ul>
-              <li>Nested item one</li>
-              <li>Nested item two</li>
-            </ul>
-          </li>
-          <li>Last unordered item</li>
-        </ul>
-        <ol>
-          <li>First step</li>
-          <li>Second step</li>
-          <li>Third step</li>
-        </ol>
-        <dl>
-          <dt>Density</dt>
-          <dd>Scales every spacing token.</dd>
-          <dt>Primary</dt>
-          <dd>The single accent color every interactive state derives from.</dd>
-        </dl>
-        <menu>
-          <li><a href="#lists">Menu item</a></li>
-          <li><a href="#lists">Another item</a></li>
-          <li><a href="#lists">Third item</a></li>
-        </menu>
-      </section>
-      <section id="quotes">
-        <h2>Quotes and figures</h2>
-        <figure>
-          <blockquote>
-            <p>Simplicity is prerequisite for reliability.</p>
-          </blockquote>
-          <figcaption>— <cite>Edsger W. Dijkstra</cite></figcaption>
+        <figure data-before-after>
+          <h3>Create an account</h3>
+          <p>It takes a minute. You can <a href="#before-after">change these details</a> later.</p>
+          <form action="#before-after">
+            <label>
+              Email
+              <input type="email" name="signup-email" placeholder="ada@example.com" autocomplete="email" />
+            </label>
+            <label><input type="checkbox" name="signup-news" role="switch" checked /> Send me product news</label>
+            <button>Sign up</button>
+          </form>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Plan</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Starter</td>
+                <td>Free</td>
+              </tr>
+              <tr>
+                <td>Team</td>
+                <td>$12</td>
+              </tr>
+            </tbody>
+          </table>
         </figure>
-        <blockquote>
-          <p>“A quote that opens with punctuation lets the mark hang outside the text edge where supported.”</p>
-          <footer><cite>A footer inside the quote</cite></footer>
-        </blockquote>
-        <p>An inline quote reads like <q>this short quoted phrase</q> within a sentence.</p>
       </section>
-      <section id="code">
-        <h2>Code</h2>
-        <p>
-          Inline <code>code</code>, keyboard input like <kbd>Ctrl</kbd> + <kbd>C</kbd>, sample output
-          <samp>Build succeeded</samp>, and a variable <var>x</var>.
-        </p>
-        <pre tabindex="0"><code>:root {
-  --m-primary: oklch(55% 0.19 40);
-  --m-density: 1;
-}
 
-/* A long line to show horizontal scrolling inside the pre block without wrapping the text at all. */</code></pre>
-      </section>
-      <section id="tables">
-        <h2>Tables</h2>
-        <table>
-          <caption>
-            Public custom properties
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Property</th>
-              <th scope="col">Default</th>
-              <th scope="col">Unit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>--m-density</code></td>
-              <td>1</td>
-              <td>number</td>
-            </tr>
-            <tr>
-              <td><code>--m-radius</code></td>
-              <td>0.5</td>
-              <td>rem</td>
-            </tr>
-            <tr>
-              <td><code>--m-font-size</code></td>
-              <td>1</td>
-              <td>rem</td>
-            </tr>
-            <tr>
-              <td><code>--m-measure</code></td>
-              <td>70</td>
-              <td>ch</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th scope="row">Total</th>
-              <td>4</td>
-              <td></td>
-            </tr>
-          </tfoot>
-        </table>
-      </section>
-      <section id="forms">
-        <h2>Forms</h2>
-        <form action="#forms">
-          <label>
-            Name
-            <input name="name" placeholder="Ada Lovelace" autocomplete="name" aria-describedby="name-help" />
-            <small id="name-help">As it should appear on your profile.</small>
-          </label>
-          <label>
-            Username (server says taken)
-            <input name="username" value="ada" aria-invalid="true" aria-describedby="username-help" />
-            <small id="username-help">That username is already taken.</small>
-          </label>
-          <label>
-            Handle (server says available)
-            <input name="handle" value="ada.lovelace" aria-invalid="false" aria-describedby="handle-help" />
-            <small id="handle-help">This handle is available.</small>
-          </label>
-          <label>
-            Email (required, invalid after you interact)
-            <input name="email" type="email" required placeholder="ada@example.com" autocomplete="email" />
-          </label>
-          <label for="demo-password">Password (label before the input)</label>
-          <input id="demo-password" name="password" type="password" autocomplete="new-password" />
-          <label>
-            Quantity
-            <input name="quantity" type="number" min="1" value="1" />
-          </label>
-          <label>
-            Date
-            <input name="date" type="date" />
-          </label>
-          <label>
-            Plan
-            <select name="plan">
-              <option>Free</option>
-              <option>Pro</option>
-              <option>Team</option>
-            </select>
-          </label>
-          <label>
-            Message
-            <textarea name="message" rows="3" placeholder="Write something…"></textarea>
-          </label>
-          <label>
-            Disabled
-            <input name="disabled" value="Can't edit this" disabled />
-          </label>
-          <label>
-            Read-only
-            <input name="account" value="ACC-1042" readonly />
-          </label>
-          <label>
-            Volume
-            <input name="volume" type="range" value="60" />
-          </label>
-          <label>
-            Color
-            <input name="color" type="color" value="#c2410c" />
-          </label>
-          <label>
-            Attachment
-            <input name="attachment" type="file" />
-          </label>
-          <fieldset>
-            <legend>Notifications</legend>
-            <label><input name="email-notify" type="checkbox" checked /> Email</label>
-            <label><input name="sms-notify" type="checkbox" /> SMS</label>
-            <label><input name="all-notify" type="checkbox" data-indeterminate /> Some channels (indeterminate)</label>
-            <label><input name="push-notify" type="checkbox" disabled /> Push (disabled)</label>
-          </fieldset>
-          <fieldset aria-describedby="frequency-help">
-            <legend>Frequency</legend>
-            <label><input name="frequency" type="radio" value="daily" checked /> Daily</label>
-            <label><input name="frequency" type="radio" value="weekly" /> Weekly</label>
-            <label><input name="frequency" type="radio" value="never" /> Never</label>
-          </fieldset>
-          <small id="frequency-help">How often we email a summary.</small>
-          <fieldset>
-            <legend>Preferences</legend>
-            <label><input name="digest" type="checkbox" role="switch" checked /> Weekly digest</label>
-            <label><input name="beta" type="checkbox" role="switch" /> Beta features</label>
-            <label><input name="locked" type="checkbox" role="switch" disabled /> Locked (disabled)</label>
-          </fieldset>
-          <fieldset disabled>
-            <legend>Billing (disabled fieldset)</legend>
-            <label><input name="invoices" type="checkbox" checked /> Email invoices</label>
-            <label><input name="receipts" type="checkbox" /> Email receipts</label>
-          </fieldset>
-          <button>Submit</button>
-          <button type="reset">Reset</button>
-        </form>
-      </section>
-      <section id="buttons">
-        <h2>Buttons</h2>
+      <section id="quick-start" aria-labelledby="quick-start-title">
+        <h2 id="quick-start-title">Quick start</h2>
+        <ol>
+          <li>
+            <p>Link the stylesheet in your page's <code>head</code>:</p>
+            <pre
+              tabindex="0"
+              data-copy
+            ><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/m.css/dist/m.min.css" /&gt;</code></pre>
+          </li>
+          <li>
+            <p>Write semantic HTML. Landmarks, headings, forms, and tables are styled as they are:</p>
+            <pre tabindex="0" data-copy><code>&lt;main&gt;
+  &lt;h1&gt;Hello&lt;/h1&gt;
+  &lt;p&gt;Plain HTML, styled.&lt;/p&gt;
+  &lt;button&gt;Get started&lt;/button&gt;
+&lt;/main&gt;</code></pre>
+          </li>
+          <li>
+            <p>Optionally, set a property or two to make it yours:</p>
+            <pre tabindex="0" data-copy><code>:root {
+  --m-primary: #2563eb;
+  --m-density: 1.1;
+}</code></pre>
+          </li>
+        </ol>
         <p>
-          <button type="button">Primary</button>
-          <button type="submit" form="none" formnovalidate>Secondary</button>
-          <button type="button" disabled>Disabled</button>
-          <button type="button" aria-busy="true">Saving</button>
-          <input type="button" value="Input button" />
+          Or install it with <code>npm install @abraham/m.css</code> and import it through your bundler. Try the
+          properties live on the <a href="theming.html">Theming</a> page, or with the Settings button at the top of any
+          page.
         </p>
-        <p>
-          <a href="#buttons" role="button">Link button</a>
-          <a href="#buttons" role="button" aria-disabled="true">Disabled link button</a>
-        </p>
-        <p>
-          <span role="group" aria-label="Text alignment">
-            <button type="button" aria-pressed="true">Left</button>
-            <button type="button" aria-pressed="false">Center</button>
-            <button type="button" aria-pressed="false">Right</button>
-          </span>
-        </p>
-        <search>
-          <form action="#buttons">
-            <input type="search" name="q" aria-label="Search the docs" placeholder="Search the docs" />
-            <button>Search</button>
-          </form>
-        </search>
       </section>
-      <section id="details">
-        <h2>Details</h2>
-        <details>
-          <summary>What is a classless framework?</summary>
-          <p>It styles plain HTML elements directly, so you write semantic markup without adding classes.</p>
-        </details>
-        <details open>
-          <summary>Does it support dark mode?</summary>
-          <p>
-            Yes. It follows the system setting, and <code>data-theme</code> overrides it for the page or any section.
-          </p>
-        </details>
-      </section>
-      <section id="dialog">
-        <h2>Dialog and popover</h2>
-        <p>
-          <button type="button" id="open-dialog">Open dialog</button>
-          <button type="button" popovertarget="demo-popover">Toggle popover</button>
-          <button type="button" popovertarget="demo-menu">Actions</button>
-        </p>
-        <menu id="demo-menu" popover>
-          <li><a href="#dialog">Edit</a></li>
-          <li><button type="button">Duplicate</button></li>
-          <li><a href="#dialog" aria-current="page">Current item</a></li>
-          <li><button type="button" disabled>Archive</button></li>
-        </menu>
-        <dialog id="demo-dialog" aria-labelledby="demo-dialog-title">
-          <h3 id="demo-dialog-title">Dialog title</h3>
-          <p>A modal dialog on the overlay surface with a blurred backdrop.</p>
-          <form method="dialog">
-            <button>Close</button>
-          </form>
-        </dialog>
-        <div id="demo-popover" popover>
-          <p>A popover opened with <code>popovertarget</code>, no JavaScript needed.</p>
+
+      <section id="explore" aria-labelledby="explore-title">
+        <h2 id="explore-title">What you get</h2>
+        <div>
+          <article>
+            <h3><a href="components/typography.html">Typography</a></h3>
+            <p>Text, headings, lists, quotes, and code.</p>
+          </article>
+          <article>
+            <h3><a href="components/links-buttons.html">Links and buttons</a></h3>
+            <p>Buttons, link buttons, groups, and toggles.</p>
+          </article>
+          <article>
+            <h3><a href="components/forms.html">Forms</a></h3>
+            <p>Fields, choices, switches, validation, and search.</p>
+          </article>
+          <article>
+            <h3><a href="components/content.html">Content</a></h3>
+            <p>Cards, tables, media, and details.</p>
+          </article>
+          <article>
+            <h3><a href="components/navigation.html">Navigation</a></h3>
+            <p>Sticky bars, side navs, breadcrumbs, and layouts from markup.</p>
+          </article>
+          <article>
+            <h3><a href="components/overlays.html">Overlays</a></h3>
+            <p>Dialogs, popovers, and menus.</p>
+          </article>
+          <article>
+            <h3><a href="components/feedback.html">Feedback</a></h3>
+            <p>Progress, meters, and loading states.</p>
+          </article>
+          <article>
+            <h3><a href="theming.html">Theming</a></h3>
+            <p>Properties, schemes, motion, and contrast.</p>
+          </article>
+          <article>
+            <h3><a href="layouts/">Layouts</a></h3>
+            <p>Docs, article, sign-in, pricing, and settings pages to copy as a starting point.</p>
+          </article>
+          <article>
+            <h3><a href="kitchen-sink.html">Kitchen sink</a></h3>
+            <p>Every component example on one page, for a quick review.</p>
+          </article>
         </div>
       </section>
-      <section id="media">
-        <h2>Media</h2>
-        <figure>
-          <img src="landscape.svg" alt="Illustrated mountains under a pale blue sky" width="1200" height="600" />
-          <figcaption>An image scales down to the column and keeps its aspect ratio.</figcaption>
-        </figure>
-      </section>
-      <section id="layout">
-        <h2>Layout</h2>
-        <nav aria-label="Breadcrumb">
-          <ol>
-            <li><a href="#top">Home</a></li>
-            <li><a href="#layout">Kitchen sink</a></li>
-            <li><a href="#layout" aria-current="page">Layout</a></li>
-          </ol>
-        </nav>
-        <nav aria-label="Account">
-          <ul>
-            <li><strong>Brand</strong></li>
-          </ul>
-          <ul>
-            <li><a href="#layout">Settings</a></li>
-            <li><a href="#layout">Sign out</a></li>
-          </ul>
-        </nav>
-        <aside>
-          <p>An <code>aside</code> renders as a callout on a raised surface.</p>
-        </aside>
-        <hr />
-        <address>
-          m.css<br />
-          <a href="mailto:hello@example.com">hello@example.com</a>
-        </address>
-      </section>
-      <section id="progress">
-        <h2>Progress and meter</h2>
-        <label>
-          Upload progress
-          <progress value="40" max="100">40%</progress>
-        </label>
-        <label>
-          Loading (indeterminate)
-          <progress>Loading…</progress>
-        </label>
-        <p>Disk usage <meter value="0.7" low="0.5" high="0.8" optimum="0.2">70%</meter></p>
-        <p aria-busy="true">Fetching the latest results</p>
+
+      <section id="principles" aria-labelledby="principles-title">
+        <h2 id="principles-title">Principles</h2>
+        <ul>
+          <li>
+            <strong>Strictly classless.</strong> m.css only styles elements, attributes, and ARIA states. See any
+            <a href="components/typography.html">component page</a>.
+          </li>
+          <li>
+            <strong>Easy to override.</strong> Every rule sits in a cascade layer with zero specificity, so your CSS
+            wins without <code>!important</code>.
+          </li>
+          <li>
+            <strong>Light and dark.</strong> It follows the system, and <code>data-theme</code> overrides it for the
+            page or any section. See <a href="theming.html#schemes">Theming</a>.
+          </li>
+          <li>
+            <strong>Motion and contrast preferences.</strong> Reduced motion and more contrast are honored, with
+            attribute overrides. See <a href="theming.html#preferences">Theming</a>.
+          </li>
+          <li>
+            <strong>Accessible by default.</strong> Text meets WCAG AA, focus is always visible, and forced-colors mode
+            redraws custom controls in system colors.
+          </li>
+        </ul>
       </section>
     </main>
 
     <footer>
       <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
     </footer>
-
-    <script type="module">
-      const root = document.documentElement;
-      const controls = document.getElementById("controls");
-      const motion = document.getElementById("motion");
-
-      const setOrRemove = (name, value) => (value ? root.setAttribute(name, value) : root.removeAttribute(name));
-
-      const showMotion = () => {
-        const style = getComputedStyle(root);
-        motion.value = ["--_m-duration", "--_m-duration-slow", "--_m-scroll-behavior"]
-          .map((name) => `${name}: ${style.getPropertyValue(name)}`)
-          .join(", ");
-      };
-
-      controls.addEventListener("input", ({ target }) => {
-        switch (target.name) {
-          case "theme":
-            setOrRemove("data-theme", target.value);
-            break;
-          case "motion":
-            setOrRemove("data-motion", target.checked && "reduce");
-            break;
-          case "contrast":
-            setOrRemove("data-contrast", target.checked && "more");
-            break;
-          case "scrollProgress":
-            root.toggleAttribute("data-scroll-progress", target.checked);
-            break;
-          case "density":
-            root.style.setProperty("--m-density", target.value);
-            break;
-          case "primary":
-            root.style.setProperty("--m-primary", target.value);
-            break;
-        }
-        showMotion();
-      });
-      matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", showMotion);
-
-      for (const checkbox of document.querySelectorAll("[data-indeterminate]")) {
-        checkbox.indeterminate = true;
-      }
-      for (const group of document.querySelectorAll('[role="group"]:has(> [aria-pressed])')) {
-        group.addEventListener("click", ({ target }) => {
-          const pressed = target.closest("[aria-pressed]");
-          if (!pressed) return;
-          for (const button of group.querySelectorAll("[aria-pressed]")) {
-            button.setAttribute("aria-pressed", String(button === pressed));
-          }
-        });
-      }
-      const dialog = document.getElementById("demo-dialog");
-      document.getElementById("open-dialog").addEventListener("click", () => dialog.showModal());
-      showMotion();
-
-      const tokenGroups = {
-        Colors: [
-          "surface",
-          "surface-raised",
-          "surface-overlay",
-          "border",
-          "control-border",
-          "text",
-          "text-muted",
-          "tint",
-          "danger",
-          "primary",
-          "primary-hover",
-          "primary-subtle",
-          "on-primary",
-        ],
-        Spacing: ["space-1", "space-2", "space-3", "space-4", "space-6", "space-8", "space-12"],
-        Type: [
-          "text-sm",
-          "text-base",
-          "text-lg",
-          "text-xl",
-          "text-2xl",
-          "text-3xl",
-          "text-4xl",
-          "text-h1",
-          "text-h2",
-          "text-h3",
-        ],
-      };
-
-      const sample = (group, token) => {
-        const el = document.createElement("span");
-        if (group === "Colors") {
-          el.dataset.swatch = "";
-          el.style.setProperty("--swatch", `var(--_m-${token})`);
-          if (token === "on-primary") {
-            el.style.setProperty("--swatch", "var(--_m-primary)");
-            el.style.color = "var(--_m-on-primary)";
-            el.textContent = "Aa";
-          }
-        } else if (group === "Spacing") {
-          el.dataset.bar = "";
-          el.style.setProperty("--bar", `var(--_m-${token})`);
-        } else {
-          el.style.fontSize = `var(--_m-${token})`;
-          el.style.lineHeight = "var(--_m-leading-tight)";
-          el.textContent = "Aa";
-        }
-        return el;
-      };
-
-      for (const panel of document.querySelectorAll("[data-token-panel]")) {
-        for (const [group, tokens] of Object.entries(tokenGroups)) {
-          const block = document.createElement("div");
-          const title = document.createElement("h3");
-          title.textContent = group;
-          const list = document.createElement("dl");
-          for (const token of tokens) {
-            const term = document.createElement("dt");
-            const code = document.createElement("code");
-            code.textContent = `--_m-${token}`;
-            term.append(code);
-            const detail = document.createElement("dd");
-            detail.append(sample(group, token));
-            list.append(term, detail);
-          }
-          block.append(title, list);
-          panel.append(block);
-        }
-      }
-    </script>
   </body>
 </html>

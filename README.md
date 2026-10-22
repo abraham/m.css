@@ -34,7 +34,7 @@ m.css is meant to be the page's only stylesheet, and it owns the document layout
 
 ## Customize
 
-Set any of these on `:root`, or on any element to scope them to that part of the page.
+Set any of these on `:root`, or on any element to scope them to that part of the page. Try them live on the [Theming page](https://abraham.github.io/m.css/demo/theming.html).
 
 | Property         | Default                                   | Purpose                                                                   |
 | ---------------- | ----------------------------------------- | ------------------------------------------------------------------------- |
@@ -108,7 +108,7 @@ A `small` right after a `fieldset` is helper text for the whole group, and turns
 
 ## Layout
 
-The markup picks the layout:
+The markup picks the layout, as the pages in the [layouts gallery](https://abraham.github.io/m.css/demo/layouts/) show:
 
 ```html
 <body>
@@ -166,7 +166,7 @@ Requires Node 26, which runs the TypeScript tooling directly.
 ```sh
 npm install
 npm start               # builds, rebuilds on change, and serves the demo at http://localhost:8080/demo/
-npm run build           # writes dist/m.css and dist/m.min.css
+npm run build           # writes dist/m.css and dist/m.min.css, and generates demo/kitchen-sink.html
 npm run lint            # Stylelint, including the no-classes rule
 npm run typecheck
 npm run format          # Prettier
@@ -174,6 +174,8 @@ npm run size            # fails if dist/m.min.css is over 8 KB gzipped
 npm test                # motion, layout, and accessibility tests in Chromium and WebKit
 npm run test:visual     # screenshot tests in the Playwright Docker image; add -- --update-snapshots to rewrite them
 ```
+
+Demo examples live in `demo/components/*.html`, one `figure[data-example]` each. The kitchen sink is generated from them, so edit the component pages, not `demo/kitchen-sink.html`.
 
 ## License
 
