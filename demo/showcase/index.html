@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Showcase · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <link rel="stylesheet" href="../assets/demo.css" />
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="../components/typography.html">Components</a></li>
+          <li><a href="../layouts/">Layouts</a></li>
+          <li><a href="./" aria-current="page">Showcase</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Showcase">
+        <ul>
+          <li><a href="./" aria-current="page">Gallery</a></li>
+          <li><a href="editorial.html">Editorial</a></li>
+        </ul>
+      </nav>
+      <h1>Showcase</h1>
+      <p>
+        Whole pages, each with its own look, made only from m.css and a few custom properties. No classes, and no other
+        CSS. Each page shows its complete theme at the bottom.
+      </p>
+    </header>
+
+    <main>
+      <p>
+        Each card below sets its theme's color, spacing, and corners on the card itself, so the same markup shows how
+        each theme changes it. Fonts and text size only apply to a whole page, so open a theme to see them.
+      </p>
+      <article data-showcase="editorial" style="--m-primary: oklch(45% 0.16 25deg); --m-density: 1.15; --m-radius: 0">
+        <h2><a href="editorial.html">Editorial</a></h2>
+        <p>
+          A long-read magazine essay: quiet, bookish, and generous. Serif text, a narrow column, and square corners.
+        </p>
+        <p><small>Charter or Georgia, 1.125rem, always light.</small></p>
+        <form>
+          <label
+            ><input type="checkbox" name="editorial-digest" role="switch" checked /> Also send the reading list</label
+          >
+          <button type="button">Subscribe</button>
+        </form>
+      </article>
+    </main>
+
+    <footer>
+      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+    </footer>
+  </body>
+</html>

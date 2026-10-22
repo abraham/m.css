@@ -10,6 +10,9 @@ export const components = ["typography", "links-buttons", "forms", "content", "n
 /** Layout pages in gallery order, under demo/layouts/. */
 export const layouts = ["docs", "article", "login", "pricing", "settings"];
 
+/** Themed showcase pages in gallery order, under demo/showcase/; each carries its own theme and skips settings. */
+export const showcase = ["editorial"];
+
 /** Every demo page, for checks that cover the whole site. */
 export const pages = [
   "/demo/",
@@ -18,6 +21,8 @@ export const pages = [
   "/demo/kitchen-sink.html",
   "/demo/layouts/",
   ...layouts.map((name) => `/demo/layouts/${name}.html`),
+  "/demo/showcase/",
+  ...showcase.map((name) => `/demo/showcase/${name}.html`),
 ];
 
 interface Section {
@@ -134,6 +139,7 @@ ${section.markup.join("\n")}
           <li><a href="theming.html">Theming</a></li>
           <li><a href="components/typography.html" aria-current="true">Components</a></li>
           <li><a href="layouts/">Layouts</a></li>
+          <li><a href="showcase/">Showcase</a></li>
           <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
         </ul>
       </nav>

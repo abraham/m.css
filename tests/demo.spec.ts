@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { components as componentNames, layouts, pages } from "../scripts/demo.ts";
+import { components as componentNames, layouts, pages, showcase } from "../scripts/demo.ts";
 
 const root = (page: Page) =>
   page.evaluate(() => ({
@@ -12,6 +12,7 @@ const root = (page: Page) =>
 const openSettings = (page: Page) => page.getByRole("button", { name: "Settings" }).click();
 
 const components = componentNames.map((name) => `/demo/components/${name}.html`);
+const themePages = showcase.map((name) => `/demo/showcase/${name}.html`);
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -83,7 +84,9 @@ test("every page shares the same top bar, marking the current page or its sectio
         ? "/demo/components/typography.html"
         : path.startsWith("/demo/layouts/")
           ? "/demo/layouts/"
-          : path;
+          : path.startsWith("/demo/showcase/")
+            ? "/demo/showcase/"
+            : path;
     const link = new URL(section, page.url()).href;
     expect(bar.current, path).toEqual([`${page.url() === link ? "page" : "true"} ${link}`]);
     bars.push({ label: bar.label, links: bar.links });
@@ -113,11 +116,14 @@ test("component pages share a side nav and an On this page rail that link within
   }
 });
 
-test("every page has a settings button that keeps the top bar one line tall", async ({ page }) => {
+test("every page has a settings button, except themed showcase pages, and the top bar stays one line tall", async ({
+  page,
+}) => {
   for (const path of pages) {
     await page.goto(path);
     const button = page.locator("body > header > nav").first().getByRole("button", { name: "Settings" });
-    await expect(button).toBeVisible();
+    if (themePages.includes(path)) await expect(button).toHaveCount(0);
+    else await expect(button).toBeVisible();
     const { bar, size } = await page.evaluate(() => {
       const probe = document.createElement("div");
       probe.style.blockSize = "var(--_m-bar-size)";
@@ -317,5 +323,112 @@ test.describe("layouts", () => {
     await week.getByRole("button", { name: "Sunday" }).click();
     await expect(week.getByRole("button", { name: "Sunday" })).toHaveAttribute("aria-pressed", "true");
     await expect(week.getByRole("button", { name: "Monday" })).toHaveAttribute("aria-pressed", "false");
+  });
+});
+
+test.describe("showcase", () => {
+  /** The custom properties the page's theme block sets, with their values. */
+  const themeValues = (page: Page) =>
+    page.evaluate(() => {
+      const { style } = (document.querySelector("style[data-theme-source]") as HTMLStyleElement).sheet!
+        .cssRules[0] as CSSStyleRule;
+      return Object.fromEntries(
+        Array.from({ length: style.length }, (_, i) => [style[i], style.getPropertyValue(style[i]).trim()]),
+      );
+    });
+
+  test("theme pages use only m.css and one block of public custom properties", async ({ page, request }) => {
+    for (const path of themePages) {
+      const html = await (await request.get(path)).text();
+      expect(html, path).not.toMatch(/\s(class|style)=/);
+      expect(html.match(/<style\b/g), path).toHaveLength(1);
+
+      await page.goto(path);
+      const theme = await page.evaluate(() => {
+        const style = document.querySelector("style[data-theme-source]") as HTMLStyleElement;
+        const rules = [...style.sheet!.cssRules] as CSSStyleRule[];
+        return {
+          sheets: [...document.styleSheets].map((sheet) => (sheet.href ? new URL(sheet.href).pathname : "inline")),
+          selectors: rules.map((rule) => rule.selectorText),
+          properties: Array.from({ length: rules[0].style.length }, (_, i) => rules[0].style[i]),
+          root: [...document.documentElement.attributes].map((attribute) => attribute.name),
+        };
+      });
+      expect(theme.sheets, path).toEqual(["/dist/m.css", "inline"]);
+      expect(theme.selectors, path).toEqual([":root"]);
+      expect(theme.properties.length, path).toBeGreaterThan(0);
+      for (const name of theme.properties) expect(name, path).toMatch(/^--m-/);
+      for (const name of theme.root) {
+        expect(["lang", "data-theme", "data-motion", "data-contrast", "data-scroll-progress"], path).toContain(name);
+      }
+    }
+  });
+
+  test("theme pages ignore saved and URL settings, and leave the saved ones alone", async ({ page, request }) => {
+    const saved = JSON.stringify({ theme: "dark", density: "1.5", primary: "#00ff00", progress: "on" });
+    await page.goto("/demo/");
+    await page.evaluate((value) => localStorage.setItem("m-demo-settings", value), saved);
+    for (const path of themePages) {
+      const theme = (await (await request.get(path)).text()).match(/<html[^>]*data-theme="(\w+)"/)?.[1] ?? null;
+      await page.goto(`${path}?density=1.4&theme=dark`);
+      await expect(page.getByRole("button", { name: "Settings" })).toHaveCount(0);
+      const state = await page.evaluate(() => ({
+        style: document.documentElement.getAttribute("style"),
+        theme: document.documentElement.getAttribute("data-theme"),
+        primary: getComputedStyle(document.documentElement).getPropertyValue("--m-primary").trim(),
+        saved: localStorage.getItem("m-demo-settings"),
+      }));
+      expect(state.style, path).toBeNull();
+      expect(state.theme, path).toBe(theme);
+      expect(state.primary, path).toBe((await themeValues(page))["--m-primary"]);
+      expect(state.saved, path).toBe(saved);
+      expect(new URL(page.url()).search, path).toBe("?density=1.4&theme=dark");
+    }
+  });
+
+  test("each theme page shows its whole theme, matching what it uses", async ({ page }) => {
+    const squash = (text: string) => text.replace(/\s+/g, " ").trim();
+    for (const path of themePages) {
+      await page.goto(path);
+      const { shown, css, html } = await page.evaluate(() => ({
+        shown: document.querySelector("[data-theme-code]")!.textContent!,
+        css: document.querySelector("style[data-theme-source]")!.textContent!,
+        html: document.documentElement.outerHTML.match(/^<html[^>]*>/)![0].replaceAll('=""', ""),
+      }));
+      expect(squash(shown), path).toContain(squash(css));
+      expect(shown, path).toContain(html);
+    }
+  });
+
+  test("every showcase page has the same sticky subnav, marking the current page", async ({ page }) => {
+    const all = ["/demo/showcase/", ...themePages];
+    for (const path of all) {
+      await page.goto(path);
+      const nav = await page.locator('body > header > nav + nav[aria-label="Showcase"]').evaluate((nav) => ({
+        position: getComputedStyle(nav).position,
+        links: [...nav.querySelectorAll("a")].map((link) => (link as HTMLAnchorElement).href),
+        current: [...nav.querySelectorAll('[aria-current="page"]')].map((link) => (link as HTMLAnchorElement).href),
+      }));
+      expect(nav.position, path).toBe("sticky");
+      expect(nav.links, path).toEqual(all.map((link) => new URL(link, page.url()).href));
+      expect(nav.current, path).toEqual([page.url()]);
+    }
+  });
+
+  test("gallery cards preview each theme with the values its page uses", async ({ page }) => {
+    for (const name of showcase) {
+      await page.goto("/demo/showcase/");
+      const card = await page
+        .locator(`article[data-showcase="${name}"]`)
+        .evaluate(({ style }) =>
+          Object.fromEntries(
+            Array.from({ length: style.length }, (_, i) => [style[i], style.getPropertyValue(style[i]).trim()]),
+          ),
+        );
+      await page.goto(`/demo/showcase/${name}.html`);
+      const theme = await themeValues(page);
+      expect(Object.keys(card).length, name).toBeGreaterThan(0);
+      for (const [property, value] of Object.entries(card)) expect(value, `${name} ${property}`).toBe(theme[property]);
+    }
   });
 });

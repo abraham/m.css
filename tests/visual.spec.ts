@@ -1,5 +1,5 @@
 import { expect, test, type PageAssertionsToHaveScreenshotOptions } from "@playwright/test";
-import { components } from "../scripts/demo.ts";
+import { components, showcase } from "../scripts/demo.ts";
 
 const screenshot: PageAssertionsToHaveScreenshotOptions = {
   fullPage: true,
@@ -8,6 +8,15 @@ const screenshot: PageAssertionsToHaveScreenshotOptions = {
 };
 
 test.describe("visual", { tag: "@visual" }, () => {
+  // A theme page forces its own scheme, so one screenshot covers it.
+  for (const name of showcase) {
+    test(`${name} showcase page`, async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.goto(`/demo/showcase/${name}.html`);
+      await expect(page).toHaveScreenshot(`showcase-${name}.png`, screenshot);
+    });
+  }
+
   for (const colorScheme of ["light", "dark"] as const) {
     test(`kitchen sink, ${colorScheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
@@ -51,6 +60,7 @@ test.describe("visual", { tag: "@visual" }, () => {
       ["login", "/demo/layouts/login.html"],
       ["pricing", "/demo/layouts/pricing.html"],
       ["settings", "/demo/layouts/settings.html"],
+      ["showcase", "/demo/showcase/"],
     ]) {
       test(`${name} page, ${colorScheme}`, async ({ page }) => {
         await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });

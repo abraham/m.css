@@ -3,6 +3,8 @@
 
 const STORAGE_KEY = "m-demo-settings";
 const root = document.documentElement;
+// Showcase pages put their theme in <style data-theme-source> before this script; settings would override it.
+const themed = document.querySelector("style[data-theme-source]") !== null;
 
 /** Attribute settings: stored value → attribute value on <html>. */
 const attributes = {
@@ -122,8 +124,9 @@ function snippet(state) {
   return parts.join("\n\n");
 }
 
-let state = load();
-apply(state);
+/** @type {State} */
+let state = themed ? {} : load();
+if (!themed) apply(state);
 
 const settingsMarkup = `
   <h2 id="demo-settings-title">Demo settings</h2>
@@ -637,7 +640,7 @@ function setUpPropertyControls(form) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  setUpSettings();
+  if (!themed) setUpSettings();
   setUpExamples();
   for (const figure of document.querySelectorAll("figure[data-example]")) setUpExampleFigure(figure);
   for (const figure of document.querySelectorAll("figure[data-before-after]")) setUpBeforeAfter(figure);

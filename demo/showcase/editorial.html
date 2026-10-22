@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-scroll-progress>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The reading room comes back · Editorial · m.css</title>
+    <link rel="stylesheet" href="../../dist/m.css" />
+    <style data-theme-source>
+      :root {
+        --m-primary: oklch(45% 0.16 25deg);
+        --m-font-sans: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
+        --m-font-size: 1.125rem;
+        --m-density: 1.15;
+        --m-measure: 68ch;
+        --m-radius: 0;
+      }
+    </style>
+    <script src="../assets/demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Site">
+        <ul>
+          <li><strong>m.css</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../theming.html">Theming</a></li>
+          <li><a href="../components/typography.html">Components</a></li>
+          <li><a href="../layouts/">Layouts</a></li>
+          <li><a href="./" aria-current="true">Showcase</a></li>
+          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Showcase">
+        <ul>
+          <li><a href="./">Gallery</a></li>
+          <li><a href="editorial.html" aria-current="page">Editorial</a></li>
+        </ul>
+      </nav>
+      <hgroup>
+        <p>Essay · Libraries</p>
+        <h1>The reading room comes back</h1>
+        <p>
+          After two decades of being told that quiet was obsolete, people are lining up for long tables, green lamps,
+          and the simple promise that nobody will interrupt them.
+        </p>
+      </hgroup>
+    </header>
+
+    <main>
+      <article>
+        <address>By Mara Lindqvist</address>
+        <p><time datetime="2026-10-18">October 18, 2026</time> · 12-minute read</p>
+
+        <p>
+          At nine on a wet Tuesday morning, there is already a line outside the city library. It isn't for a book launch
+          or a tax clinic. The people in it, a student with a laptop, a retired surveyor, two nurses coming off a night
+          shift, are waiting for the reading room to open, and for the eight hours of quiet it sells for nothing.
+        </p>
+        <p>
+          For most of the last twenty years, libraries were told to become something else: maker spaces, community hubs,
+          places with fewer shelves and more beanbags. Many of those changes were good ones. But somewhere along the
+          way, the room where you could simply sit and read became the part of the building nobody defended.<sup
+            ><a href="#note-1" id="ref-1">1</a></sup
+          >
+        </p>
+        <p>
+          It turns out people missed it. Branches that kept their reading rooms report them full by mid-morning, and the
+          ones that rebuilt them are adding seats. The appeal isn't nostalgia. It's that almost everywhere else, a
+          person's attention is something to be captured. Here, it's left alone.
+        </p>
+
+        <blockquote>
+          <p>
+            “I don't come for the books, exactly. I come because it's the one place where nobody wants anything from
+            me.”
+          </p>
+          <footer><cite>A regular at the Elm Street branch</cite></footer>
+        </blockquote>
+
+        <h2>A room with rules</h2>
+        <p>
+          The rules are old and short. No calls. No food. Leave the chair as you found it. Librarians say they rarely
+          have to enforce them, because the room enforces itself: a quiet space full of people being quiet is hard to
+          interrupt, and newcomers lower their voices within minutes of walking in.
+        </p>
+        <p>
+          Architects have noticed. The new central library's reading room is the largest single space in the building,
+          lit from above, with tables long enough that strangers share them without having to talk.<sup
+            ><a href="#note-2" id="ref-2">2</a></sup
+          >
+          Its designers describe the brief in one sentence: make a room that is easy to stay in.
+        </p>
+
+        <figure>
+          <img
+            src="../landscape.svg"
+            alt="Illustrated hills under a pale sky, the view from the reading room's tall windows"
+            width="1200"
+            height="600"
+          />
+          <figcaption>
+            The view from the north windows, which the architects kept clear of shelving on purpose.
+          </figcaption>
+        </figure>
+
+        <h2>Who it's for</h2>
+        <p>
+          The regulars are harder to describe than you'd expect. Students, yes, and people working remotely who are
+          tired of their kitchen tables. But also people between jobs, people between homes, and people who simply want
+          to read a whole book in a day without feeling that they ought to be doing something else.
+        </p>
+        <p>
+          That breadth is the point. A reading room asks for nothing at the door: no purchase, no membership, no reason.
+          In a city where almost every seat costs the price of a coffee, a free one with a good lamp turns out to be
+          worth lining up for.
+        </p>
+
+        <section aria-labelledby="notes-title">
+          <h2 id="notes-title">Notes</h2>
+          <ol>
+            <li id="note-1">
+              Several branches converted their reading rooms into event space between 2008 and 2015.
+              <a href="#ref-1" aria-label="Back to note 1 in the text">↩</a>
+            </li>
+            <li id="note-2">
+              The main table seats forty and is made from a single run of reclaimed oak.
+              <a href="#ref-2" aria-label="Back to note 2 in the text">↩</a>
+            </li>
+          </ol>
+        </section>
+
+        <section aria-labelledby="subscribe-title">
+          <h2 id="subscribe-title">The next long read</h2>
+          <p>One essay a month, delivered on a Sunday morning. Nothing else.</p>
+          <form>
+            <label>
+              Email
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label><input type="checkbox" name="digest" role="switch" checked /> Also send the reading list</label>
+            <button>Subscribe</button>
+          </form>
+        </section>
+      </article>
+    </main>
+
+    <footer id="colophon">
+      <p>
+        <strong>Colophon.</strong> This page is plain, semantic HTML styled by m.css. Its whole theme is the code below:
+        six custom properties and two attributes, with no classes and no other CSS.
+      </p>
+      <pre tabindex="0" data-copy data-theme-code><code>&lt;html lang="en" data-theme="light" data-scroll-progress&gt;
+
+:root {
+  --m-primary: oklch(45% 0.16 25deg);
+  --m-font-sans: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif;
+  --m-font-size: 1.125rem;
+  --m-density: 1.15;
+  --m-measure: 68ch;
+  --m-radius: 0;
+}</code></pre>
+      <p>
+        <a href="https://github.com/abraham/m.css/blob/main/demo/showcase/editorial.html">View source</a> ·
+        <a href="./">All showcase pages</a>
+      </p>
+    </footer>
+  </body>
+</html>
