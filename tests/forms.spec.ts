@@ -349,7 +349,7 @@ test.describe("toggle buttons", () => {
     const [pressed, unpressed, other] = await looks(page);
     expect(unpressed).toBe(other);
     expect(pressed).not.toBe(unpressed);
-    const secondary = await page.locator('button[type="reset"]').evaluate((button) => {
+    const secondary = await page.locator('#forms button[type="reset"]').evaluate((button) => {
       const style = getComputedStyle(button);
       return `${style.backgroundColor} ${style.borderTopColor} ${style.color}`;
     });

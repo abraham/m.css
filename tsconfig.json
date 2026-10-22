@@ -9,7 +9,9 @@
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
     "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "checkJs": true,
     "skipLibCheck": true
   },
-  "include": ["*.ts", "scripts", "tests"]
+  "include": ["*.ts", "scripts", "tests", "demo/assets"]
 }

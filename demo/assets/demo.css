@@ -1,0 +1,61 @@
+/* Demo chrome only; it is not part of m.css. A later layer than m, so it wins without specificity. */
+@layer demo {
+  [data-token-panel] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+  }
+
+  [data-swatch] {
+    display: inline-block;
+    min-inline-size: 3rem;
+    block-size: 1.5rem;
+    vertical-align: middle;
+    text-align: center;
+    background: var(--swatch);
+    border: 1px solid var(--_m-border);
+    border-radius: var(--m-radius);
+  }
+
+  [data-bar] {
+    display: inline-block;
+    inline-size: var(--bar);
+    block-size: 0.75rem;
+    background: var(--_m-primary);
+  }
+
+  /* A borderless, unpadded button keeps the top bar one line tall, like its links. */
+  [data-demo-settings-button] {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+
+    &:hover {
+      background: none;
+      color: var(--_m-primary);
+    }
+  }
+
+  [data-demo-settings] {
+    inline-size: min(28rem, calc(100vw - 2rem));
+    max-block-size: calc(100dvh - 2rem);
+    overflow-y: auto;
+
+    & label:has(> output) {
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      & > input {
+        grid-column: 1 / -1;
+      }
+    }
+
+    & output {
+      color: var(--_m-text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
