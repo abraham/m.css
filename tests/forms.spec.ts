@@ -89,6 +89,57 @@ test.describe("range", () => {
   });
 });
 
+test.describe("search", () => {
+  test("a search landmark joins its field and button, with or without a form", async ({ page }) => {
+    await page
+      .locator("#buttons search")
+      .evaluate((search) =>
+        search.insertAdjacentHTML(
+          "afterend",
+          '<search id="bare"><input type="search" aria-label="Bare" /><button>Go</button></search>',
+        ),
+      );
+    for (const selector of ["#buttons search > form", "#bare"]) {
+      const layout = await page.locator(selector).evaluate((group) => {
+        const [input, button] = [...group.children].map((child) => ({
+          rect: child.getBoundingClientRect(),
+          start: getComputedStyle(child).borderStartStartRadius,
+          end: getComputedStyle(child).borderStartEndRadius,
+        }));
+        return {
+          gap: button.rect.left - input.rect.right,
+          width: input.rect.width + button.rect.width - 1,
+          group: group.getBoundingClientRect().width,
+          radii: [input.start, input.end, button.start, button.end],
+        };
+      });
+      expect(layout.gap, selector).toBeCloseTo(-1, 0);
+      expect(layout.width, selector).toBeCloseTo(layout.group, 0);
+      expect(layout.radii, selector).toEqual(["8px", "0px", "0px", "8px"]);
+    }
+  });
+
+  test("a search field's icon sits at the inline start, in both directions", async ({ page }) => {
+    const read = () =>
+      page.locator('input[type="search"]').evaluate((input) => {
+        const style = getComputedStyle(input);
+        return {
+          image: style.backgroundImage.startsWith('url("data:image/svg+xml'),
+          x: style.backgroundPositionX,
+          start: parseFloat(style.paddingInlineStart),
+          end: parseFloat(style.paddingInlineEnd),
+        };
+      });
+    const ltr = await read();
+    expect(ltr.image).toBe(true);
+    expect(ltr.x).not.toMatch(/right|100%/);
+    expect(ltr.start).toBeGreaterThan(ltr.end);
+
+    await page.locator("#buttons search").evaluate((search) => search.setAttribute("dir", "rtl"));
+    expect((await read()).x).toMatch(/right|100%/);
+  });
+});
+
 test.describe("buttons and groups", () => {
   test("a link with role=button looks like a button", async ({ page }) => {
     const [link, button] = await Promise.all(
@@ -134,7 +185,7 @@ test.describe("buttons and groups", () => {
   });
 
   test("an input and button group stretches to fill its container", async ({ page }) => {
-    const sizes = await page.locator('div[role="group"]').evaluate((group) => ({
+    const sizes = await page.locator("#buttons search > form").evaluate((group) => ({
       group: group.getBoundingClientRect().width,
       children: [...group.children].reduce((sum, child) => sum + child.getBoundingClientRect().width, 0) - 1,
     }));

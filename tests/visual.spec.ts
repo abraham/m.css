@@ -14,6 +14,8 @@ test.describe("visual", { tag: "@visual" }, () => {
         test(`kitchen sink, ${colorScheme}, density ${density}, ${name}`, async ({ page }) => {
           await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
           await page.goto("/demo/");
+          // WebKit shows today's date in an empty date field, which would change the baseline daily.
+          await page.locator('input[type="date"]').evaluate((input: HTMLInputElement) => (input.value = "2026-01-15"));
           await page.evaluate(
             ([density, primary]) => {
               const { style } = document.documentElement;
