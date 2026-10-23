@@ -286,6 +286,29 @@ test.describe("theming", () => {
     await expect(css).not.toContainText("--m-radius");
   });
 
+  test("every property control visibly changes the example", async ({ page }) => {
+    const look = () =>
+      page.locator("#playground figure article").evaluate((card) =>
+        JSON.stringify(
+          [card, ...card.querySelectorAll("*")].map((element) => {
+            const style = getComputedStyle(element);
+            return [style.fontSize, style.paddingTop, style.borderTopLeftRadius, style.color, style.backgroundColor];
+          }),
+        ),
+      );
+    const before = await look();
+    for (const input of await page.locator("[data-property-controls] input").all()) {
+      const initial = await input.inputValue();
+      const changed = (await input.getAttribute("type")) === "color" ? "#1d4ed8" : await input.getAttribute("max");
+      await input.fill(changed!);
+      expect(await look(), await input.evaluate((element) => element.closest("label")!.dataset.property)).not.toBe(
+        before,
+      );
+      await input.fill(initial);
+      expect(await look()).toBe(before);
+    }
+  });
+
   test("forced schemes and preferences change their own section", async ({ page }) => {
     const [light, dark] = await page
       .locator("#schemes article")
