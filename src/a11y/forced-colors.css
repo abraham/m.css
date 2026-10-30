@@ -52,10 +52,16 @@
     }
   }
 
-  :where(progress) {
+  :where(progress, meter) {
     border: 1px solid CanvasText;
     background-color: Canvas;
     forced-color-adjust: none;
+  }
+
+  :where(meter) {
+    --_m-success: Highlight;
+    --_m-warning: Highlight;
+    --_m-danger: Highlight;
   }
 
   :where(progress)::-webkit-progress-value {

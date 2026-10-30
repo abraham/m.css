@@ -75,11 +75,11 @@ Hover, subtle, and dark-mode variants of the primary color are derived automatic
 | `data-motion="reduce"`             | `html` or any element | Turns animations off, like `prefers-reduced-motion`                      |
 | `data-contrast="more"`             | `html` or any element | Raises contrast, like `prefers-contrast: more`                           |
 | `data-scroll-progress`             | `html`                | Shows a reading progress bar at the top of the window                    |
-| `aria-busy="true"`                 | Any element           | Shows an inline loading spinner                                          |
+| `aria-busy="true"`                 | Any element           | Shows an inline loading spinner; on a container, dims it under one       |
 | `aria-current="page"`              | A link in a `nav`     | Marks the current page                                                   |
 | `role="switch"`                    | A checkbox            | Renders it as a toggle switch                                            |
 | `role="button"`                    | A link                | Styles it as a button; `aria-disabled="true"` dims it                    |
-| `role="group"`                     | A wrapper             | Joins buttons, or a field and a button, into one control                 |
+| `role="group"`                     | A wrapper             | Joins buttons, or a field with buttons and `span` text, into one control |
 | `aria-pressed="true"` or `"false"` | A button              | A toggle: outlined when off, tinted with a thick primary border when on  |
 | `aria-invalid="true"` or `"false"` | A form field          | Red border and warning icon, or green border and check, plus helper text |
 
@@ -92,6 +92,16 @@ A `search` element joins its field and button like `role="group"`, whether they 
     <button>Search</button>
   </form>
 </search>
+```
+
+In a `role="group"` with a field, a `span` is a text box for a prefix or unit. Point the field at it with `aria-describedby`:
+
+```html
+<label for="site">Website</label>
+<span role="group">
+  <span id="site-prefix">https://</span>
+  <input id="site" name="site" aria-describedby="site-prefix" />
+</span>
 ```
 
 A popover that is a list, or holds one, is a menu. It opens below the button that toggles it, flips when there isn't room, and closes on Escape or a click outside:
@@ -114,7 +124,9 @@ A `small` right after a form field is styled as helper text. Connect it with `ar
 </label>
 ```
 
-A `small` right after a `fieldset` is helper text for the whole group, and turns red when a control in the group is invalid. `readonly` fields look fixed, labels of disabled controls are muted, and the page behind a modal `dialog` doesn't scroll.
+A `small` right after a `fieldset` is helper text for the whole group, and turns red when a control in the group is invalid. `readonly` fields look fixed, labels of disabled controls are muted, and the page behind a modal `dialog` doesn't scroll. Add `closedby="any"` to a `dialog` to close it on a click outside, where supported.
+
+A `meter` fills green in its `optimum` range, amber when suboptimal, and red when even less good. `aria-busy="true"` on a container, such as a `section`, `article`, `form`, list, or `div`, dims its content under a centered spinner; also add `inert` so its controls can't be clicked or tabbed to while it loads.
 
 ## Layout
 

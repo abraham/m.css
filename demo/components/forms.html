@@ -216,6 +216,41 @@
         <p>The joined corners use <code>--m-radius</code>.</p>
       </section>
 
+      <section id="field-groups" aria-labelledby="field-groups-title">
+        <h2 id="field-groups-title">Field groups</h2>
+        <p>
+          <code>role="group"</code> joins a field with its buttons, and a <code>span</code> in the group is a text box
+          for a prefix or unit.
+        </p>
+        <figure data-example="field-groups" data-states="disabled invalid rtl dark contrast">
+          <label for="demo-site">Website</label>
+          <span role="group">
+            <span id="demo-site-prefix">https://</span>
+            <input id="demo-site" name="site" placeholder="example.com" aria-describedby="demo-site-prefix" />
+          </span>
+          <label for="demo-budget">Budget</label>
+          <span role="group">
+            <input
+              id="demo-budget"
+              name="budget"
+              type="number"
+              min="0"
+              value="120"
+              aria-describedby="demo-budget-unit"
+            />
+            <span id="demo-budget-unit">USD</span>
+            <button type="button">Apply</button>
+          </span>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          The text isn't part of the field's label, so point the field at it with <code>aria-describedby</code>, or
+          repeat it in the label.
+        </p>
+        <h3>Customize</h3>
+        <p>The text box uses the raised surface and <code>--m-density</code> padding, like the fields.</p>
+      </section>
+
       <section id="fieldsets" aria-labelledby="fieldsets-title">
         <h2 id="fieldsets-title">Fieldsets</h2>
         <p>
@@ -252,6 +287,7 @@
         <li><a href="#switches">Switches</a></li>
         <li><a href="#special-inputs">Range, color, and file</a></li>
         <li><a href="#search">Search</a></li>
+        <li><a href="#field-groups">Field groups</a></li>
         <li><a href="#fieldsets">Fieldsets</a></li>
       </ul>
     </aside>
