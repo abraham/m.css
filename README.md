@@ -146,7 +146,7 @@ The markup picks the layout, as the pages in the [layouts gallery](https://abrah
 </body>
 ```
 
-- A `nav` directly inside `body > header` becomes a full-width bar that sticks for the whole page, while the rest of the header scrolls away. To keep a header nav from sticking, nest it one level deeper.
+- A `nav` directly inside `body > header` becomes a full-width bar that sticks for the whole page, while the rest of the header scrolls away. Its content spans the widest layout on every page, so its links stay put whether or not a page has side columns. To keep a header nav from sticking, nest it one level deeper.
 - A second `nav` right after the top bar becomes a subnav that sticks below it. When the top bar slides away in Chromium, the subnav moves up into its place.
 - A `nav` or `aside` directly inside `body` becomes a column beside `main` on wide screens. Both stick below the top bar, and a side nav taller than the window scrolls on its own. On narrow screens everything stacks, and navs become rows that scroll sideways.
 - A `nav` with two lists puts them at opposite ends, such as a brand and links. In the top bar it stays one line.

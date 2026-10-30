@@ -167,6 +167,11 @@
     }
   }
 
+  /* Bars span the widest layout (measure plus both 16rem side tracks) on every page, so their links don't move between pages. */
+  :where(body > header > nav) {
+    margin-inline: min(0px, (100% - min(var(--m-measure) + 32rem, 100vw - 2 * var(--_m-space-4))) / 2);
+  }
+
   :where(body > nav, body > aside) {
     position: sticky;
     inset-block-start: calc(var(--_m-sticky-offset) + var(--_m-space-4));
