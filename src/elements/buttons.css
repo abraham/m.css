@@ -69,6 +69,11 @@
     display: flex;
   }
 
+  :where(label) > &,
+  :where(label) + & {
+    margin-block-start: var(--_m-space-1);
+  }
+
   > :where(*) {
     margin: 0;
     border-radius: 0;
@@ -101,8 +106,18 @@
     inline-size: auto;
   }
 
+  /* Text such as a prefix or unit sits in a box sized like the fields. */
+  > :where(span) {
+    padding: var(--_m-space-2) var(--_m-space-3);
+    border: 1px solid var(--_m-control-border);
+    background-color: var(--_m-surface-raised);
+    color: var(--_m-text-muted);
+    line-height: var(--_m-leading-tight);
+    white-space: nowrap;
+  }
+
   /* Keeps a hover border on top of the neighbor it overlaps. */
-  > :where(:hover:not(:focus-visible)) {
+  > :where(:hover:not(:focus-visible, span)) {
     position: relative;
     z-index: 1;
   }

@@ -48,7 +48,7 @@
         </p>
         <figure data-example="dialog" data-states="rtl dark contrast">
           <button type="button" id="open-dialog" data-show-modal="demo-dialog">Open dialog</button>
-          <dialog id="demo-dialog" aria-labelledby="demo-dialog-title">
+          <dialog id="demo-dialog" aria-labelledby="demo-dialog-title" closedby="any">
             <h3 id="demo-dialog-title">Dialog title</h3>
             <p>A modal dialog on the overlay surface with a blurred backdrop.</p>
             <form method="dialog">
@@ -59,7 +59,8 @@
         <h3>Accessibility</h3>
         <p>
           Open it with <code>showModal()</code>, which this demo does from the button, so focus moves into it and Escape
-          closes it. Label it with <code>aria-labelledby</code>.
+          closes it. Label it with <code>aria-labelledby</code>. <code>closedby="any"</code> also closes it on a click
+          outside, where supported; leave it off a dialog that holds unsaved input.
         </p>
         <h3>Customize</h3>
         <p>It scales in, unless motion is reduced.</p>

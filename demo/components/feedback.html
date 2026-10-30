@@ -65,23 +65,42 @@
         <h2 id="meter-title">Meter</h2>
         <p>A <code>meter</code> shows a measurement within a known range, such as disk usage.</p>
         <figure data-example="meter" data-states="rtl dark contrast">
-          <p>Disk usage <meter value="0.7" low="0.5" high="0.8" optimum="0.2">70%</meter></p>
+          <label>Photos <meter value="0.3" low="0.5" high="0.8" optimum="0.2">30%</meter></label>
+          <label>Videos <meter value="0.7" low="0.5" high="0.8" optimum="0.2">70%</meter></label>
+          <label>Backups <meter value="0.9" low="0.5" high="0.8" optimum="0.2">90%</meter></label>
         </figure>
         <h3>Accessibility</h3>
-        <p>Put the value in the element's text too, as a fallback.</p>
+        <p>
+          Label the meter, and put the value in its text as a fallback. Color is the only cue for the range, so state
+          anything important in words too.
+        </p>
         <h3>Customize</h3>
-        <p>Meters keep the browser's own colors for low, high, and optimum ranges.</p>
+        <p>
+          The fill is green in the <code>optimum</code> range, amber when suboptimal, and red when even less good, as
+          set by <code>low</code> and <code>high</code>.
+        </p>
       </section>
 
       <section id="busy" aria-labelledby="busy-title">
         <h2 id="busy-title">Busy</h2>
-        <p><code>aria-busy="true"</code> on any element shows an inline spinner while its content loads.</p>
+        <p>
+          <code>aria-busy="true"</code> on text or a button shows an inline spinner while its content loads. On a
+          container, such as a <code>section</code>, <code>article</code>, <code>form</code>, list, or <code>div</code>,
+          it dims the content under a centered spinner.
+        </p>
         <figure data-example="busy" data-states="rtl dark contrast">
           <p aria-busy="true">Fetching the latest results</p>
           <p><button type="button" aria-busy="true">Saving</button></p>
+          <article aria-busy="true" inert>
+            <h3>Monthly report</h3>
+            <p>Revenue, signups, and churn for the last 30 days.</p>
+          </article>
         </figure>
         <h3>Accessibility</h3>
-        <p>Screen readers wait until <code>aria-busy</code> is removed before announcing the region's changes.</p>
+        <p>
+          Screen readers wait until <code>aria-busy</code> is removed before announcing the region's changes. Dimming
+          doesn't stop clicks or Tab, so also add <code>inert</code> to a busy container while its content is stale.
+        </p>
         <h3>Customize</h3>
         <p>The spinner follows the text color, and pulses instead of spinning when motion is reduced.</p>
       </section>

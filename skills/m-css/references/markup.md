@@ -12,6 +12,7 @@ What m.css styles, and the markup that produces each pattern. Everything here wo
 | `.btn`, `.btn-primary`                     | `button`, or `a role="button"` for a link                                              |
 | `.btn-secondary` on Cancel or Reset        | `button type="reset"`, or a button with `formnovalidate`                               |
 | `.btn-group`, `.input-group`               | `<span role="group" aria-label="…">` around the buttons or the field and its button    |
+| `.input-group-text`, `.addon`              | A `span` inside that `role="group"`, linked from the field with `aria-describedby`     |
 | `.active` in a nav or menu                 | `aria-current="page"` on the link                                                      |
 | Toggle or segmented control                | `button aria-pressed="true"` or `"false"`, in a `role="group"` for a segmented control |
 | `.card` with `.card-header`/`.card-footer` | `article` with `header` and `footer` children                                          |
@@ -25,6 +26,7 @@ What m.css styles, and the markup that produces each pattern. Everything here wo
 | `.modal`                                   | `dialog`, opened with `showModal()`                                                    |
 | `.dropdown-menu`                           | `menu popover` toggled by a `popovertarget` button                                     |
 | `.spinner`, `.loading`                     | `aria-busy="true"` on the element that's loading                                       |
+| `.loading-overlay`                         | `aria-busy="true" inert` on the container that's loading                               |
 | `.lead`, `.subtitle`, `.eyebrow`           | `p` after or before the heading, inside `hgroup`                                       |
 | `.table-responsive`                        | Wrap the `table` in a `figure`                                                         |
 | `.sr-only` labels                          | `aria-label` on the control, or a visible `label`                                      |
@@ -143,6 +145,16 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
   </search>
   ```
 
+- A field with a prefix or unit:
+
+  ```html
+  <label for="price">Price</label>
+  <span role="group">
+    <input id="price" name="price" type="number" aria-describedby="price-unit" />
+    <span id="price-unit">USD</span>
+  </span>
+  ```
+
 ## Content
 
 - **Cards:** every `article` is a card, except a lone `article` that is `main`'s only child, which stays plain long-form text. A `header` or `footer` as the card's first or last child is a full-width band.
@@ -178,7 +190,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 <button type="button" popovertarget="tip">More info</button>
 <div id="tip" popover><p>Popover content.</p></div>
 
-<dialog id="confirm" aria-labelledby="confirm-title">
+<dialog id="confirm" aria-labelledby="confirm-title" closedby="any">
   <h2 id="confirm-title">Delete this project?</h2>
   <p>This can't be undone.</p>
   <form method="dialog">
@@ -189,7 +201,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 ```
 
 - A popover that is a list, or holds one, is a menu. It's anchored below its button and flips when there isn't room. Popovers need no script.
-- Open a `dialog` with `dialog.showModal()` from script. The page behind it doesn't scroll, and `form method="dialog"` closes it.
+- Open a `dialog` with `dialog.showModal()` from script. The page behind it doesn't scroll, and `form method="dialog"` closes it. `closedby="any"` also closes it on a click outside; leave it off dialogs that hold unsaved input.
 
 ## Feedback
 
@@ -198,6 +210,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 <progress>Loading…</progress>
 <meter value="0.7" low="0.5" high="0.8" optimum="0.2">70%</meter>
 <p aria-busy="true">Loading results</p>
+<section aria-busy="true" inert>…</section>
 ```
 
-A `progress` without a value is indeterminate. Under reduced motion, loading animations pulse instead of sliding.
+A `progress` without a value is indeterminate. A `meter` fills green in its `optimum` range, amber when suboptimal, and red when even less good. `aria-busy` on a container (`section`, `article`, `form`, `div`, list) dims it under a centered spinner; add `inert` with it and remove both when loading ends. Under reduced motion, loading animations pulse instead of sliding.

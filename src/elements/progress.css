@@ -34,8 +34,46 @@
   background-color: transparent;
 }
 
+/* The fill is success in the optimum range, warning when suboptimal, and danger when even less good. */
 :where(meter) {
+  --_m-warning: light-dark(oklch(62% 0.14 65deg), oklch(80% 0.14 75deg));
+
+  block-size: 0.5rem;
+  overflow: hidden;
   vertical-align: middle;
+  border-radius: 999px;
+  background: var(--_m-tint);
+  appearance: none;
+}
+
+:where(meter)::-webkit-meter-bar {
+  block-size: 100%;
+  border: 0;
+  background: transparent;
+}
+
+:where(meter)::-webkit-meter-optimum-value {
+  background: var(--_m-success);
+}
+
+:where(meter)::-webkit-meter-suboptimum-value {
+  background: var(--_m-warning);
+}
+
+:where(meter)::-webkit-meter-even-less-good-value {
+  background: var(--_m-danger);
+}
+
+:where(meter)::-moz-meter-bar {
+  background: var(--_m-success);
+}
+
+:where(meter:-moz-meter-sub-optimum)::-moz-meter-bar {
+  background: var(--_m-warning);
+}
+
+:where(meter:-moz-meter-sub-sub-optimum)::-moz-meter-bar {
+  background: var(--_m-danger);
 }
 
 :where([aria-busy="true"]) {
@@ -56,4 +94,23 @@
   border-inline-end-color: transparent;
   border-radius: 50%;
   animation: var(--_m-spin);
+}
+
+/* A busy container dims its content under a centered spinner; z-index: 0 keeps the spinner below sticky bars. */
+:where(:is(article, aside, div, fieldset, figure, form, main, ol, section, ul)[aria-busy="true"]) {
+  position: relative;
+  z-index: 0;
+
+  > :where(*) {
+    opacity: 0.4;
+  }
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    inline-size: 2em;
+    block-size: 2em;
+    margin: auto;
+  }
 }
