@@ -101,6 +101,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 
 - Buttons are solid primary. `type="reset"` and `formnovalidate` buttons are outlined secondary buttons, such as a form's Cancel. There are no other variants.
 - Adjacent buttons get a gap. Buttons right after form fields get space above them.
+- A decorative icon in a link goes in an `aria-hidden="true"` element, e.g. `<a href="/stars"><span aria-hidden="true">★</span> Star</a>`. It isn't underlined, and an `svg` or favicon in it is sized to the text.
 - Toggles update `aria-pressed` from script. In a segmented control, exactly one is `"true"`.
 
 ## Forms
@@ -134,6 +135,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 - A `small` right after a `fieldset` is helper text for the group. Point the fieldset at it with `aria-describedby`.
 - `readonly` fields look fixed. A `disabled` field or `fieldset` mutes its labels.
 - Range, color, and file inputs are styled. A single `select` gets a styled picker where the browser supports it.
+- Float label: the label's text in a `span` right before the field, and a placeholder on the field (`placeholder=" "` for none): `<label><span>Email</span><input type="email" placeholder="ada@example.com" /></label>`.
 - Search, with or without the inner `form`:
 
   ```html

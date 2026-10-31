@@ -6,6 +6,13 @@
   block-size: auto;
 }
 
+/* Favicons and svg icons in a link's decorative icon match the text. */
+:where(a > svg[aria-hidden="true"], a > [aria-hidden="true"] > :is(img, svg)) {
+  block-size: 1.25em;
+  inline-size: auto;
+  vertical-align: -0.25em;
+}
+
 :where(img, video) {
   border-radius: var(--m-radius);
 }

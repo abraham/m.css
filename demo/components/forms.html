@@ -127,6 +127,42 @@
         <p>The danger and success colors adapt to the scheme and to more contrast.</p>
       </section>
 
+      <section id="float-labels" aria-labelledby="float-labels-title">
+        <h2 id="float-labels-title">Float labels</h2>
+        <p>
+          Put a label's text in a <code>span</code> right before its field, and give the field a placeholder. The label
+          sits inside the field while it's empty, and shrinks to the top when it's focused or filled.
+        </p>
+        <figure data-example="float-labels" data-states="disabled invalid valid rtl dark contrast">
+          <label>
+            <span>Email</span>
+            <input name="float-email" type="email" placeholder="ada@example.com" autocomplete="email" />
+          </label>
+          <label>
+            <span>Full name</span>
+            <input name="float-name" placeholder=" " value="Ada Lovelace" autocomplete="name" />
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea name="float-message" rows="3" placeholder="Write something…"></textarea>
+          </label>
+          <label>
+            <span>Plan</span>
+            <select name="float-plan">
+              <option>Free</option>
+              <option>Pro</option>
+            </select>
+          </label>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          The label stays visible, so it never disappears like a placeholder. A placeholder shows as a hint once the
+          field is focused; use <code>placeholder=" "</code> for none.
+        </p>
+        <h3>Customize</h3>
+        <p>Fields with a float label are taller, to fit the small label above the text.</p>
+      </section>
+
       <section id="choices" aria-labelledby="choices-title">
         <h2 id="choices-title">Checkboxes and radios</h2>
         <p>
@@ -283,6 +319,7 @@
         <li><a href="#text-fields">Text fields</a></li>
         <li><a href="#select">Select</a></li>
         <li><a href="#validation">Validation</a></li>
+        <li><a href="#float-labels">Float labels</a></li>
         <li><a href="#choices">Checkboxes and radios</a></li>
         <li><a href="#switches">Switches</a></li>
         <li><a href="#special-inputs">Range, color, and file</a></li>

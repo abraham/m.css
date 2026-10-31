@@ -493,3 +493,45 @@
   display: block;
   margin-block-start: var(--_m-space-1);
 }
+
+/* A label whose text is a span right before its field floats that text inside the field; the field needs a placeholder, even " ". */
+:where(
+  label:has(
+    > span
+      + :is(
+        input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="search"]),
+        textarea,
+        select
+      )
+  )
+) {
+  position: relative;
+
+  > :where(span) {
+    position: absolute;
+    inset-block-start: calc(1px + var(--_m-space-1));
+    inset-inline-start: calc(1px + var(--_m-space-3));
+    color: var(--_m-text-muted);
+    font-size: 0.75em;
+    line-height: var(--_m-leading-tight);
+    pointer-events: none;
+    transition-property: inset-block-start, font-size;
+    transition-duration: var(--_m-duration);
+    transition-timing-function: var(--_m-ease);
+  }
+
+  > :where(input, textarea, select) {
+    margin-block-start: 0;
+    padding-block: calc(var(--_m-space-2) + 0.75em) var(--_m-space-1);
+  }
+
+  /* An empty, unfocused field shows the label at full size in place of its placeholder. */
+  &:where(:has(> :placeholder-shown:not(:focus))) > :where(span) {
+    inset-block-start: calc(1px + var(--_m-space-2) + 0.75em);
+    font-size: 1em;
+  }
+
+  > :where(:placeholder-shown:not(:focus))::placeholder {
+    opacity: 0;
+  }
+}

@@ -58,6 +58,43 @@
         <p>Links use <code>--m-primary</code>.</p>
       </section>
 
+      <section id="link-icons" aria-labelledby="link-icons-title">
+        <h2 id="link-icons-title">Link icons</h2>
+        <p>
+          An element with <code>aria-hidden="true"</code> inside a link is a decorative icon: it isn't underlined, and a
+          favicon or <code>svg</code> in it is sized to the text.
+        </p>
+        <figure data-example="link-icons" data-states="rtl dark contrast">
+          <p>
+            <a href="#link-icons"><span aria-hidden="true">★</span> Star the project</a> or
+            <a href="#link-icons"
+              >Download it
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 3v12m-5-5 5 5 5-5M5 21h14" />
+              </svg>
+            </a>
+          </p>
+        </figure>
+        <h3>Accessibility</h3>
+        <p>
+          <code>aria-hidden="true"</code> keeps screen readers to the link text. A link that's only an icon needs an
+          <code>aria-label</code> instead.
+        </p>
+        <h3>Customize</h3>
+        <p>
+          Icons take the link color. Emoji, icon fonts such as <code>&lt;i class="fa-…" aria-hidden="true"&gt;</code>,
+          and favicons in a <code>span</code> work the same way.
+        </p>
+      </section>
+
       <section id="buttons" aria-labelledby="buttons-title">
         <h2 id="buttons-title">Buttons</h2>
         <p>
@@ -127,6 +164,7 @@
       <p><strong>On this page</strong></p>
       <ul>
         <li><a href="#links">Links</a></li>
+        <li><a href="#link-icons">Link icons</a></li>
         <li><a href="#buttons">Buttons</a></li>
         <li><a href="#link-buttons">Link buttons</a></li>
         <li><a href="#groups">Groups and toggles</a></li>
