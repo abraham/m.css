@@ -175,6 +175,19 @@ The markup picks the layout, as the pages in the [layouts gallery](https://abrah
 
 - Anchor links, focused elements, and sticky table headers stop below the top bar.
 
+## Web components
+
+Load m.css in a component's shadow root to style what's inside it:
+
+```js
+this.attachShadow({ mode: "open" }).innerHTML = `
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/m.css/dist/m.min.css" />
+  <button>Save</button>
+`;
+```
+
+The component follows the page it's on: the page's `--m-*` properties, `data-theme`, `data-contrast`, and `data-motion` reach inside, and so do the system's color scheme, contrast, and motion preferences. On a page that doesn't load m.css, the component uses the defaults and paints its own surface, and the host gets body's font and text color. Set `--m-*` properties on the host element to theme one component.
+
 ## Browser support
 
 The two most recent major versions of Chrome, Edge, Firefox, and Safari (desktop and iOS). A few enhancements only run where supported, and other browsers get the static version:
@@ -205,7 +218,7 @@ npm run build           # writes dist/m.css and dist/m.min.css, copies m.css int
 npm run lint            # Stylelint, including the no-classes rule
 npm run typecheck
 npm run format          # Prettier
-npm run size            # gzip and Brotli sizes; fails if dist/m.min.css is over 8.25 KB gzipped
+npm run size            # gzip and Brotli sizes; fails if dist/m.min.css is over 8.5 KB gzipped
 npm run size -- --report  # what each source file costs; add --save to keep a baseline to compare against
 npm test                # motion, layout, and accessibility tests in Chromium and WebKit
 npm run test:visual     # screenshot tests in the Playwright Docker image; add -- --update-snapshots to rewrite them

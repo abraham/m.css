@@ -4,7 +4,7 @@
 }
 
 :where(body > footer) {
-  margin-block-start: calc(var(--m-density) * 3rem);
+  margin-block-start: calc(var(--m-density, 1) * 3rem);
   padding-block-start: var(--_m-space-6);
   border-block-start: 1px solid var(--_m-border);
   font-size: var(--_m-text-sm);
@@ -39,7 +39,7 @@
 
 :where(aside) {
   padding: var(--_m-space-4);
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
   background-color: var(--_m-surface-raised);
 }
 
@@ -143,7 +143,7 @@
     display: grid;
     grid-template-columns:
       [full-start nav-start] fit-content(16rem)
-      [nav-end main-start] minmax(0, var(--m-measure))
+      [nav-end main-start] minmax(0, var(--m-measure, 100ch))
       [main-end aside-start] fit-content(16rem)
       [aside-end full-end];
     grid-auto-flow: row dense;
@@ -169,7 +169,7 @@
 
   /* Bars span the widest layout (measure plus both 16rem side tracks) on every page, so their links don't move between pages. */
   :where(body > header > nav) {
-    margin-inline: min(0px, (100% - min(var(--m-measure) + 32rem, 100vw - 2 * var(--_m-space-4))) / 2);
+    margin-inline: min(0px, (100% - min(var(--m-measure, 100ch) + 32rem, 100vw - 2 * var(--_m-space-4))) / 2);
   }
 
   :where(body > nav, body > aside) {

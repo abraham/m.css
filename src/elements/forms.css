@@ -9,7 +9,7 @@
 :where(fieldset) {
   padding: var(--_m-space-3) var(--_m-space-4) var(--_m-space-4);
   border: 1px solid var(--_m-border);
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
 }
 
 :where(legend) {
@@ -37,7 +37,7 @@
   inline-size: 100%;
   padding: var(--_m-space-2) var(--_m-space-3);
   border: 1px solid var(--_m-control-border);
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
   background-color: var(--_m-surface);
   color: var(--_m-text);
   line-height: var(--_m-leading-tight);
@@ -222,7 +222,7 @@
       margin-block: var(--_m-space-1);
       padding: var(--_m-space-1);
       border: 1px solid var(--_m-border);
-      border-radius: var(--m-radius);
+      border-radius: var(--m-radius, 0.5rem);
       background-color: var(--_m-surface-overlay);
       box-shadow: var(--_m-shadow-overlay);
       opacity: 0;
@@ -249,7 +249,7 @@
 
   :where(select:not([multiple], [size]) option) {
     padding: var(--_m-space-2) var(--_m-space-3);
-    border-radius: calc(var(--m-radius) - 2px);
+    border-radius: calc(var(--m-radius, 0.5rem) - 2px);
 
     &:where(:hover, :focus-visible) {
       outline: 2px solid transparent;
@@ -466,7 +466,7 @@
   block-size: 2.25rem;
   padding: 2px;
   border: 1px solid var(--_m-control-border);
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
   background-color: var(--_m-surface);
   cursor: pointer;
 }
@@ -477,12 +477,12 @@
 
 :where(input[type="color"])::-webkit-color-swatch {
   border: 0;
-  border-radius: calc(var(--m-radius) - 2px);
+  border-radius: calc(var(--m-radius, 0.5rem) - 2px);
 }
 
 :where(input[type="color"])::-moz-color-swatch {
   border: 0;
-  border-radius: calc(var(--m-radius) - 2px);
+  border-radius: calc(var(--m-radius, 0.5rem) - 2px);
 }
 
 :where(input[type="file"]) {

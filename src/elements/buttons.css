@@ -2,7 +2,7 @@
   display: inline-block;
   padding: var(--_m-space-2) var(--_m-space-4);
   border: 1px solid var(--_m-primary);
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
   background-color: var(--_m-primary);
   color: var(--_m-on-primary);
   font-weight: 600;
@@ -54,7 +54,7 @@
   margin-inline-end: var(--_m-space-3);
   padding: var(--_m-space-2) var(--_m-space-4);
   border: 1px solid var(--_m-control-border);
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
   font-weight: 600;
   cursor: pointer;
   transition: background-color var(--_m-duration) var(--_m-ease);
@@ -87,17 +87,17 @@
   > :where(:focus-visible) {
     position: relative;
     z-index: 2;
-    border-radius: calc(var(--m-radius) / 2);
+    border-radius: calc(var(--m-radius, 0.5rem) / 2);
   }
 
   > :where(:first-child) {
-    border-start-start-radius: var(--m-radius);
-    border-end-start-radius: var(--m-radius);
+    border-start-start-radius: var(--m-radius, 0.5rem);
+    border-end-start-radius: var(--m-radius, 0.5rem);
   }
 
   > :where(:last-child) {
-    border-start-end-radius: var(--m-radius);
-    border-end-end-radius: var(--m-radius);
+    border-start-end-radius: var(--m-radius, 0.5rem);
+    border-end-end-radius: var(--m-radius, 0.5rem);
   }
 
   > :where(input, select, textarea) {

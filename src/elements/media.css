@@ -14,12 +14,12 @@
 }
 
 :where(img, video) {
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
 }
 
 :where(iframe) {
   border: 1px solid var(--_m-border);
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
 }
 
 :where(audio) {

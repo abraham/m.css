@@ -1,20 +1,20 @@
 /* Declared on every element so --m-density and --m-font-size can be overridden on any subtree. */
 :where(*) {
-  --_m-space-1: calc(var(--m-density) * 0.25rem);
-  --_m-space-2: calc(var(--m-density) * 0.5rem);
-  --_m-space-3: calc(var(--m-density) * 0.75rem);
-  --_m-space-4: calc(var(--m-density) * 1rem);
-  --_m-space-6: calc(var(--m-density) * 1.5rem);
-  --_m-space-8: calc(var(--m-density) * 2rem);
+  --_m-space-1: calc(var(--m-density, 1) * 0.25rem);
+  --_m-space-2: calc(var(--m-density, 1) * 0.5rem);
+  --_m-space-3: calc(var(--m-density, 1) * 0.75rem);
+  --_m-space-4: calc(var(--m-density, 1) * 1rem);
+  --_m-space-6: calc(var(--m-density, 1) * 1.5rem);
+  --_m-space-8: calc(var(--m-density, 1) * 2rem);
 
-  --_m-text-sm: calc(var(--m-font-size) / 1.2);
-  --_m-text-base: var(--m-font-size);
-  --_m-text-lg: calc(var(--m-font-size) * 1.2);
-  --_m-text-xl: calc(var(--m-font-size) * pow(1.2, 2));
-  --_m-text-2xl: calc(var(--m-font-size) * pow(1.2, 3));
+  --_m-text-sm: calc(var(--m-font-size, 1rem) / 1.2);
+  --_m-text-base: var(--m-font-size, 1rem);
+  --_m-text-lg: calc(var(--m-font-size, 1rem) * 1.2);
+  --_m-text-xl: calc(var(--m-font-size, 1rem) * pow(1.2, 2));
+  --_m-text-2xl: calc(var(--m-font-size, 1rem) * pow(1.2, 3));
 
-  --_m-leading: calc(1.4 + 0.2 * var(--m-density));
-  --_m-leading-tight: calc(1.05 + 0.15 * var(--m-density));
+  --_m-leading: calc(1.4 + 0.2 * var(--m-density, 1));
+  --_m-leading-tight: calc(1.05 + 0.15 * var(--m-density, 1));
 }
 
 /* Height of one sticky header bar (one unwrapped line); the offset is what other sticky and scrolled-to content must clear. */

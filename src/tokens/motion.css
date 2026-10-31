@@ -1,29 +1,33 @@
-:where(:root) {
-  --_m-duration: 150ms;
-  --_m-duration-slow: 250ms;
+:where(:root, :host) {
   --_m-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --_m-scroll-behavior: smooth;
-  --_m-spin: m-spin 0.8s linear infinite;
-  --_m-slide: m-slide 1.2s ease-in-out infinite;
+}
+
+/* Resolved from inherited inputs, like the color tokens, so a component's copy of m.css follows the page's data-motion. */
+:where(:root, :host, [data-motion]) {
+  --_m-duration: var(--_m-in-duration, 150ms);
+  --_m-duration-slow: var(--_m-in-duration-slow, 250ms);
+  --_m-scroll-behavior: var(--_m-in-scroll-behavior, smooth);
+  --_m-spin: var(--_m-in-spin, m-spin 0.8s linear infinite);
+  --_m-slide: var(--_m-in-slide, m-slide 1.2s ease-in-out infinite);
 }
 
 /* Loops still signal "in progress" under reduced motion, so they pulse instead of stopping. */
 @media (prefers-reduced-motion: reduce) {
-  :where(:root) {
-    --_m-duration: 0s;
-    --_m-duration-slow: 0s;
-    --_m-scroll-behavior: auto;
-    --_m-spin: m-pulse 2s ease-in-out infinite;
-    --_m-slide: m-pulse 2s ease-in-out infinite;
+  :where(:root, :host) {
+    --_m-in-duration: 0s;
+    --_m-in-duration-slow: 0s;
+    --_m-in-scroll-behavior: auto;
+    --_m-in-spin: m-pulse 2s ease-in-out infinite;
+    --_m-in-slide: m-pulse 2s ease-in-out infinite;
   }
 }
 
 :where([data-motion="reduce"]) {
-  --_m-duration: 0s;
-  --_m-duration-slow: 0s;
-  --_m-scroll-behavior: auto;
-  --_m-spin: m-pulse 2s ease-in-out infinite;
-  --_m-slide: m-pulse 2s ease-in-out infinite;
+  --_m-in-duration: 0s;
+  --_m-in-duration-slow: 0s;
+  --_m-in-scroll-behavior: auto;
+  --_m-in-spin: m-pulse 2s ease-in-out infinite;
+  --_m-in-slide: m-pulse 2s ease-in-out infinite;
 }
 
 @keyframes m-spin {

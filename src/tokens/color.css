@@ -1,29 +1,43 @@
-:where(:root) {
-  color-scheme: light dark;
-
+/*
+ * Overrides (data-theme, data-contrast, prefers-contrast) set inherited --_m-in-* inputs, and the tokens resolve from them on
+ * the root, on a component's :host, and on any overriding element. A component's own copy of m.css then gets the page's
+ * settings, or the defaults when the page doesn't load m.
+ */
+:where(:root, :host) {
   --_m-surface: light-dark(oklch(99% 0.006 80deg), oklch(18% 0.008 60deg));
   --_m-surface-raised: light-dark(oklch(97% 0.004 260deg), oklch(23% 0.008 260deg));
   --_m-surface-overlay: light-dark(oklch(100% 0 0deg), oklch(24% 0.008 60deg));
-  --_m-border: light-dark(oklch(89% 0.006 260deg), oklch(34% 0.01 260deg));
-
-  /* At least 3:1 against the surface, as WCAG 1.4.11 requires for control boundaries. */
-  --_m-control-border: light-dark(oklch(62% 0.01 260deg), oklch(56% 0.01 260deg));
   --_m-text: light-dark(oklch(22% 0.012 260deg), oklch(93% 0.006 260deg));
-  --_m-text-muted: light-dark(oklch(48% 0.012 260deg), oklch(72% 0.01 260deg));
-  --_m-tint: color-mix(in oklch, var(--_m-text), transparent 92%);
-  --_m-danger: light-dark(oklch(53% 0.2 27deg), oklch(70% 0.17 27deg));
-  --_m-success: light-dark(oklch(50% 0.13 150deg), oklch(72% 0.15 150deg));
   --_m-shadow-overlay: 0 2px 6px -2px oklch(0% 0 0deg / 15%), 0 12px 32px -8px oklch(0% 0 0deg / 30%);
-  --_m-underline-mix: 60%;
-  --_m-focus-width: 2px;
+}
+
+/* Only the page sets this, so a component paints its own surface only when the page doesn't load m. */
+:where(:root) {
+  --_m-host-surface: transparent;
+}
+
+:where(:root, :host, [data-contrast]) {
+  /* At least 3:1 against the surface, as WCAG 1.4.11 requires for control boundaries. */
+  --_m-control-border: var(--_m-in-control-border, light-dark(oklch(62% 0.01 260deg), oklch(56% 0.01 260deg)));
+  --_m-border: var(--_m-in-border, light-dark(oklch(89% 0.006 260deg), oklch(34% 0.01 260deg)));
+  --_m-text-muted: var(--_m-in-text-muted, light-dark(oklch(48% 0.012 260deg), oklch(72% 0.01 260deg)));
+  --_m-tint: color-mix(in oklch, var(--_m-text), transparent var(--_m-in-tint, 92%));
+  --_m-danger: var(--_m-in-danger, light-dark(oklch(53% 0.2 27deg), oklch(70% 0.17 27deg)));
+  --_m-success: var(--_m-in-success, light-dark(oklch(50% 0.13 150deg), oklch(72% 0.15 150deg)));
+  --_m-underline-mix: var(--_m-in-underline-mix, 60%);
+  --_m-focus-width: var(--_m-in-focus-width, 2px);
 }
 
 :where([data-theme="light"]) {
-  color-scheme: light;
+  --_m-scheme: light;
 }
 
 :where([data-theme="dark"]) {
-  color-scheme: dark;
+  --_m-scheme: dark;
+}
+
+:where(:root, :host, [data-theme]) {
+  color-scheme: var(--_m-scheme, light dark);
 }
 
 /* Inherited colors are already resolved, so a themed subtree must re-resolve them against its own scheme. */
@@ -34,11 +48,13 @@
 
 /* Declared on every element so --m-primary and --m-on-primary can be overridden on any subtree. */
 :where(*) {
-  --_m-primary-light: var(--m-primary);
-  --_m-primary-dark: oklch(from var(--m-primary) calc(l + 0.1) c h);
+  --_m-primary-light: oklch(from var(--m-primary, oklch(55% 0.19 40deg)) min(l, var(--_m-in-primary-max, 1)) c h);
+  --_m-primary-dark: oklch(
+    from var(--m-primary, oklch(55% 0.19 40deg)) max(calc(l + 0.1), var(--_m-in-primary-min, 0)) c h
+  );
   --_m-primary: light-dark(var(--_m-primary-light), var(--_m-primary-dark));
   --_m-primary-hover: color-mix(in oklch, var(--_m-primary), light-dark(black, white) 15%);
-  --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 85%);
+  --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent var(--_m-in-primary-subtle, 85%));
   --_m-on-primary: var(--m-on-primary, contrast-color(var(--_m-primary)));
 }
 
@@ -64,38 +80,31 @@
 
 /* More contrast, from the system or data-contrast="more": text reaches 7:1 (WCAG 1.4.6), borders and underlines are solid. */
 @media (prefers-contrast: more) {
-  :where(:root) {
-    --_m-border: var(--_m-control-border);
-    --_m-control-border: light-dark(oklch(45% 0.01 260deg), oklch(72% 0.01 260deg));
-    --_m-text-muted: light-dark(oklch(38% 0.012 260deg), oklch(82% 0.01 260deg));
-    --_m-tint: color-mix(in oklch, var(--_m-text), transparent 85%);
-    --_m-danger: light-dark(oklch(43% 0.17 27deg), oklch(80% 0.12 27deg));
-    --_m-success: light-dark(oklch(40% 0.1 150deg), oklch(82% 0.13 150deg));
-    --_m-underline-mix: 0%;
-    --_m-focus-width: 3px;
-  }
-
-  :where(*) {
-    --_m-primary-light: oklch(from var(--m-primary) min(l, 0.4) c h);
-    --_m-primary-dark: oklch(from var(--m-primary) max(calc(l + 0.1), 0.8) c h);
-    --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 70%);
+  :where(:root, :host) {
+    --_m-in-border: var(--_m-control-border);
+    --_m-in-control-border: light-dark(oklch(45% 0.01 260deg), oklch(72% 0.01 260deg));
+    --_m-in-text-muted: light-dark(oklch(38% 0.012 260deg), oklch(82% 0.01 260deg));
+    --_m-in-tint: 85%;
+    --_m-in-danger: light-dark(oklch(43% 0.17 27deg), oklch(80% 0.12 27deg));
+    --_m-in-success: light-dark(oklch(40% 0.1 150deg), oklch(82% 0.13 150deg));
+    --_m-in-underline-mix: 0%;
+    --_m-in-focus-width: 3px;
+    --_m-in-primary-max: 0.4;
+    --_m-in-primary-min: 0.8;
+    --_m-in-primary-subtle: 70%;
   }
 }
 
 :where([data-contrast="more"]) {
-  --_m-border: var(--_m-control-border);
-  --_m-control-border: light-dark(oklch(45% 0.01 260deg), oklch(72% 0.01 260deg));
-  --_m-text-muted: light-dark(oklch(38% 0.012 260deg), oklch(82% 0.01 260deg));
-  --_m-tint: color-mix(in oklch, var(--_m-text), transparent 85%);
-  --_m-danger: light-dark(oklch(43% 0.17 27deg), oklch(80% 0.12 27deg));
-  --_m-success: light-dark(oklch(40% 0.1 150deg), oklch(82% 0.13 150deg));
-  --_m-underline-mix: 0%;
-  --_m-focus-width: 3px;
-}
-
-/* The primary tokens are declared on every element, so the subtree's descendants need the override too. */
-:where([data-contrast="more"], [data-contrast="more"] *) {
-  --_m-primary-light: oklch(from var(--m-primary) min(l, 0.4) c h);
-  --_m-primary-dark: oklch(from var(--m-primary) max(calc(l + 0.1), 0.8) c h);
-  --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 70%);
+  --_m-in-border: var(--_m-control-border);
+  --_m-in-control-border: light-dark(oklch(45% 0.01 260deg), oklch(72% 0.01 260deg));
+  --_m-in-text-muted: light-dark(oklch(38% 0.012 260deg), oklch(82% 0.01 260deg));
+  --_m-in-tint: 85%;
+  --_m-in-danger: light-dark(oklch(43% 0.17 27deg), oklch(80% 0.12 27deg));
+  --_m-in-success: light-dark(oklch(40% 0.1 150deg), oklch(82% 0.13 150deg));
+  --_m-in-underline-mix: 0%;
+  --_m-in-focus-width: 3px;
+  --_m-in-primary-max: 0.4;
+  --_m-in-primary-min: 0.8;
+  --_m-in-primary-subtle: 70%;
 }
