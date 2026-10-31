@@ -18,3 +18,9 @@
 :where(h1, h2, h3, h4, h5, h6) :where(a:not([role="button"])) {
   color: inherit;
 }
+
+/* A decorative icon in a link (emoji, icon font, svg) skips the underline: atomic inlines don't inherit text decoration. */
+:where(a > [aria-hidden="true"]) {
+  display: inline-block;
+  font-style: normal;
+}

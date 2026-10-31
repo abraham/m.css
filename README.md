@@ -114,6 +114,17 @@ A popover that is a list, or holds one, is a menu. It opens below the button tha
 </menu>
 ```
 
+A label whose text is a `span` right before its field is a float label: it sits inside the empty field and shrinks to the top once the field is focused or filled. The field needs a placeholder, even `placeholder=" "`:
+
+```html
+<label>
+  <span>Email</span>
+  <input type="email" name="email" placeholder="ada@example.com" />
+</label>
+```
+
+An element with `aria-hidden="true"` inside a link, such as an emoji or an icon `svg`, is a decorative icon: it isn't underlined, and a favicon or `svg` in it is sized to the text.
+
 A `small` right after a form field is styled as helper text. Connect it with `aria-describedby` so screen readers announce it:
 
 ```html
