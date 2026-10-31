@@ -18,7 +18,7 @@
   font-size: clamp(
     var(--_m-text-2xl),
     calc(var(--_m-text-2xl) + (100vw - 20rem) * 0.76 / 60),
-    calc(var(--m-font-size) * pow(1.2, 5))
+    calc(var(--m-font-size, 1rem) * pow(1.2, 5))
   );
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -28,7 +28,7 @@
   font-size: clamp(
     var(--_m-text-xl),
     calc(var(--_m-text-xl) + (100vw - 20rem) * 0.634 / 60),
-    calc(var(--m-font-size) * pow(1.2, 4))
+    calc(var(--m-font-size, 1rem) * pow(1.2, 4))
   );
   letter-spacing: -0.015em;
 }

@@ -22,7 +22,7 @@
 
 /* Outlines follow border-radius; these have no visible box, so rounding only shapes their focus ring. */
 :where(a:not([role="button"])) {
-  border-radius: calc(var(--m-radius) / 2);
+  border-radius: calc(var(--m-radius, 0.5rem) / 2);
 }
 
 :where(summary:focus-visible) {
@@ -30,7 +30,7 @@
 }
 
 :where(input:is([type="range"], [type="file"])) {
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
 }
 
 @keyframes m-focus-in {

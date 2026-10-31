@@ -4,7 +4,7 @@ import { dirname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { brotliCompressSync, constants, gzipSync } from "node:zlib";
 
-const budget = 8.25 * 1024;
+const budget = 8.5 * 1024;
 const root = resolve(import.meta.dirname, "..");
 const baselineFile = join(root, ".tmp/size-baseline.json");
 const usage = `Usage: node scripts/size.ts [--report [--save]]

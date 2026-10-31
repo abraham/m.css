@@ -69,6 +69,8 @@ Set these on `:root` for the whole site. `--m-primary`, `--m-on-primary`, `--m-d
 }
 ```
 
+In a web component, link m.css inside its shadow root. The component inherits the page's theme properties and `data-theme`, `data-contrast`, and `data-motion`, or uses the defaults when the page doesn't load m.css.
+
 Hover, subtle, and dark-mode variants of the primary color are derived from it, so set one brand color, not a palette.
 
 These few properties go a long way. The showcase (https://abraham.github.io/m.css/showcase/) has four whole pages: a magazine essay, a dark operations dashboard, a playful landing page, and a minimal event poster. Each is themed with only a `:root` block of these properties, and shows that block at the bottom of the page. Use them as starting points.

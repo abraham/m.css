@@ -1,5 +1,5 @@
 @media print {
-  :where(:root) {
+  :where(:root, :host) {
     color-scheme: light;
   }
 

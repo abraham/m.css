@@ -1,3 +1,4 @@
+/* For author CSS that reads them; m's own reads fall back to the same defaults, so a component's shadow root gets them without overriding the page's. */
 :where(:root) {
   --m-primary: oklch(55% 0.19 40deg);
   --m-density: 1;

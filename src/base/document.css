@@ -8,12 +8,21 @@
 /* font-size goes on body, not html, so rem stays the user's browser default. */
 :where(body) {
   box-sizing: content-box;
-  max-inline-size: var(--m-measure);
+  max-inline-size: var(--m-measure, 100ch);
   margin-inline: auto;
   padding: var(--_m-space-8) var(--_m-space-4);
-  font-family: var(--m-font-sans);
+  font-family: var(--m-font-sans, system-ui, sans-serif);
   font-size: var(--_m-text-base);
   line-height: var(--_m-leading);
+}
+
+/* A component's host gets body's text styles; the per-element tokens don't reach it from its own shadow root. */
+:where(:host) {
+  background-color: var(--_m-host-surface, var(--_m-surface));
+  color: var(--_m-text);
+  font-family: var(--m-font-sans, system-ui, sans-serif);
+  font-size: var(--m-font-size, 1rem);
+  line-height: calc(1.4 + 0.2 * var(--m-density, 1));
 }
 
 :where(::selection) {

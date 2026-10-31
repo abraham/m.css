@@ -1,7 +1,7 @@
 :where(details) {
   padding-inline: var(--_m-space-4);
   border: 1px solid var(--_m-border);
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
 }
 
 :where(details[open]) {
@@ -12,7 +12,7 @@
 :where(summary) {
   margin-inline: calc(-1 * var(--_m-space-4));
   padding: var(--_m-space-3) var(--_m-space-4);
-  border-radius: calc(var(--m-radius) - 1px);
+  border-radius: calc(var(--m-radius, 0.5rem) - 1px);
   font-weight: 600;
   list-style: none;
   cursor: pointer;
@@ -48,7 +48,7 @@
 
 /* Elsewhere, details open and close instantly. */
 @supports (interpolate-size: allow-keywords) {
-  :where(:root) {
+  :where(:root, :host) {
     interpolate-size: allow-keywords;
   }
 

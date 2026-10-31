@@ -23,7 +23,7 @@
     inline-size: 100%;
     padding: var(--_m-space-2) var(--_m-space-3);
     border: 0;
-    border-radius: var(--m-radius);
+    border-radius: var(--m-radius, 0.5rem);
     background-color: transparent;
     color: var(--_m-text);
     font-weight: inherit;

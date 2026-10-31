@@ -1,12 +1,12 @@
 :where(code, kbd, samp, pre) {
-  font-family: var(--m-font-mono);
+  font-family: var(--m-font-mono, ui-monospace, SFMono-Regular, monospace);
   font-size: 0.875em;
 }
 
 /* A translucent tint stays visible on every surface, including pre, aside, and zebra rows. */
 :where(code, kbd, samp) {
   padding: 0.1em 0.3em;
-  border-radius: calc(var(--m-radius) / 2);
+  border-radius: calc(var(--m-radius, 0.5rem) / 2);
   background-color: var(--_m-tint);
 }
 
@@ -18,7 +18,7 @@
 :where(pre) {
   padding: var(--_m-space-4);
   overflow-x: auto;
-  border-radius: var(--m-radius);
+  border-radius: var(--m-radius, 0.5rem);
   background-color: var(--_m-surface-raised);
   line-height: 1.5;
   tab-size: 2;
