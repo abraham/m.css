@@ -174,6 +174,8 @@ The two most recent major versions of Chrome, Edge, Firefox, and Safari (desktop
 - The scroll progress bar (`animation-timeline: scroll()`)
 - Hiding the top bar while scrolling down (`scroll-state()` container queries)
 
+Older browsers aren't supported, but text stays readable in them. Browsers without `@layer` ignore the stylesheet, those without `light-dark()` fall back to the browser's black on white, and those without `contrast-color()` get black or white button text from the primary's lightness. `npm run test:legacy` checks text contrast on every demo page in engines back to Chromium 101, Firefox 97, and Safari 15.4.
+
 ## Accessibility
 
 Colors meet WCAG AA in both schemes, focus rings are always visible, and forced-colors mode redraws custom controls in system colors. When the system asks for more contrast (`prefers-contrast: more`), or an element has `data-contrast="more"`, text reaches WCAG AAA (7:1), borders and underlines turn solid, and focus rings grow to 3px. A few things are up to your markup:
@@ -192,10 +194,11 @@ npm run build           # writes dist/m.css and dist/m.min.css, copies m.css int
 npm run lint            # Stylelint, including the no-classes rule
 npm run typecheck
 npm run format          # Prettier
-npm run size            # gzip and Brotli sizes; fails if dist/m.min.css is over 8 KB gzipped
+npm run size            # gzip and Brotli sizes; fails if dist/m.min.css is over 8.25 KB gzipped
 npm run size -- --report  # what each source file costs; add --save to keep a baseline to compare against
 npm test                # motion, layout, and accessibility tests in Chromium and WebKit
 npm run test:visual     # screenshot tests in the Playwright Docker image; add -- --update-snapshots to rewrite them
+npm run test:legacy     # text contrast on every demo page in old engines (Chromium 101 on), plus a Chromium 127 kitchen-sink screenshot; -- -g 1.45 runs one release
 ```
 
 Demo examples live in `demo/components/*.html`, one `figure[data-example]` each. The kitchen sink is generated from them, so edit the component pages, not `demo/kitchen-sink.html`.
