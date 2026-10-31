@@ -34,10 +34,32 @@
 
 /* Declared on every element so --m-primary and --m-on-primary can be overridden on any subtree. */
 :where(*) {
-  --_m-primary: light-dark(var(--m-primary), oklch(from var(--m-primary) calc(l + 0.1) c h));
+  --_m-primary-light: var(--m-primary);
+  --_m-primary-dark: oklch(from var(--m-primary) calc(l + 0.1) c h);
+  --_m-primary: light-dark(var(--_m-primary-light), var(--_m-primary-dark));
   --_m-primary-hover: color-mix(in oklch, var(--_m-primary), light-dark(black, white) 15%);
   --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 85%);
   --_m-on-primary: var(--m-on-primary, contrast-color(var(--_m-primary)));
+}
+
+/* Without contrast-color(), white or black around L 0.565, where both contrast equally with a gray (L clamps to 0-1); Chromium 127 can't take light-dark() as an origin. */
+@supports not (color: contrast-color(red)) {
+  :where(*) {
+    --_m-on-primary: var(
+      --m-on-primary,
+      light-dark(
+        oklch(from var(--_m-primary-light) calc((0.565 - l) * 1000) 0 0deg),
+        oklch(from var(--_m-primary-dark) calc((0.565 - l) * 1000) 0 0deg)
+      )
+    );
+  }
+}
+
+/* Without relative colors (Firefox 120-127) the primary is invalid, so buttons inherit the text color instead of a custom --m-on-primary. */
+@supports not (color: oklch(from red l c h)) {
+  :where(*) {
+    --_m-on-primary: initial;
+  }
 }
 
 /* More contrast, from the system or data-contrast="more": text reaches 7:1 (WCAG 1.4.6), borders and underlines are solid. */
@@ -54,10 +76,8 @@
   }
 
   :where(*) {
-    --_m-primary: light-dark(
-      oklch(from var(--m-primary) min(l, 0.4) c h),
-      oklch(from var(--m-primary) max(calc(l + 0.1), 0.8) c h)
-    );
+    --_m-primary-light: oklch(from var(--m-primary) min(l, 0.4) c h);
+    --_m-primary-dark: oklch(from var(--m-primary) max(calc(l + 0.1), 0.8) c h);
     --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 70%);
   }
 }
@@ -73,11 +93,9 @@
   --_m-focus-width: 3px;
 }
 
-/* --_m-primary is declared on every element, so the subtree's descendants need the override too. */
+/* The primary tokens are declared on every element, so the subtree's descendants need the override too. */
 :where([data-contrast="more"], [data-contrast="more"] *) {
-  --_m-primary: light-dark(
-    oklch(from var(--m-primary) min(l, 0.4) c h),
-    oklch(from var(--m-primary) max(calc(l + 0.1), 0.8) c h)
-  );
+  --_m-primary-light: oklch(from var(--m-primary) min(l, 0.4) c h);
+  --_m-primary-dark: oklch(from var(--m-primary) max(calc(l + 0.1), 0.8) c h);
   --_m-primary-subtle: color-mix(in oklch, var(--_m-primary), transparent 70%);
 }
