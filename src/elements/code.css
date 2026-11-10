@@ -24,6 +24,11 @@
   tab-size: 2;
 }
 
+/* Code reads left to right. :not([dir]) because author rules beat the UA's [dir] rules. */
+:where(pre:not([dir])) {
+  direction: ltr;
+}
+
 :where(pre) :where(code, samp) {
   padding: 0;
   border-radius: 0;
