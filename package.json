@@ -37,7 +37,7 @@
     "format:check": "prettier --check .",
     "size": "node scripts/size.ts",
     "test": "playwright test --project=chromium --project=webkit --grep-invert \"@visual|@legacy\"",
-    "test:visual": "docker run --rm --ipc=host -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.65.0-noble sh -c 'npm ci --no-audit --no-fund && npx playwright test --grep @visual \"$@\"' --",
+    "test:visual": "scripts/test-visual.sh",
     "test:legacy": "playwright test --project=chromium --grep @legacy",
     "prepublishOnly": "npm run build"
   },
