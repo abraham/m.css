@@ -53,3 +53,27 @@ test("motion runs without a reduced-motion preference", async ({ page }) => {
   expect(await page.evaluate(loopAnimations)).toEqual({ spinner: "m-spin", progress: "m-slide" });
   expect(await page.evaluate(findMotion)).not.toEqual([]);
 });
+
+test("a details element slides open without opting the page into keyword size transitions", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/kitchen-sink.html");
+  test.skip(!(await page.evaluate(() => CSS.supports("interpolate-size: allow-keywords"))), "No interpolate-size");
+  const result = await page.locator("#details details:not([open])").evaluate(async (element) => {
+    const details = element as HTMLDetailsElement;
+    const height = () => details.getBoundingClientRect().height;
+    const slide = (duration: string) => document.documentElement.style.setProperty("--_m-in-duration-slow", duration);
+    slide("0s");
+    details.open = true;
+    const open = height();
+    details.open = false;
+    const closed = height();
+    // A long slide keeps the early sample near the start whatever the timing jitter.
+    slide("10s");
+    details.open = true;
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const root = getComputedStyle(document.documentElement).getPropertyValue("interpolate-size");
+    return { root, closed, early: height(), open };
+  });
+  expect(result.root).toBe("numeric-only");
+  expect(result.early - result.closed).toBeLessThan((result.open - result.closed) / 2);
+});

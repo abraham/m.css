@@ -53,17 +53,16 @@
 
 /* Elsewhere, details open and close instantly. */
 @supports (interpolate-size: allow-keywords) {
-  :where(:root, :host) {
-    interpolate-size: allow-keywords;
-  }
-
   :where(details) {
     transition: padding-block-end var(--_m-duration-slow) var(--_m-ease);
   }
 
+  /* content-visibility: hidden adds layout containment when closed; keeping it on avoids a jitter as it toggles. */
   :where(details)::details-content {
     block-size: 0;
     overflow: clip;
+    contain: layout;
+    interpolate-size: allow-keywords;
     transition:
       block-size var(--_m-duration-slow) var(--_m-ease),
       content-visibility var(--_m-duration-slow) allow-discrete;
