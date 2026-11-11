@@ -137,7 +137,7 @@ A `small` right after a form field is styled as helper text. Connect it with `ar
 </label>
 ```
 
-A `small` right after a `fieldset` is helper text for the whole group, and turns red when a control in the group is invalid. `readonly` fields look fixed, labels of disabled controls are muted, and the page behind a modal `dialog` doesn't scroll. Add `closedby="any"` to a `dialog` to close it on a click outside, where supported.
+A `small` right after a `fieldset` is helper text for the whole group, and turns red when a control in the group is invalid. `readonly` fields look fixed, labels of disabled controls are muted, and the page behind a modal `dialog` doesn't scroll (Safari doesn't support this yet). Add `closedby="any"` to a `dialog` to close it on a click outside, where supported.
 
 A `meter` fills green in its `optimum` range, amber when suboptimal, and red when even less good. `aria-busy="true"` on a container, such as a `section`, `article`, `form`, list, or `div`, dims its content under a centered spinner; also add `inert` so its controls can't be clicked or tabbed to while it loads.
 
