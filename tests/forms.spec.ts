@@ -141,6 +141,20 @@ test.describe("form details", () => {
     expect((await style(page, "html", ["overflow"])).overflow).toBe("visible");
   });
 
+  test("a dialog springs open and eases closed", async ({ page }) => {
+    const easing = () =>
+      page
+        .locator("#demo-dialog")
+        .evaluate((dialog) => getComputedStyle(dialog).transitionTimingFunction.split(/,\s*(?![^(]*\))/));
+    const closed = await easing();
+    await page.locator("#open-dialog").click();
+    const open = await easing();
+    expect(closed[1]).toMatch(/^cubic-bezier/);
+    expect(open[0]).toBe(closed[0]);
+    expect(open[1]).toMatch(/^linear\(/);
+    expect(open[2]).toBe(open[1]);
+  });
+
   test("a dialog's shadow is stronger in dark mode", async ({ page }) => {
     await page.locator("#open-dialog").click();
     const shadow = () => page.locator("#demo-dialog").evaluate((dialog) => getComputedStyle(dialog).boxShadow);

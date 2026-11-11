@@ -1,5 +1,8 @@
 :where(:root, :host) {
   --_m-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* A damped spring that overshoots by about 12%. */
+  --_m-spring: linear(0, 0.18 6.25%, 0.53 12.5%, 0.84 18.75%, 1.04 25%, 1.12 34%, 1.04 50%, 0.99 62.5%, 0.985 70%, 1);
 }
 
 /* Resolved from inherited inputs, like the color tokens, so a component's copy of m.css follows the page's data-motion. */
