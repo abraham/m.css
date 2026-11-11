@@ -7,13 +7,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-# Let an in-progress deploy finish, but skip queued ones superseded by a newer push.
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -21,11 +14,20 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: deploy-github-pages
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v7.1.0
         with:
-          node-version: 26
+          node-version-file: package.json
           cache: npm
       - run: npm ci
       - run: npm run build
