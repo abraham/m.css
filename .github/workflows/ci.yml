@@ -77,11 +77,29 @@ jobs:
           path: dist/
       - run: node scripts/size.ts
 
+  # The container image must match @playwright/test, so Dependabot's npm bump also moves the image.
+  playwright:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: package.json
+          sparse-checkout-cone-mode: false
+      - id: version
+        run: |
+          version=$(jq -r '.devDependencies["@playwright/test"]' package.json)
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Pin @playwright/test to an exact version, not $version"; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
   # Same image as `npm run test:visual`, so screenshots match the committed baselines.
   browser:
+    needs: playwright
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.65.0-noble
+      image: mcr.microsoft.com/playwright:v${{ needs.playwright.outputs.version }}-noble
       options: --ipc=host
     env:
       # Firefox refuses to run as root when HOME is owned by another user.
@@ -103,9 +121,10 @@ jobs:
             test-results/
 
   a11y:
+    needs: playwright
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.65.0-noble
+      image: mcr.microsoft.com/playwright:v${{ needs.playwright.outputs.version }}-noble
       options: --ipc=host
     steps:
       - uses: actions/checkout@v7.0.1
