@@ -219,7 +219,9 @@ test.describe("examples", () => {
     await page.goto("/components/typography.html");
     expect(await snippet(page, "code")).toContain("<code>:root {\n  --m-primary:");
     await page.goto("/components/overlays.html");
-    expect(await snippet(page, "dialog")).not.toContain("data-show-modal");
+    expect(await snippet(page, "dialog")).toContain('commandfor="demo-dialog" command="show-modal"');
+    await page.goto("/components/forms.html");
+    expect(await snippet(page, "choices")).not.toContain("data-indeterminate");
   });
 
   test("a support badge reports what this browser supports", async ({ page }) => {

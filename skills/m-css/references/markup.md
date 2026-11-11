@@ -23,7 +23,7 @@ What m.css styles, and the markup that produces each pattern. Everything here wo
 | `.form-switch`, `.toggle`                  | `input type="checkbox" role="switch"`                                                  |
 | `.alert`, `.callout`, `.note`              | `aside` inside `main`                                                                  |
 | `.breadcrumb`                              | `nav aria-label="Breadcrumb"` containing an `ol`                                       |
-| `.modal`                                   | `dialog`, opened with `showModal()`                                                    |
+| `.modal`                                   | `dialog`, opened by a `command="show-modal"` button                                    |
 | `.dropdown-menu`                           | `menu popover` toggled by a `popovertarget` button                                     |
 | `.spinner`, `.loading`                     | `aria-busy="true"` on the element that's loading                                       |
 | `.loading-overlay`                         | `aria-busy="true" inert` on the container that's loading                               |
@@ -204,7 +204,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 ```
 
 - A popover that is a list, or holds one, is a menu. It's anchored below its button and flips when there isn't room. Popovers need no script.
-- Open a `dialog` with `dialog.showModal()` from script. The page behind it doesn't scroll (except in Safari), and `form method="dialog"` closes it. `closedby="any"` also closes it on a click outside; leave it off dialogs that hold unsaved input. The backdrop blurs the page, or darkens it under reduced transparency.
+- Open a `dialog` from a button with `commandfor="<id>" command="show-modal"` (load `invokers-polyfill` only when `'commandForElement' in HTMLButtonElement.prototype` is false), or with `dialog.showModal()` from script. The page behind it doesn't scroll (except in Safari), and `form method="dialog"` closes it. `closedby="any"` also closes it on a click outside; leave it off dialogs that hold unsaved input. The backdrop blurs the page, or darkens it under reduced transparency.
 
 ## Feedback
 

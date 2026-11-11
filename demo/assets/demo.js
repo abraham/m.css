@@ -273,9 +273,10 @@ function setUpExamples() {
     });
   }
 
-  for (const button of document.querySelectorAll("[data-show-modal]")) {
-    const dialog = document.getElementById(button.getAttribute("data-show-modal") ?? "");
-    if (dialog instanceof HTMLDialogElement) button.addEventListener("click", () => dialog.showModal());
+  // commandfor buttons open the dialogs; browsers before Safari 26.2 and Firefox 144 need the polyfill.
+  if (!("commandForElement" in HTMLButtonElement.prototype)) {
+    const polyfill = "https://cdn.jsdelivr.net/npm/invokers-polyfill@1.0.4/+esm";
+    import(polyfill);
   }
 
   const readout = document.querySelector("output[data-motion-readout]");
@@ -372,7 +373,7 @@ function renderTokens(panel) {
 }
 
 /** Demo hooks that aren't part of the markup a user would copy. */
-const demoAttributes = ["data-indeterminate", "data-show-modal"];
+const demoAttributes = ["data-indeterminate"];
 
 /**
  * States an example can toggle. `self` states go on the figure; the rest on its matching controls.

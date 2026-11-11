@@ -48,7 +48,7 @@
           instead of blurring.
         </p>
         <figure data-example="dialog" data-states="rtl dark contrast">
-          <button type="button" id="open-dialog" data-show-modal="demo-dialog">Open dialog</button>
+          <button type="button" id="open-dialog" commandfor="demo-dialog" command="show-modal">Open dialog</button>
           <dialog id="demo-dialog" aria-labelledby="demo-dialog-title" closedby="any">
             <h3 id="demo-dialog-title">Dialog title</h3>
             <p>A modal dialog on the overlay surface with a blurred backdrop.</p>
@@ -59,9 +59,10 @@
         </figure>
         <h3>Accessibility</h3>
         <p>
-          Open it with <code>showModal()</code>, which this demo does from the button, so focus moves into it and Escape
-          closes it. Label it with <code>aria-labelledby</code>. <code>closedby="any"</code> also closes it on a click
-          outside, where supported; leave it off a dialog that holds unsaved input.
+          Open it with a button's <code>commandfor</code> and <code>command="show-modal"</code>, or
+          <code>showModal()</code> from script, so focus moves into it and Escape closes it. Label it with
+          <code>aria-labelledby</code>. <code>closedby="any"</code> also closes it on a click outside, where supported;
+          leave it off a dialog that holds unsaved input.
         </p>
         <h3>Customize</h3>
         <p>It scales in, unless motion is reduced.</p>
