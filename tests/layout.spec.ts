@@ -295,6 +295,16 @@ test.describe("typography", () => {
     expect(colors.headingLink).not.toBe(colors.link);
     expect(new Set([colors.ins, colors.del, colors.text]).size).toBe(3);
   });
+
+  test("code blocks stay left to right on a right-to-left page unless they set their own dir", async ({ page }) => {
+    await page.goto("/kitchen-sink.html");
+    const pre = page.locator("#code pre");
+    const direction = () => pre.evaluate((element) => getComputedStyle(element).direction);
+    await page.evaluate(() => document.documentElement.setAttribute("dir", "rtl"));
+    expect(await direction()).toBe("ltr");
+    await pre.evaluate((element) => element.setAttribute("dir", "rtl"));
+    expect(await direction()).toBe("rtl");
+  });
 });
 
 test("the top bar hides while scrolling down and returns while scrolling up", async ({ page, browserName }) => {
