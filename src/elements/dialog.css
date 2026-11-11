@@ -61,6 +61,14 @@
   opacity: 1;
 }
 
+/* A darker scrim replaces the blur. */
+@media (prefers-reduced-transparency: reduce) {
+  :where(dialog)::backdrop {
+    background-color: oklch(0% 0 0deg / 60%);
+    backdrop-filter: none;
+  }
+}
+
 @starting-style {
   :where(dialog[open])::backdrop {
     opacity: 0;

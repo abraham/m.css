@@ -204,7 +204,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 ```
 
 - A popover that is a list, or holds one, is a menu. It's anchored below its button and flips when there isn't room. Popovers need no script.
-- Open a `dialog` with `dialog.showModal()` from script. The page behind it doesn't scroll, and `form method="dialog"` closes it. `closedby="any"` also closes it on a click outside; leave it off dialogs that hold unsaved input.
+- Open a `dialog` with `dialog.showModal()` from script. The page behind it doesn't scroll, and `form method="dialog"` closes it. `closedby="any"` also closes it on a click outside; leave it off dialogs that hold unsaved input. The backdrop blurs the page, or darkens it under reduced transparency.
 
 ## Feedback
 
