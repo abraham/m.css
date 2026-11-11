@@ -77,7 +77,7 @@ Hover, subtle, and dark-mode variants of the primary color are derived automatic
 | `data-scroll-progress`             | `html`                | Shows a reading progress bar at the top of the window                    |
 | `aria-busy="true"`                 | Any element           | Shows an inline loading spinner; on a container, dims it under one       |
 | `aria-current="page"`              | A link in a `nav`     | Marks the current page                                                   |
-| `role="switch"`                    | A checkbox            | Renders it as a toggle switch                                            |
+| `role="switch"` or `switch`        | A checkbox            | Renders it as a toggle switch                                            |
 | `role="button"`                    | A link                | Styles it as a button; `aria-disabled="true"` dims it                    |
 | `role="group"`                     | A wrapper             | Joins buttons, or a field with buttons and `span` text, into one control |
 | `aria-pressed="true"` or `"false"` | A button              | A toggle: outlined when off, tinted with a thick primary border when on  |

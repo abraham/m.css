@@ -37,7 +37,7 @@
     background-color: Highlight;
   }
 
-  :where(input[type="checkbox"][role="switch"]) {
+  :where(input[type="checkbox"]:is([role="switch"], [switch])) {
     &::before {
       background-color: CanvasText;
       box-shadow: none;

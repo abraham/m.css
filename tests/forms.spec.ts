@@ -30,6 +30,22 @@ test("a switch moves its thumb to the end of the track when checked", async ({ p
   expect(shadow).not.toBe("none");
 });
 
+test("a checkbox with the switch attribute looks like one with role=switch", async ({ page }) => {
+  await page.locator('input[name="digest"]').evaluate((input) => {
+    const native = input.cloneNode() as HTMLInputElement;
+    native.name = "native-digest";
+    native.removeAttribute("role");
+    native.setAttribute("switch", "");
+    input.after(native);
+  });
+  for (const forcedColors of ["none", "active"] as const) {
+    await page.emulateMedia({ forcedColors });
+    const native = await switchState(page, "native-digest");
+    expect(native.offset).toBeGreaterThan(0);
+    expect(native, `forced colors ${forcedColors}`).toEqual(await switchState(page, "digest"));
+  }
+});
+
 test("a switch stays visible in forced-colors mode", async ({ page }) => {
   await page.emulateMedia({ forcedColors: "active" });
   for (const name of ["digest", "beta"]) {
