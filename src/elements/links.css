@@ -9,6 +9,11 @@
   transition-timing-function: var(--_m-ease);
 }
 
+/* Browsers let :visited change only colors, and keep the unvisited underline's alpha. */
+:where(a:visited) {
+  text-decoration-color: var(--_m-text-muted);
+}
+
 :where(a:hover) {
   color: var(--_m-primary-hover);
   text-decoration-color: currentcolor;
