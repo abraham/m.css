@@ -23,6 +23,7 @@
     scale: 0.98;
   }
 
+  /* stylelint-disable-next-line selector-no-unmatchable -- :disabled is for buttons, aria-disabled for links. */
   &:where(:disabled, [aria-disabled="true"]) {
     opacity: 0.5;
     cursor: not-allowed;
