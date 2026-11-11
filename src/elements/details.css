@@ -35,6 +35,11 @@
     rotate: -45deg;
     transition: rotate var(--_m-duration) var(--_m-ease);
   }
+
+  /* Closed, it points toward the inline end. */
+  &:where(:dir(rtl))::before {
+    rotate: 135deg;
+  }
 }
 
 :where(details[open]) > :where(summary) {

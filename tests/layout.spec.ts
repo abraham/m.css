@@ -305,6 +305,18 @@ test.describe("typography", () => {
     await pre.evaluate((element) => element.setAttribute("dir", "rtl"));
     expect(await direction()).toBe("rtl");
   });
+
+  test("a summary's chevron points to the inline end when closed and down when open", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/kitchen-sink.html");
+    const rotations = () =>
+      page
+        .locator("#details summary")
+        .evaluateAll((summaries) => summaries.map((summary) => getComputedStyle(summary, "::before").rotate));
+    expect(await rotations()).toEqual(["-45deg", "45deg"]);
+    await page.evaluate(() => document.documentElement.setAttribute("dir", "rtl"));
+    expect(await rotations()).toEqual(["135deg", "45deg"]);
+  });
 });
 
 test.describe("scroll hints", () => {
