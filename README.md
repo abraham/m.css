@@ -125,6 +125,8 @@ A label whose text is a `span` right before its field is a float label: it sits 
 
 An element with `aria-hidden="true"` inside a link, such as an emoji or an icon `svg`, is a decorative icon: it isn't underlined, and a favicon or `svg` in it is sized to the text.
 
+A visited link keeps its color, and its underline turns gray.
+
 A `small` right after a form field is styled as helper text. Connect it with `aria-describedby` so screen readers announce it:
 
 ```html
