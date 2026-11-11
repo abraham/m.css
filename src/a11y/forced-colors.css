@@ -40,6 +40,7 @@
   :where(input[type="checkbox"][role="switch"]) {
     &::before {
       background-color: CanvasText;
+      box-shadow: none;
     }
 
     &:where(:checked)::before {

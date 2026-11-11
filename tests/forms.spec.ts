@@ -24,6 +24,10 @@ test("a switch moves its thumb to the end of the track when checked", async ({ p
   expect(off.offset).toBe(0);
   expect(on.offset).toBeCloseTo(on.travel, 0);
   expect(on.track).not.toBe(off.track);
+  const shadow = await page
+    .locator('input[name="beta"]')
+    .evaluate((input) => getComputedStyle(input, "::before").boxShadow);
+  expect(shadow).not.toBe("none");
 });
 
 test("a switch stays visible in forced-colors mode", async ({ page }) => {
@@ -32,6 +36,10 @@ test("a switch stays visible in forced-colors mode", async ({ page }) => {
     const state = await switchState(page, name);
     expect(state.thumb, `${name} thumb vs track`).not.toBe(state.track);
   }
+  const shadow = await page
+    .locator('input[name="beta"]')
+    .evaluate((input) => getComputedStyle(input, "::before").boxShadow);
+  expect(shadow).toBe("none");
 });
 
 test("aria-invalid colors the field border and its helper text", async ({ page }) => {
@@ -131,6 +139,16 @@ test.describe("form details", () => {
 
     await page.keyboard.press("Escape");
     expect((await style(page, "html", ["overflow"])).overflow).toBe("visible");
+  });
+
+  test("a dialog's shadow is stronger in dark mode", async ({ page }) => {
+    await page.locator("#open-dialog").click();
+    const shadow = () => page.locator("#demo-dialog").evaluate((dialog) => getComputedStyle(dialog).boxShadow);
+    const light = await shadow();
+    await page.evaluate(() => document.documentElement.setAttribute("data-theme", "dark"));
+    const dark = await shadow();
+    expect(light).not.toBe("none");
+    expect(dark).not.toBe(light);
   });
 
   test("a modal dialog's backdrop drops its blur under reduced transparency", async ({ page, browserName }) => {

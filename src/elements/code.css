@@ -15,11 +15,16 @@
   border-block-end-width: 2px;
 }
 
+/* Shadows mark an edge with more content; covers scroll with the content and hide them at either end. */
 :where(pre) {
   padding: var(--_m-space-4);
   overflow-x: auto;
   border-radius: var(--m-radius, 0.5rem);
-  background-color: var(--_m-surface-raised);
+  background:
+    linear-gradient(to right, var(--_m-surface-raised) 30%, transparent) left / 2em 100% no-repeat local,
+    linear-gradient(to left, var(--_m-surface-raised) 30%, transparent) right / 2em 100% no-repeat local,
+    linear-gradient(to right, var(--_m-edge), transparent) left / 0.75em 100% no-repeat,
+    linear-gradient(to left, var(--_m-edge), transparent) right / 0.75em 100% no-repeat var(--_m-surface-raised);
   line-height: 1.5;
   tab-size: 2;
 }

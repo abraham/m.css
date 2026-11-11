@@ -2,3 +2,11 @@
 #tokens {
   display: none;
 }
+
+/* animations: "disabled" finishes scroll-driven animations too, which shows the scrolled state on an unscrolled page. */
+body > header > nav,
+body > header > nav > ul,
+thead th,
+figure:has(> table) {
+  animation: none !important;
+}
