@@ -5,11 +5,11 @@ import { pages } from "../scripts/demo.ts";
 
 // The agent skill's starter page links the CDN build; serve the local build in its place.
 test("the agent skill's starter page lays out its columns with no violations", async ({ page }) => {
-  await page.route("https://cdn.jsdelivr.net/npm/@abraham/m.css/dist/m.min.css", (route) =>
-    route.fulfill({ path: new URL("../dist/m.min.css", import.meta.url).pathname, contentType: "text/css" }),
+  await page.route("https://cdn.jsdelivr.net/npm/@abraham/modern.css/dist/modern.min.css", (route) =>
+    route.fulfill({ path: new URL("../dist/modern.min.css", import.meta.url).pathname, contentType: "text/css" }),
   );
   await page.setViewportSize({ width: 1280, height: 800 });
-  await page.setContent(await readFile(new URL("../skills/m-css/assets/page.html", import.meta.url), "utf8"));
+  await page.setContent(await readFile(new URL("../skills/modern-css/assets/page.html", import.meta.url), "utf8"));
   const [side, main, rail] = await Promise.all(
     ["body > nav", "main", "body > aside"].map((selector) =>
       page.locator(selector).evaluate((element) => element.getBoundingClientRect().toJSON() as DOMRect),

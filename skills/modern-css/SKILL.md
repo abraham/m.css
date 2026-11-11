@@ -1,14 +1,14 @@
 ---
-name: m-css
-description: "Add the m.css classless CSS framework (@abraham/m.css) to a website or web app, or restyle existing pages with it. Use when asked to install, set up, adopt, or migrate to m.css; to style plain semantic HTML without classes; to convert Bootstrap, Tailwind, Pico, or hand-written class-based markup to classless semantic HTML; to theme m.css with its --m-* custom properties, dark mode, or contrast settings; or to build docs, article, sign-in, pricing, or settings pages with m.css."
+name: modern-css
+description: "Add the modern.css classless CSS framework (@abraham/modern.css) to a website or web app, or restyle existing pages with it. Use when asked to install, set up, adopt, or migrate to modern.css; to style plain semantic HTML without classes; to convert Bootstrap, Tailwind, Pico, or hand-written class-based markup to classless semantic HTML; to theme modern.css with its --m-* custom properties, dark mode, or contrast settings; or to build docs, article, sign-in, pricing, or settings pages with modern.css."
 license: MIT
 ---
 
-# m.css
+# modern.css
 
-m.css is one stylesheet that styles semantic HTML elements and ARIA states directly, with no classes. Every rule sits in `@layer m` with zero specificity, so any other CSS overrides it. It also owns the document layout: the body column, sticky top bar, side nav, and rail all come from the markup structure.
+modern.css is one stylesheet that styles semantic HTML elements and ARIA states directly, with no classes. Every rule sits in `@layer m` with zero specificity, so any other CSS overrides it. It also owns the document layout: the body column, sticky top bar, side nav, and rail all come from the markup structure.
 
-Live demo and examples: https://abraham.github.io/m.css/
+Live demo and examples: https://modern.ink/
 
 ## Procedure
 
@@ -19,13 +19,13 @@ Live demo and examples: https://abraham.github.io/m.css/
 2. **Add the stylesheet** once, in the shared `<head>`, before any other stylesheet:
 
    ```html
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/m.css/dist/m.min.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/modern.css/dist/modern.min.css" />
    ```
 
-   With a bundler, run `npm install @abraham/m.css` instead and import `@abraham/m.css` (or `@abraham/m.css/min`) from the main stylesheet or entry file.
+   With a bundler, run `npm install @abraham/modern.css` instead and import `@abraham/modern.css` (or `@abraham/modern.css/min`) from the main stylesheet or entry file.
 
 3. **Deal with the existing CSS.**
-   - Unlayered CSS always beats m.css. A class-based framework or global reset (Bootstrap, Tailwind Preflight, normalize.css) restyles every element and hides what m.css does. Plan to remove it, and confirm with the user before deleting anything they may still need.
+   - Unlayered CSS always beats modern.css. A class-based framework or global reset (Bootstrap, Tailwind Preflight, normalize.css) restyles every element and hides what modern.css does. Plan to remove it, and confirm with the user before deleting anything they may still need.
    - Keep only small, site-specific rules. They work unlayered, or in a layer declared after `m`, such as `@layer m, site;`.
 4. **Build the page shell.** Restructure each page template into the skeleton in [assets/page.html](./assets/page.html): `body > header > nav` for the top bar, optional `body > nav` and `body > aside` columns, `main`, and `footer`.
 5. **Rewrite components as semantic HTML,** using [references/markup.md](./references/markup.md). Remove classes, wrapper `div`s, and icons that only existed for styling. Keep classes that scripts or tests rely on; they're harmless.
@@ -34,8 +34,8 @@ Live demo and examples: https://abraham.github.io/m.css/
 
 ## Rules
 
-- **No classes, IDs, or inline styles for styling.** Pick the element or attribute that means the thing; the reference lists what m.css styles. Only if nothing fits, add a short rule in the site's own CSS. For example, m.css has no centering rule, so a narrow sign-in card needs `main { max-inline-size: 24rem; margin-inline: auto; }`.
-- **Never use `!important`.** It's never needed, because m.css has zero specificity.
+- **No classes, IDs, or inline styles for styling.** Pick the element or attribute that means the thing; the reference lists what modern.css styles. Only if nothing fits, add a short rule in the site's own CSS. For example, modern.css has no centering rule, so a narrow sign-in card needs `main { max-inline-size: 24rem; margin-inline: auto; }`.
+- **Never use `!important`.** It's never needed, because modern.css has zero specificity.
 - **Never set or depend on `--_m-*` tokens.** They're internal and can change between versions. Use only the `--m-*` properties.
 - **Structure is the API.** The layout rules match direct children: `body > header > nav`, `body > nav`, `body > aside`, `main > article:only-child`. A wrapper between `body` and these elements turns those rules off.
   - Client-side apps often mount into `<div id="root">`, and then the sticky bar and columns don't apply, though element styles still do. Render the shell (header, navs, main, footer) in the server or static HTML when possible. Otherwise tell the user the page will flow as one column.
@@ -69,17 +69,17 @@ Set these on `:root` for the whole site. `--m-primary`, `--m-on-primary`, `--m-d
 }
 ```
 
-In a web component, link m.css inside its shadow root. The component inherits the page's theme properties and `data-theme`, `data-contrast`, and `data-motion`, or uses the defaults when the page doesn't load m.css.
+In a web component, link modern.css inside its shadow root. The component inherits the page's theme properties and `data-theme`, `data-contrast`, and `data-motion`, or uses the defaults when the page doesn't load modern.css.
 
 Hover, subtle, and dark-mode variants of the primary color are derived from it, so set one brand color, not a palette.
 
-These few properties go a long way. The showcase (https://abraham.github.io/m.css/showcase/) has four whole pages: a magazine essay, a dark operations dashboard, a playful landing page, and a minimal event poster. Each is themed with only a `:root` block of these properties, and shows that block at the bottom of the page. Use them as starting points.
+These few properties go a long way. The showcase (https://modern.ink/showcase/) has four whole pages: a magazine essay, a dark operations dashboard, a playful landing page, and a minimal event poster. Each is themed with only a `:root` block of these properties, and shows that block at the bottom of the page. Use them as starting points.
 
-What the properties can't change: neutral surfaces and text colors, heading weight, shadows, and a separate heading font. Don't reach for `--_m-*` tokens to get them. Tell the user it's outside m.css's theming, or add a small unlayered rule of their own.
+What the properties can't change: neutral surfaces and text colors, heading weight, shadows, and a separate heading font. Don't reach for `--_m-*` tokens to get them. Tell the user it's outside modern.css's theming, or add a small unlayered rule of their own.
 
 Keep contrast in mind:
 
-- In dark mode, m.css lightens the primary. Its default `--m-on-primary` adapts, but an explicit one should too, for example `light-dark(white, oklch(20% 0.05 300deg))`.
+- In dark mode, modern.css lightens the primary. Its default `--m-on-primary` adapts, but an explicit one should too, for example `light-dark(white, oklch(20% 0.05 300deg))`.
 - In dark themes, keep the primary at or below about 70% lightness. Lighter primaries can make pressed toggles fail contrast when the reader asks for more contrast.
 
 The page follows the system's light or dark scheme, reduced motion, and contrast preferences. These attributes force them, on `<html>` or on any element:

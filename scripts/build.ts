@@ -8,11 +8,11 @@ await mkdir(join(root, "dist"), { recursive: true });
 await mkdir(join(root, "demo/dist"), { recursive: true });
 
 for (const [file, minify] of [
-  ["m.css", false],
-  ["m.min.css", true],
+  ["modern.css", false],
+  ["modern.min.css", true],
 ] as const) {
   await writeFile(join(root, "dist", file), await bundleCss(minify));
 }
-await copyFile(join(root, "dist/m.css"), join(root, "demo/dist/m.css"));
+await copyFile(join(root, "dist/modern.css"), join(root, "demo/dist/modern.css"));
 
 await generate();

@@ -546,13 +546,13 @@ function setUpExampleFigure(figure) {
 }
 
 /**
- * Moves a fragment into an iframe that links only m.css, with a switch that turns the stylesheet off,
+ * Moves a fragment into an iframe that links only modern.css, with a switch that turns the stylesheet off,
  * so the fragment shows what the browser does on its own. Without script, the fragment stays inline and styled.
  * @param {Element} figure
  */
 function setUpBeforeAfter(figure) {
   const stylesheet = /** @type {HTMLLinkElement | null} */ (
-    document.querySelector('link[rel="stylesheet"][href*="m.css"]')
+    document.querySelector('link[rel="stylesheet"][href*="modern.css"]')
   );
   if (!stylesheet) return;
   const page = document.implementation.createHTMLDocument("Example");
@@ -568,7 +568,7 @@ function setUpBeforeAfter(figure) {
   page.body.append(...[...figure.childNodes].map((node) => page.importNode(node, true)));
 
   const iframe = document.createElement("iframe");
-  iframe.title = "Example page, with and without m.css";
+  iframe.title = "Example page, with and without modern.css";
   iframe.srcdoc = `<!doctype html>${page.documentElement.outerHTML}`;
   // The fragment's links and form resolve against this page, so following them would load it inside the frame.
   iframe.addEventListener("load", () => {
@@ -590,7 +590,7 @@ function setUpBeforeAfter(figure) {
     if (link) link.disabled = !toggle.checked;
   });
   const label = document.createElement("label");
-  label.append(toggle, " Use m.css");
+  label.append(toggle, " Use modern.css");
   figure.before(label);
 }
 
