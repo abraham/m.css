@@ -122,6 +122,9 @@
 }
 
 :where(textarea) {
+  /* Content sizing ignores rows, so the minimum is three lines plus padding and border. */
+  field-sizing: content;
+  min-block-size: calc(3lh + 2 * var(--_m-space-2) + 2px);
   line-height: var(--_m-leading);
   resize: vertical;
   background-position: right var(--_m-space-3) top calc(var(--_m-space-2) + (1lh - 1em) / 2);
@@ -523,6 +526,10 @@
   > :where(input, textarea, select) {
     margin-block-start: 0;
     padding-block: calc(var(--_m-space-2) + 0.75em) var(--_m-space-1);
+  }
+
+  > :where(textarea) {
+    min-block-size: calc(3lh + var(--_m-space-2) + 0.75em + var(--_m-space-1) + 2px);
   }
 
   /* An empty, unfocused field shows the label at full size in place of its placeholder. */

@@ -43,8 +43,9 @@
       <section id="text-fields" aria-labelledby="text-fields-title">
         <h2 id="text-fields-title">Text fields</h2>
         <p>
-          Text-like inputs and <code>textarea</code> fill the width. Wrap a field in its <code>label</code>, or put the
-          label right before it with a matching <code>for</code>.
+          Text-like inputs and <code>textarea</code> fill the width. A <code>textarea</code> starts three lines tall and
+          grows as you type. Wrap a field in its <code>label</code>, or put the label right before it with a matching
+          <code>for</code>.
         </p>
         <figure data-example="text-fields" data-states="disabled readonly invalid valid rtl dark contrast">
           <label>
@@ -71,6 +72,10 @@
         <p>Every field needs a label. Placeholders are hints, not labels: they disappear as soon as someone types.</p>
         <h3>Customize</h3>
         <p><code>--m-density</code> sets the padding, and <code>--m-radius</code> the corners.</p>
+        <p>
+          Where the browser supports <code>field-sizing</code>, <code>rows</code> no longer sets a textarea's starting
+          height. Set <code>min-block-size</code> instead.
+        </p>
       </section>
 
       <section id="select" aria-labelledby="select-title">

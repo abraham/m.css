@@ -131,6 +131,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 ```
 
 - Text-like inputs, `select`, and `textarea` fill the width. Either wrap the field in its `label`, or put `label for` right before it.
+- A `textarea` starts three lines tall and grows with its content. Where `field-sizing` is supported, `rows` doesn't set its height; set `min-block-size` instead.
 - Validation: a field turns red after the user leaves it invalid (`:user-invalid`), or whenever it has `aria-invalid="true"`. `aria-invalid="false"` marks it valid in green. A `small` right after the field takes the same color.
 - A `small` right after a `fieldset` is helper text for the group. Point the fieldset at it with `aria-describedby`.
 - `readonly` fields look fixed. A `disabled` field or `fieldset` mutes its labels.

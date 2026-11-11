@@ -106,6 +106,20 @@ test.describe("form details", () => {
     expect(await helper.evaluate((small) => getComputedStyle(small).color)).toBe(danger);
   });
 
+  test("a textarea starts three lines tall and grows with its content", async ({ page }) => {
+    test.skip(!(await page.evaluate(() => CSS.supports("field-sizing", "content"))), "no field-sizing");
+    for (const name of ["message", "float-message"]) {
+      const textarea = page.locator(`textarea[name="${name}"]`);
+      const height = () => textarea.evaluate((element) => element.getBoundingClientRect().height);
+      const empty = await height();
+      await textarea.evaluate((element) => element.style.setProperty("field-sizing", "fixed"));
+      expect(empty, `${name} matches rows="3"`).toBeCloseTo(await height(), 0);
+      await textarea.evaluate((element) => element.style.removeProperty("field-sizing"));
+      await textarea.fill("line\n".repeat(7));
+      expect(await height(), `${name} grows`).toBeGreaterThan(empty * 2);
+    }
+  });
+
   test("the page behind a modal dialog doesn't scroll", async ({ page }) => {
     await page.locator("#open-dialog").click();
     expect((await style(page, "html", ["overflow"])).overflow).toBe("hidden");
