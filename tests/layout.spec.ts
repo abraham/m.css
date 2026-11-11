@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 const rect = (page: Page, selector: string) =>
   page
@@ -294,6 +294,108 @@ test.describe("typography", () => {
     expect(colors.headingLink).toBe(colors.heading);
     expect(colors.headingLink).not.toBe(colors.link);
     expect(new Set([colors.ins, colors.del, colors.text]).size).toBe(3);
+  });
+});
+
+test.describe("scroll hints", () => {
+  // How far the left and right edges differ from the middle, along a row in the top padding below the rounded corners.
+  const edges = async (locator: Locator) => {
+    const png = (await locator.screenshot()).toString("base64");
+    return locator.page().evaluate(async (data) => {
+      const image = await createImageBitmap(await (await fetch(`data:image/png;base64,${data}`)).blob());
+      const context = new OffscreenCanvas(image.width, image.height).getContext("2d")!;
+      context.drawImage(image, 0, 0);
+      const pixel = (x: number) => context.getImageData(Math.round(x), 12, 1, 1).data;
+      const middle = pixel(image.width / 2);
+      const diff = (x: number) => Math.max(...pixel(x).map((value, index) => Math.abs(value - middle[index])));
+      return { left: diff(3), right: diff(image.width - 4) };
+    }, png);
+  };
+
+  const supportsScrollTimelines = (page: Page) => page.evaluate(() => CSS.supports("animation-timeline: scroll()"));
+
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/kitchen-sink.html");
+  });
+
+  test("a code block that scrolls shades each edge with more content", async ({ page }) => {
+    const pre = page.locator("#code pre");
+    await pre.evaluate((element) => element.querySelector("code")!.append(`\n${"x".repeat(300)}`));
+    let pixels = await edges(pre);
+    expect(pixels.left).toBeLessThan(3);
+    expect(pixels.right).toBeGreaterThan(20);
+
+    await pre.evaluate((element) => (element.scrollLeft = element.scrollWidth));
+    pixels = await edges(pre);
+    expect(pixels.left).toBeGreaterThan(20);
+    expect(pixels.right).toBeLessThan(3);
+  });
+
+  test("a wide table's figure fades each edge with more columns", async ({ page }) => {
+    test.skip(!(await supportsScrollTimelines(page)), "no scroll-driven animations");
+    const figure = page.locator("#tables figure");
+    await page.locator("#tables table").evaluate((table) => {
+      const wrapper = document.createElement("figure");
+      table.replaceWith(wrapper);
+      wrapper.append(table);
+    });
+    const fades = () =>
+      figure.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return [style.getPropertyValue("--_m-fade-start"), style.getPropertyValue("--_m-fade-end")];
+      });
+    const mask = () => figure.evaluate((element) => getComputedStyle(element).maskImage);
+    const scrollTo = (fraction: number) =>
+      figure.evaluate((element, fraction) => {
+        const range = element.scrollWidth - element.clientWidth;
+        element.scrollLeft = (getComputedStyle(element).direction === "rtl" ? -range : range) * fraction;
+      }, fraction);
+
+    expect(await fades()).toEqual(["0px", "0px"]);
+    expect(await mask()).toBe("none");
+
+    const full = `${await figure.evaluate((element) => parseFloat(getComputedStyle(element).fontSize) * 1.5)}px`;
+    await figure.locator("table").evaluate((table) => (table.style.minInlineSize = "200vw"));
+    await expect.poll(fades).toEqual(["0px", full]);
+    expect(await mask()).toContain(full);
+    await scrollTo(0.5);
+    await expect.poll(fades).toEqual([full, full]);
+    expect(await mask()).toContain(full);
+    await scrollTo(1);
+    await expect.poll(fades).toEqual([full, "0px"]);
+
+    await page.evaluate(() => document.documentElement.setAttribute("dir", "rtl"));
+    await scrollTo(0);
+    await expect.poll(fades).toEqual([full, "0px"]);
+  });
+
+  test("the top bar and a stuck table header cast shadows once content scrolls under them", async ({ page }) => {
+    test.skip(!(await supportsScrollTimelines(page)), "no scroll-driven animations");
+    const drop = (selector: string) =>
+      page
+        .locator(selector)
+        .first()
+        .evaluate((element) => getComputedStyle(element).getPropertyValue("--_m-drop"));
+    const barShadow = () =>
+      page.locator("body > header > nav").evaluate((nav) => getComputedStyle(nav, "::after").blockSize);
+    expect(await barShadow()).toBe("0px");
+    expect(await drop("#tables th")).toBe("0px");
+
+    await page.evaluate(() => scrollTo({ top: 200, behavior: "instant" }));
+    await expect.poll(barShadow).toBe("8px");
+    expect(await drop("#tables th")).toBe("0px");
+
+    // Scroll the header row 20px past the point where it sticks below the bars.
+    await page.locator("#tables thead").evaluate((thead) => {
+      const probe = document.createElement("div");
+      probe.style.blockSize = "var(--_m-sticky-offset)";
+      document.body.append(probe);
+      const offset = probe.getBoundingClientRect().height;
+      probe.remove();
+      scrollBy({ top: thead.getBoundingClientRect().top - offset + 20, behavior: "instant" });
+    });
+    await expect.poll(() => drop("#tables th")).not.toBe("0px");
   });
 });
 

@@ -174,6 +174,8 @@ The markup picks the layout, as the pages in the [layouts gallery](https://abrah
 ```
 
 - Anchor links, focused elements, and sticky table headers stop below the top bar.
+- Once the page scrolls, the top bar casts a shadow, and so does a table header row that has stuck below it.
+- Code blocks that scroll sideways shade each edge that has more content. Nav rows and wide tables in a `figure` fade those edges instead.
 
 ## Web components
 
@@ -196,6 +198,7 @@ The two most recent major versions of Chrome, Edge, Firefox, and Safari (desktop
 - Cross-fades between pages (`@view-transition`)
 - A styled `select` picker (`appearance: base-select`)
 - The scroll progress bar (`animation-timeline: scroll()`)
+- Shadows on the top bar and stuck table headers, and the fading edges of nav rows and wide tables (`animation-timeline`)
 - Hiding the top bar while scrolling down (`scroll-state()` container queries)
 
 Older browsers aren't supported, but text stays readable in them. Browsers without `@layer` ignore the stylesheet, those without `light-dark()` fall back to the browser's black on white, and those without `contrast-color()` get black or white button text from the primary's lightness. `npm run test:legacy` checks text contrast on every demo page in engines back to Chromium 101, Firefox 97, and Safari 15.4.

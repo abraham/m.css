@@ -9,6 +9,10 @@
     text-shadow: none;
   }
 
+  :where(figure:has(> table)) {
+    animation: none;
+  }
+
   :where(body) {
     max-inline-size: none;
     padding: 0;

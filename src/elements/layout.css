@@ -72,6 +72,24 @@
 
   /* body is a narrow column, so an outset border-image paints the full-bleed bar and its bottom rule. */
   border-image: linear-gradient(to top, var(--_m-border) 1px, var(--_m-surface) 1px) fill 0 / 0 / 0 100vmax;
+
+  /* A full-bleed shadow that grows from no height once scrolled; translucent paint in the bar costs its text subpixel antialiasing. */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 100% 0 auto;
+    block-size: var(--_m-drop);
+    border-image: linear-gradient(var(--_m-edge), transparent) fill 0 / 0 / 0 100vmax;
+    pointer-events: none;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  :where(body > header > nav) {
+    animation: m-lift linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 2rem;
+  }
 }
 
 /* A nav right after the top bar is a subnav that sticks below it. */

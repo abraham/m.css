@@ -29,6 +29,7 @@
   inset-block-start: var(--_m-sticky-offset, 0);
   border-block-end-width: 2px;
   background-color: var(--_m-surface);
+  box-shadow: 0 var(--_m-drop) var(--_m-drop) calc(-1 * var(--_m-drop)) var(--_m-edge);
 }
 
 :where(tbody tr) {
@@ -51,4 +52,34 @@
 /* Wrap a wide table in a figure to scroll it sideways; the header then no longer sticks to the page. */
 :where(figure:has(> table)) {
   overflow-x: auto;
+}
+
+/* The scroll padding keeps focused items clear of the faded edges below. */
+:where(figure:has(> table), :is(body > header > nav, body > nav) > :is(ul, ol, menu)) {
+  scroll-padding-inline: 1.5em;
+}
+
+@supports (animation-timeline: scroll()) {
+  /* The header row lifts once it sticks, which is when the thead's own box starts to scroll under the bars. */
+  :where(thead) {
+    view-timeline: --_m-table;
+    view-timeline-inset: var(--_m-sticky-offset, 0) 0;
+  }
+
+  :where(thead th) {
+    animation: m-lift linear both;
+    animation-timeline: --_m-table;
+    animation-range: exit-crossing 0% exit-crossing 2rem;
+  }
+
+  /* A wide table or a nav row fades out at an edge with more content. */
+  :where(figure:has(> table), :is(body > header > nav, body > nav) > :is(ul, ol, menu)) {
+    animation: m-fade linear both;
+    animation-timeline: scroll(self inline);
+  }
+
+  /* Right to left, scrolling starts at the right edge. */
+  :where(figure:has(> table), :is(body > header > nav, body > nav) > :is(ul, ol, menu)):where(:dir(rtl)) {
+    animation-direction: reverse;
+  }
 }

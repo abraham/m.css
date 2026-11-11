@@ -365,6 +365,7 @@
     border-radius: 50%;
     clip-path: none;
     background-color: var(--_m-surface);
+    box-shadow: 0 1px 2px oklch(0% 0 0deg / 30%);
     scale: 1;
     transition-property: translate, background-color;
   }

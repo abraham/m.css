@@ -11,9 +11,12 @@ function findMotion() {
         offenders.push(`${where} transition ${style.transitionProperty} ${style.transitionDuration}`);
       }
       const durations = style.animationDuration.split(", ");
+      // Scroll-driven animations track scrolling 1:1, so they aren't motion.
+      const timelines = (style.animationTimeline ?? "auto").split(", ");
       style.animationName.split(", ").forEach((name, index) => {
         const duration = durations[index % durations.length];
-        if (name !== "none" && name !== "m-pulse" && duration !== "0s") {
+        const timeline = timelines[index % timelines.length];
+        if (name !== "none" && name !== "m-pulse" && duration !== "0s" && timeline === "auto") {
           offenders.push(`${where} animation ${name} ${duration}`);
         }
       });

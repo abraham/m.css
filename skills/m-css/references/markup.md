@@ -58,7 +58,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 </body>
 ```
 
-- The first `nav` in `body > header` is a full-width sticky top bar that stays one line tall. Its lists scroll sideways rather than wrap, so keep the links short.
+- The first `nav` in `body > header` is a full-width sticky top bar that stays one line tall. Its lists scroll sideways rather than wrap, fading at an edge with more links, so keep the links short.
 - A second `nav` right after it is a sticky subnav.
 - `body > nav` and `body > aside` become columns beside `main` from 64rem up, and stick below the bars. Below that, everything stacks.
 - In a side nav, an `li` can hold a group label as text and a nested `ul`.
@@ -83,7 +83,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
 - Text-level elements: `strong`, `em`, `small`, `mark`, `abbr title`, `sub`, `sup`, `del`, `ins`, `q`, `cite`, `kbd`, `samp`, `var`, `code`, `time`, `data`. Numbers in `time` and `data` line up.
 - `ul`, `ol`, and `dl` lists nest. `menu` outside a popover is a row of commands.
 - Quotes: a `blockquote` gets an accent border. A `footer` inside it is an attribution with an em dash. A `figure` with a `blockquote` and a `figcaption` also works.
-- Code: `<pre tabindex="0"><code>…</code></pre>` scrolls sideways. The `tabindex` lets keyboard users scroll it.
+- Code: `<pre tabindex="0"><code>…</code></pre>` scrolls sideways, with a shadow at each edge that has more. The `tabindex` lets keyboard users scroll it.
 
 ## Links and buttons
 
@@ -175,7 +175,7 @@ There's no utility layer: no spacing, color, or flex classes. Spacing comes from
   </div>
   ```
 
-- **Tables:** row rules, a sticky header row, and tabular numbers. Give the table a `caption` and give header cells `scope`. Wrap a wide table in a `figure` to scroll it sideways.
+- **Tables:** row rules, a sticky header row, and tabular numbers. Give the table a `caption` and give header cells `scope`. Wrap a wide table in a `figure` to scroll it sideways; its edges fade where there are more columns.
 - **Media:** `img` and `video` scale to the column. Set `width`, `height`, and `alt`, and use `figure` with `figcaption` for captions.
 - **Details:** `details` with a `summary`. It animates open where `interpolate-size` is supported.
 - **Callouts:** an `aside` inside `main` (not a direct child of `body`) is a callout on a raised surface. `hr` and `address` are styled too.

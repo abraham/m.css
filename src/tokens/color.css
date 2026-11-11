@@ -8,7 +8,14 @@
   --_m-surface-raised: light-dark(oklch(97% 0.004 260deg), oklch(23% 0.008 260deg));
   --_m-surface-overlay: light-dark(oklch(100% 0 0deg), oklch(24% 0.008 60deg));
   --_m-text: light-dark(oklch(22% 0.012 260deg), oklch(93% 0.006 260deg));
-  --_m-shadow-overlay: 0 2px 6px -2px oklch(0% 0 0deg / 15%), 0 12px 32px -8px oklch(0% 0 0deg / 30%);
+
+  /* Edge shadows take the text color, so they darken light surfaces and lighten dark ones. */
+  --_m-edge: color-mix(in oklch, var(--_m-text), transparent 80%);
+
+  /* Black barely shows on dark surfaces, so dark shadows are stronger. */
+  --_m-shadow-overlay:
+    0 2px 6px -2px light-dark(oklch(0% 0 0deg / 15%), oklch(0% 0 0deg / 40%)),
+    0 12px 32px -8px light-dark(oklch(0% 0 0deg / 30%), oklch(0% 0 0deg / 70%));
 }
 
 /* Only the page sets this, so a component paints its own surface only when the page doesn't load m. */
