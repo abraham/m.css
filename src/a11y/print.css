@@ -3,7 +3,8 @@
     color-scheme: light;
   }
 
-  :where(*, *::before, *::after) {
+  /* Elements only: checkmarks and switch thumbs are pseudo-element backgrounds. */
+  :where(*) {
     background: transparent;
     box-shadow: none;
     text-shadow: none;

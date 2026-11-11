@@ -1,4 +1,4 @@
-:where(*, *::before, *::after) {
+:where(*) {
   box-sizing: border-box;
 }
 
