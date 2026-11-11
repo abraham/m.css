@@ -132,6 +132,26 @@ test.describe("form details", () => {
     await page.keyboard.press("Escape");
     expect((await style(page, "html", ["overflow"])).overflow).toBe("visible");
   });
+
+  test("a modal dialog's backdrop drops its blur under reduced transparency", async ({ page, browserName }) => {
+    test.skip(browserName !== "chromium", "Playwright can only emulate prefers-reduced-transparency through CDP");
+    const backdrop = () =>
+      page.locator("#demo-dialog").evaluate((dialog) => {
+        const style = getComputedStyle(dialog, "::backdrop");
+        return { filter: style.backdropFilter, color: style.backgroundColor };
+      });
+    await page.locator("#open-dialog").click();
+    const blurred = await backdrop();
+    expect(blurred.filter).toBe("blur(4px)");
+
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send("Emulation.setEmulatedMedia", {
+      features: [{ name: "prefers-reduced-transparency", value: "reduce" }],
+    });
+    const reduced = await backdrop();
+    expect(reduced.filter).toBe("none");
+    expect(reduced.color).not.toBe(blurred.color);
+  });
 });
 
 test.describe("validation icons", () => {
