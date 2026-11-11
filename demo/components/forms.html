@@ -206,7 +206,11 @@
           <label><input name="beta" type="checkbox" role="switch" /> Beta features</label>
         </figure>
         <h3>Accessibility</h3>
-        <p>The thumb slides only when motion is allowed, and forced-colors mode redraws it in system colors.</p>
+        <p>
+          The thumb slides only when motion is allowed, and forced-colors mode redraws it in system colors. A checkbox
+          with the <code>switch</code> attribute looks the same, but only Safari announces it as a switch, so keep
+          <code>role="switch"</code>.
+        </p>
         <h3>Customize</h3>
         <p>The track turns <code>--m-primary</code> when on.</p>
       </section>

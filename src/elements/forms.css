@@ -350,7 +350,7 @@
 }
 
 /* The thumb travels the track's content width minus its own width. */
-:where(input[type="checkbox"][role="switch"]) {
+:where(input[type="checkbox"]:is([role="switch"], [switch])) {
   --_m-switch-travel: calc(2em - 2px - 0.25em - 0.75em);
 
   inline-size: 2em;
