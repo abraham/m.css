@@ -1,4 +1,4 @@
-/* Demo chrome only; it is not part of m.css. A later layer than m, so it wins without specificity. */
+/* Demo chrome only; it is not part of modern.css. A later layer than m, so it wins without specificity. */
 @layer demo {
   [data-token-panel] {
     display: grid;

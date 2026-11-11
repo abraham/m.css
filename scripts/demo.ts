@@ -123,8 +123,8 @@ ${section.markup.join("\n")}
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kitchen sink · m.css</title>
-    <link rel="stylesheet" href="dist/m.css" />
+    <title>Kitchen sink · modern.css</title>
+    <link rel="stylesheet" href="dist/modern.css" />
     <link rel="stylesheet" href="assets/demo.css" />
     <script src="assets/demo.js"></script>
   </head>
@@ -132,7 +132,7 @@ ${section.markup.join("\n")}
     <header>
       <nav aria-label="Site">
         <ul>
-          <li><strong>m.css</strong></li>
+          <li><strong>modern.css</strong></li>
         </ul>
         <ul>
           <li><a href="./">Home</a></li>
@@ -140,7 +140,7 @@ ${section.markup.join("\n")}
           <li><a href="components/typography.html" aria-current="true">Components</a></li>
           <li><a href="layouts/">Layouts</a></li>
           <li><a href="showcase/">Showcase</a></li>
-          <li><a href="https://github.com/abraham/m.css">GitHub</a></li>
+          <li><a href="https://github.com/abraham/modern.css">GitHub</a></li>
         </ul>
       </nav>
       <h1>Kitchen sink</h1>
@@ -158,7 +158,7 @@ ${main}
     </main>
 
     <footer>
-      <p><a href="https://www.npmjs.com/package/@abraham/m.css">@abraham/m.css</a></p>
+      <p><a href="https://www.npmjs.com/package/@abraham/modern.css">@abraham/modern.css</a></p>
     </footer>
   </body>
 </html>

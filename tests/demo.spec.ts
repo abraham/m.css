@@ -230,7 +230,7 @@ test.describe("examples", () => {
   });
 });
 
-test("the home page switches m.css off and on for its example only", async ({ page }) => {
+test("the home page switches modern.css off and on for its example only", async ({ page }) => {
   await page.goto("/?theme=dark");
   const frame = page.frameLocator("[data-before-after] iframe");
   const button = frame.getByRole("button", { name: "Sign up" });
@@ -238,12 +238,12 @@ test("the home page switches m.css off and on for its example only", async ({ pa
   await expect(frame.locator("html")).toHaveAttribute("data-theme", "dark");
   const styled = await styleOf();
 
-  await page.getByRole("switch", { name: "Use m.css" }).uncheck();
+  await page.getByRole("switch", { name: "Use modern.css" }).uncheck();
   expect(await frame.locator("link").evaluate((link) => (link as HTMLLinkElement).disabled)).toBe(true);
   await expect.poll(styleOf).not.toBe(styled);
 
   // Chromium re-applies a re-enabled stylesheet asynchronously.
-  await page.getByRole("switch", { name: "Use m.css" }).check();
+  await page.getByRole("switch", { name: "Use modern.css" }).check();
   await expect.poll(styleOf).toBe(styled);
   expect(
     await frame.locator("html").evaluate((html) => html.scrollHeight <= html.clientHeight),
@@ -342,7 +342,7 @@ test.describe("layouts", () => {
       await page.goto(`/layouts/${name}.html`);
       await expect(page.getByRole("link", { name: "View source" })).toHaveAttribute(
         "href",
-        `https://github.com/abraham/m.css/blob/main/demo/layouts/${name}.html`,
+        `https://github.com/abraham/modern.css/blob/main/demo/layouts/${name}.html`,
       );
     }
   });
@@ -374,7 +374,7 @@ test.describe("showcase", () => {
       );
     });
 
-  test("theme pages use only m.css and one block of public custom properties", async ({ page, request }) => {
+  test("theme pages use only modern.css and one block of public custom properties", async ({ page, request }) => {
     for (const path of themePages) {
       const html = await (await request.get(path)).text();
       expect(html, path).not.toMatch(/\s(class|style)=/);
@@ -391,7 +391,7 @@ test.describe("showcase", () => {
           root: [...document.documentElement.attributes].map((attribute) => attribute.name),
         };
       });
-      expect(theme.sheets, path).toEqual(["/dist/m.css", "inline"]);
+      expect(theme.sheets, path).toEqual(["/dist/modern.css", "inline"]);
       expect(theme.selectors, path).toEqual([":root"]);
       expect(theme.properties.length, path).toBeGreaterThan(0);
       for (const name of theme.properties) expect(name, path).toMatch(/^--m-/);

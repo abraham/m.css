@@ -1,10 +1,10 @@
-# m.css markup reference
+# modern.css markup reference
 
-What m.css styles, and the markup that produces each pattern. Everything here works without classes. Live versions of every pattern: https://abraham.github.io/m.css/components/typography.html
+What modern.css styles, and the markup that produces each pattern. Everything here works without classes. Live versions of every pattern: https://modern.ink/components/typography.html
 
 ## Converting class-based markup
 
-| Class-based pattern                        | m.css markup                                                                           |
+| Class-based pattern                        | modern.css markup                                                                      |
 | ------------------------------------------ | -------------------------------------------------------------------------------------- |
 | `.container`, `.wrapper`                   | Nothing. `body` is already a centered column; set `--m-measure` to change its width.   |
 | `.navbar` with brand and links             | `body > header > nav` with two `ul`s: brand first, links second                        |

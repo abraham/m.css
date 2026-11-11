@@ -1,8 +1,8 @@
-# m.css
+# modern.css
 
 A clean, modern classless CSS framework. Add one stylesheet to semantic HTML and get a polished page with no classes.
 
-[Demo](https://abraham.github.io/m.css/)
+[Demo](https://modern.ink/)
 
 - Styles plain HTML elements: typography, lists, tables, forms, buttons, `details`, `dialog`, popovers, progress, and more.
 - Follows the system light/dark preference, with a manual override.
@@ -16,35 +16,35 @@ A clean, modern classless CSS framework. Add one stylesheet to semantic HTML and
 From a CDN:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/m.css/dist/m.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/modern.css/dist/modern.min.css" />
 ```
 
 Or from npm, imported through a bundler that resolves package paths:
 
 ```sh
-npm install @abraham/m.css
+npm install @abraham/modern.css
 ```
 
 ```css
-@import "@abraham/m.css"; /* dist/m.css */
-@import "@abraham/m.css/min"; /* dist/m.min.css */
+@import "@abraham/modern.css"; /* dist/modern.css */
+@import "@abraham/modern.css/min"; /* dist/modern.min.css */
 ```
 
-m.css is meant to be the page's only stylesheet, and it owns the document layout.
+modern.css is meant to be the page's only stylesheet, and it owns the document layout.
 
 ## Use with an AI agent
 
-The [`m-css` agent skill](skills/m-css/SKILL.md) teaches coding agents such as GitHub Copilot, Claude Code, and Codex how to add m.css to a site. It covers converting class-based markup to semantic HTML, theming, and checking the result. Install it with the [GitHub CLI](https://cli.github.com/), which asks which agent to set it up for:
+The [`modern-css` agent skill](skills/modern-css/SKILL.md) teaches coding agents such as GitHub Copilot, Claude Code, and Codex how to add modern.css to a site. It covers converting class-based markup to semantic HTML, theming, and checking the result. Install it with the [GitHub CLI](https://cli.github.com/), which asks which agent to set it up for:
 
 ```sh
-gh skills add abraham/m.css m-css
+gh skills add abraham/modern.css modern-css
 ```
 
-If you installed the package from npm, it's also in `node_modules/@abraham/m.css/skills/m-css` to copy into your agent's skills folder. Then ask your agent something like "Restyle this site with m.css."
+If you installed the package from npm, it's also in `node_modules/@abraham/modern.css/skills/modern-css` to copy into your agent's skills folder. Then ask your agent something like "Restyle this site with modern.css."
 
 ## Customize
 
-Set any of these on `:root`. The color, spacing, corner, and code-font properties also work on any element, to scope them to that part of the page. `--m-font-sans`, `--m-font-size`, and `--m-measure` set the page's font, text size, and column width, so set them on `:root`. Try them live on the [Theming page](https://abraham.github.io/m.css/theming.html), and see whole pages themed with nothing else in the [showcase](https://abraham.github.io/m.css/showcase/).
+Set any of these on `:root`. The color, spacing, corner, and code-font properties also work on any element, to scope them to that part of the page. `--m-font-sans`, `--m-font-size`, and `--m-measure` set the page's font, text size, and column width, so set them on `:root`. Try them live on the [Theming page](https://modern.ink/theming.html), and see whole pages themed with nothing else in the [showcase](https://modern.ink/showcase/).
 
 | Property         | Default                                   | Purpose                                                                   |
 | ---------------- | ----------------------------------------- | ------------------------------------------------------------------------- |
@@ -143,7 +143,7 @@ A `meter` fills green in its `optimum` range, amber when suboptimal, and red whe
 
 ## Layout
 
-The markup picks the layout, as the pages in the [layouts gallery](https://abraham.github.io/m.css/layouts/) show:
+The markup picks the layout, as the pages in the [layouts gallery](https://modern.ink/layouts/) show:
 
 ```html
 <body>
@@ -181,16 +181,16 @@ The markup picks the layout, as the pages in the [layouts gallery](https://abrah
 
 ## Web components
 
-Load m.css in a component's shadow root to style what's inside it:
+Load modern.css in a component's shadow root to style what's inside it:
 
 ```js
 this.attachShadow({ mode: "open" }).innerHTML = `
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/m.css/dist/m.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@abraham/modern.css/dist/modern.min.css" />
   <button>Save</button>
 `;
 ```
 
-The component follows the page it's on: the page's `--m-*` properties, `data-theme`, `data-contrast`, and `data-motion` reach inside, and so do the system's color scheme, contrast, and motion preferences. On a page that doesn't load m.css, the component uses the defaults and paints its own surface, and the host gets body's font and text color. Set `--m-*` properties on the host element to theme one component.
+The component follows the page it's on: the page's `--m-*` properties, `data-theme`, `data-contrast`, and `data-motion` reach inside, and so do the system's color scheme, contrast, and motion preferences. On a page that doesn't load modern.css, the component uses the defaults and paints its own surface, and the host gets body's font and text color. Set `--m-*` properties on the host element to theme one component.
 
 ## Browser support
 
@@ -219,11 +219,11 @@ Requires Node 26, which runs the TypeScript tooling directly.
 ```sh
 npm install
 npm start               # builds, rebuilds on change, and serves the demo at http://localhost:8080/
-npm run build           # writes dist/m.css and dist/m.min.css, copies m.css into demo/dist, and generates demo/kitchen-sink.html
+npm run build           # writes dist/modern.css and dist/modern.min.css, copies modern.css into demo/dist, and generates demo/kitchen-sink.html
 npm run lint            # Stylelint, including the no-classes rule
 npm run typecheck
 npm run format          # Prettier
-npm run size            # gzip and Brotli sizes; fails if dist/m.min.css is over 8.5 KB gzipped
+npm run size            # gzip and Brotli sizes; fails if dist/modern.min.css is over 8.5 KB gzipped
 npm run size -- --report  # what each source file costs; add --save to keep a baseline to compare against
 npm test                # motion, layout, and accessibility tests in Chromium and WebKit
 npm run test:visual     # screenshot tests in the Playwright Docker image; add -- --update-snapshots to rewrite them

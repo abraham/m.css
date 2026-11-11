@@ -1,11 +1,12 @@
 {
-  "name": "@abraham/m.css",
+  "name": "@abraham/modern.css",
   "version": "0.0.0",
   "description": "A clean, modern classless CSS framework.",
   "license": "MIT",
+  "homepage": "https://modern.ink",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abraham/m.css.git"
+    "url": "git+https://github.com/abraham/modern.css.git"
   },
   "type": "module",
   "engines": {
@@ -21,13 +22,13 @@
     "dist",
     "skills"
   ],
-  "style": "dist/m.css",
+  "style": "dist/modern.css",
   "exports": {
-    ".": "./dist/m.css",
-    "./min": "./dist/m.min.css"
+    ".": "./dist/modern.css",
+    "./min": "./dist/modern.min.css"
   },
-  "jsdelivr": "dist/m.min.css",
-  "unpkg": "dist/m.min.css",
+  "jsdelivr": "dist/modern.min.css",
+  "unpkg": "dist/modern.min.css",
   "publishConfig": {
     "access": "public"
   },

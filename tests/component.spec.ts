@@ -1,8 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
 
-/** A page with a custom element whose shadow root loads its own copy of m.css. */
+/** A page with a custom element whose shadow root loads its own copy of modern.css. */
 async function open(page: Page, { pageLoadsM, html = "" }: { pageLoadsM: boolean; html?: string }) {
-  const head = pageLoadsM ? '<link rel="stylesheet" href="/dist/m.css" />' : "";
+  const head = pageLoadsM ? '<link rel="stylesheet" href="/dist/modern.css" />' : "";
   await page.route("**/component.html", (route) =>
     route.fulfill({
       contentType: "text/html",
@@ -13,7 +13,7 @@ async function open(page: Page, { pageLoadsM, html = "" }: { pageLoadsM: boolean
           customElements.define("m-widget", class extends HTMLElement {
             connectedCallback() {
               this.attachShadow({ mode: "open" }).innerHTML =
-                '<link rel="stylesheet" href="/dist/m.css" onload="this.getRootNode().host.dataset.ready = 1" /><button>Inside</button><input /><p aria-busy="true">Text</p>';
+                '<link rel="stylesheet" href="/dist/modern.css" onload="this.getRootNode().host.dataset.ready = 1" /><button>Inside</button><input /><p aria-busy="true">Text</p>';
             }
           });
         </script>

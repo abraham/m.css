@@ -9,7 +9,7 @@ const root = resolve(import.meta.dirname, "..");
 const baselineFile = join(root, ".tmp/size-baseline.json");
 const usage = `Usage: node scripts/size.ts [--report [--save]]
 
-  (no flags)  Gzip and Brotli sizes of dist/m.min.css; exits 1 if gzip is over ${budget} B.
+  (no flags)  Gzip and Brotli sizes of dist/modern.min.css; exits 1 if gzip is over ${budget} B.
   --report    Also bundles src/ in memory and prints what each file costs: how much the
               minified, gzip, and Brotli sizes drop without it. Compares against a saved baseline.
   --save      With --report, saves the numbers as the baseline in .tmp/ for later comparisons.`;
@@ -57,7 +57,7 @@ const check = ({ gzip, brotli }: Sizes, label: string) => {
 
 if (!values.report) {
   // The CI size job has only dist/, not node_modules, so this path must not import the bundler.
-  check(measure(await readFile(join(root, "dist/m.min.css"))), "dist/m.min.css");
+  check(measure(await readFile(join(root, "dist/modern.min.css"))), "dist/modern.min.css");
 } else {
   const { bundleCss, entry } = await import("./css.ts");
   const total = measure(await bundleCss(true));

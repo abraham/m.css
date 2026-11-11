@@ -1,6 +1,6 @@
 /*
  * Overrides (data-theme, data-contrast, prefers-contrast) set inherited --_m-in-* inputs, and the tokens resolve from them on
- * the root, on a component's :host, and on any overriding element. A component's own copy of m.css then gets the page's
+ * the root, on a component's :host, and on any overriding element. A component's own copy of modern.css then gets the page's
  * settings, or the defaults when the page doesn't load m.
  */
 :where(:root, :host) {

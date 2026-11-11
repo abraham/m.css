@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: npm
-      url: https://www.npmjs.com/package/@abraham/m.css/v/${{ steps.version.outputs.version }}
+      url: https://www.npmjs.com/package/@abraham/modern.css/v/${{ steps.version.outputs.version }}
     concurrency:
       group: deploy-npm
       cancel-in-progress: false
