@@ -3,9 +3,19 @@
   "version": "0.0.0",
   "description": "A clean, modern classless CSS framework.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abraham/m.css.git"
+  },
   "type": "module",
   "engines": {
     "node": ">=26"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "26"
+    }
   },
   "files": [
     "dist",
